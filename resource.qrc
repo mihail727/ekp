@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/resource">
+        <file>img/icons8-folder-48.png</file>
+        <file>img/icons8-plus-48.png</file>
+        <file>img/iconfinder_15_3049264.png</file>
+        <file>img/radio1.png</file>
+        <file>img/radio2.png</file>
+        <file>img/radio3.PNG</file>
+    </qresource>
+</RCC>
