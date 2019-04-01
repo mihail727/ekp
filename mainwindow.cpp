@@ -84,3 +84,18 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_FileBtn_clicked()
+{
+    fileName = QFileDialog::getOpenFileName(this,tr("Open TextFile"),tr(""), tr("TextFile (*.txt) ") );
+}
+
+void MainWindow::on_action_2_triggered()
+{
+    MainWindow::on_FileBtn_clicked();
+}
+
+void MainWindow::on_action_3_triggered()
+{
+    MainWindow::close();
+}

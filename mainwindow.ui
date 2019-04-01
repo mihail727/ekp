@@ -7,14 +7,23 @@
     <x>0</x>
     <y>0</y>
     <width>1145</width>
-    <height>818</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton:hover {
+   <string notr="true">*{
+	background-color:rgb(241, 241, 241);
+}
+QLineEdit{
+	background-color:rgb(255, 255, 255);
+}
+QTextEdit{
+	background-color:rgb(255, 255, 255);
+}
+QPushButton:hover {
         background-color: rgb(80, 226, 209);
 }
 QPushButton::pressed {
@@ -57,6 +66,9 @@ QTabBar::tab::!selected:hover {
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QGroupBox" name="groupBox">
@@ -65,6 +77,9 @@ QTabBar::tab::!selected:hover {
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="title">
        <string/>
@@ -98,10 +113,16 @@ QTabBar::tab::!selected:hover {
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>430</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>170</width>
-             <height>16777215</height>
+             <height>100000</height>
             </size>
            </property>
            <property name="title">
@@ -114,7 +135,7 @@ QTabBar::tab::!selected:hover {
             <item>
              <widget class="QGroupBox" name="groupBox_7">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -143,8 +164,8 @@ border-radius:2px</string>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>50</width>
-                   <height>40</height>
+                   <width>47</width>
+                   <height>42</height>
                   </size>
                  </property>
                  <property name="styleSheet">
@@ -165,7 +186,7 @@ min-height:40px;</string>
                <item>
                 <widget class="QPushButton" name="DrawBtn">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -178,8 +199,8 @@ min-height:40px;</string>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>50</width>
-                   <height>40</height>
+                   <width>47</width>
+                   <height>42</height>
                   </size>
                  </property>
                  <property name="styleSheet">
@@ -203,7 +224,7 @@ min-height:40px;</string>
             <item alignment="Qt::AlignHCenter">
              <widget class="QGroupBox" name="groupBox_6">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -211,13 +232,13 @@ min-height:40px;</string>
               <property name="minimumSize">
                <size>
                 <width>120</width>
-                <height>0</height>
+                <height>55</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>100</width>
-                <height>16777215</height>
+                <width>120</width>
+                <height>50</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -229,25 +250,30 @@ margin-top:1ex;</string>
                <string>Отведение:</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
-               <item>
+               <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                 <widget class="QComboBox" name="comboBox">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>25</height>
+                  </size>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>200</width>
-                   <height>16777215</height>
+                   <height>25</height>
                   </size>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(255, 255, 255);
 border-radius: 5px;
-min-height: 20px;
 selection-background-color: rgb(68, 190, 176);
 selection-color: rgb(255, 255, 255);
 border-style: solid;
@@ -326,10 +352,22 @@ drop-down {
             <item>
              <widget class="QGroupBox" name="groupBox_5">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>130</width>
+                <height>80</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>90</height>
+               </size>
               </property>
               <property name="styleSheet">
                <string notr="true">border:1px solid gray;
@@ -354,7 +392,7 @@ margin-top:1ex;</string>
                <item row="1" column="1">
                 <widget class="QLineEdit" name="lineEdit_2">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -362,7 +400,7 @@ margin-top:1ex;</string>
                  <property name="maximumSize">
                   <size>
                    <width>100</width>
-                   <height>16777215</height>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="layoutDirection">
@@ -391,20 +429,25 @@ margin-top:1ex;</string>
                <item row="2" column="1">
                 <widget class="QLineEdit" name="lineEdit">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>25</height>
+                  </size>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>100</width>
-                   <height>16777215</height>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                  <string notr="true">border: 1px solid rgb(68, 190, 176);</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -417,7 +460,7 @@ border: 1px solid rgb(68, 190, 176);</string>
             <item>
              <widget class="QLabel" name="label">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -435,6 +478,18 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">border:1px solid gray;
 border-radius:2px;
@@ -451,21 +506,21 @@ border-color: rgb(63, 83, 109);</string>
             <item alignment="Qt::AlignHCenter">
              <widget class="QPushButton" name="pushButton">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>110</width>
-                <height>40</height>
+                <width>100</width>
+                <height>25</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>16777215</width>
-                <height>16777215</height>
+                <width>100</width>
+                <height>40</height>
                </size>
               </property>
               <property name="font">
@@ -474,8 +529,7 @@ border-color: rgb(63, 83, 109);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">min-width:110px;
-min-height:40px;</string>
+               <string notr="true"/>
               </property>
               <property name="text">
                <string>Диагноз</string>
@@ -487,24 +541,27 @@ min-height:40px;</string>
          </item>
          <item row="2" column="0" colspan="3">
           <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>3</number>
+           </property>
            <item>
             <widget class="QGroupBox" name="groupBox_10">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="minimumSize">
               <size>
-               <width>0</width>
-               <height>215</height>
+               <width>260</width>
+               <height>200</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>260</width>
-               <height>16777215</height>
+               <height>220</height>
               </size>
              </property>
              <property name="styleSheet">
@@ -528,7 +585,7 @@ margin-top:1ex;</string>
               <property name="bottomMargin">
                <number>6</number>
               </property>
-              <item>
+              <item alignment="Qt::AlignHCenter">
                <widget class="QGroupBox" name="groupBox_11">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -536,10 +593,16 @@ margin-top:1ex;</string>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>240</width>
+                  <height>45</height>
+                 </size>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>240</width>
-                  <height>50</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="title">
@@ -612,6 +675,9 @@ margin-top:1ex;</string>
                 <property name="text">
                  <string>Вариабельность интервала &lt;varQT, %&gt;:</string>
                 </property>
+                <property name="margin">
+                 <number>-5</number>
+                </property>
                </widget>
               </item>
               <item alignment="Qt::AlignHCenter">
@@ -645,9 +711,21 @@ border: 1px solid rgb(68, 190, 176);</string>
               </item>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_4">
-                <property name="maximumSize">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
                  <size>
                   <width>225</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>226</width>
                   <height>40</height>
                  </size>
                 </property>
@@ -695,15 +773,21 @@ border: 1px solid rgb(68, 190, 176);</string>
            <item>
             <widget class="QGroupBox" name="groupBox_9">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimumSize">
+              <size>
+               <width>260</width>
+               <height>200</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>260</width>
-               <height>16777215</height>
+               <height>220</height>
               </size>
              </property>
              <property name="styleSheet">
@@ -754,6 +838,12 @@ margin-top:1ex;</string>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Расстояние между зубцами &amp;lt;R, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
+                <property name="margin">
+                 <number>0</number>
+                </property>
+                <property name="indent">
+                 <number>-1</number>
+                </property>
                </widget>
               </item>
               <item alignment="Qt::AlignHCenter">
@@ -796,13 +886,13 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>225</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -811,6 +901,9 @@ margin-top:1ex;</string>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от вершины зубца до конца&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;RS&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="margin">
+                 <number>0</number>
                 </property>
                </widget>
               </item>
@@ -846,7 +939,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_6">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -854,13 +947,13 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>225</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -869,6 +962,9 @@ margin-top:1ex;</string>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от начала зубца до вершины&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;QR&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="margin">
+                 <number>0</number>
                 </property>
                </widget>
               </item>
@@ -907,15 +1003,21 @@ border: 1px solid rgb(68, 190, 176);</string>
            <item>
             <widget class="QGroupBox" name="groupBox_8">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimumSize">
+              <size>
+               <width>260</width>
+               <height>200</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>260</width>
-               <height>16777215</height>
+               <height>220</height>
               </size>
              </property>
              <property name="styleSheet">
@@ -966,6 +1068,9 @@ margin-top:1ex;</string>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время комплекса &amp;lt;QRS, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
+                <property name="margin">
+                 <number>0</number>
+                </property>
                </widget>
               </item>
               <item alignment="Qt::AlignHCenter">
@@ -1000,7 +1105,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_10">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1008,7 +1113,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1023,6 +1128,9 @@ margin-top:1ex;</string>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Отношение волн низкой и высокой&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;частоты &amp;lt;LF/HF&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="margin">
+                 <number>0</number>
                 </property>
                </widget>
               </item>
@@ -1061,7 +1169,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_9">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1069,7 +1177,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1084,6 +1192,9 @@ margin-top:1ex;</string>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от конца зубца S до конца T&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;ST-T&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="margin">
+                 <number>0</number>
                 </property>
                </widget>
               </item>
@@ -1122,15 +1233,21 @@ border: 1px solid rgb(68, 190, 176);</string>
            <item>
             <widget class="QGroupBox" name="groupBox_12">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimumSize">
+              <size>
+               <width>220</width>
+               <height>200</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>800</width>
-               <height>16777215</height>
+               <height>220</height>
               </size>
              </property>
              <property name="font">
@@ -1190,8 +1307,14 @@ border-color: rgb(63, 83, 109);</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>430</height>
+            </size>
+           </property>
            <property name="styleSheet">
-            <string notr="true">border:1px solid rgb(68, 190, 176);</string>
+            <string notr="true">border: 1px solid rgb(68, 190, 176);</string>
            </property>
            <property name="tabShape">
             <enum>QTabWidget::Rounded</enum>
@@ -1242,7 +1365,7 @@ border-color: rgb(63, 83, 109);</string>
      <x>0</x>
      <y>0</y>
      <width>1145</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
