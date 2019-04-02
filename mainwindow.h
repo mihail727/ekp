@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "calc.h"
+
+extern QString fileName; //путь к файлу
+extern int selectedLead; //Выбранное отведение
+extern int firstCount, secondCount; //начало и конец отсчетов <<--->> количество отсчетов
 
 namespace Ui {
 class MainWindow;
@@ -16,8 +19,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QString fileName;
-
 private slots:
 
     void on_FileBtn_clicked();
@@ -26,7 +27,9 @@ private slots:
 
     void on_action_3_triggered();
 
-    void update(int);
+    void showInfo(QString);
+
+    void showError(QString);
 
     void on_DrawBtn_clicked();
 

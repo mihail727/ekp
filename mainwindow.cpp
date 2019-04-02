@@ -2,6 +2,11 @@
 #include "ui_mainwindow.h"
 #include "QPixmap"
 #include "QtCharts/QtCharts"
+#include <calc.h>
+
+QString fileName;  //путь к файлу
+int selectedLead; //Выбранное отведение
+int firstCount, secondCount; //начало и конец отсчетов <<--->> количество отсчетов
 
 using namespace QtCharts;
 
@@ -85,16 +90,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::update(int i)
+void MainWindow::showInfo(QString st)
+{
+    ui->textEdit_2->insertPlainText(st);
+}
+
+void MainWindow::showError(QString st)
 //Update progress bar
 {
-    ui->lineEdit->setText("Hello");
+    QPixmap MainIcon(":/resource/img/icons8-plus-48.png");
+    QMessageBox msgBox(QMessageBox::NoIcon, tr("Ошибка"), st, QMessageBox::Ok);
+
+    msgBox.setWindowIcon(MainIcon);
+    msgBox.exec();
 }
 
 void MainWindow::on_FileBtn_clicked()
 //Диалог с открытием файла
 {
-    fileName = QFileDialog::getOpenFileName(this,tr("Open TextFile"),tr(""), tr("TextFile (*.txt) ") );
+    fileName = QFileDialog::getOpenFileName(this,tr("Открытие файла с данными"),
+                                            tr(""), tr("TextFile (*.txt) ") );
 }
 
 void MainWindow::on_action_2_triggered()
@@ -111,12 +126,25 @@ void MainWindow::on_action_3_triggered()
 
 void MainWindow::on_DrawBtn_clicked()
 //Начало расчета и вывода графиков
-{
+{    
+    ui->textEdit->clear();
+    ui->textEdit_2->clear();
+
+    firstCount = ui->lineEdit_2->text().toInt();
+    secondCount = ui->lineEdit->text().toInt();
+
     QThread *Thread = new QThread;
     Calc *TCalc = new Calc;
 
+    selectedLead = ui->comboBox->currentIndex()+1;
+
     TCalc->moveToThread(Thread);
 
-    connect(TCalc, SIGNAL(send(int)),this, SLOT(update()));
+    connect(TCalc, SIGNAL(sendError(QString)),this, SLOT(showError(QString)));
+    connect(TCalc, SIGNAL(send(QString)),this, SLOT(showInfo(QString)));
     connect(Thread, SIGNAL(started()),TCalc,SLOT(doCalc()));
+    connect(TCalc, SIGNAL(killThread()), Thread, SLOT(terminate()));
+
+    Thread->start();
+
 }

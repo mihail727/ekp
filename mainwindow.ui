@@ -284,6 +284,9 @@ drop-down {
 	border-color:rgb(63, 83, 109);
  }</string>
                  </property>
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
                  <item>
                   <property name="text">
                    <string>1</string>
@@ -410,6 +413,9 @@ margin-top:1ex;</string>
                   <string notr="true">min-height:20px;
 border: 1px solid rgb(68, 190, 176);</string>
                  </property>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
                  </property>
@@ -448,6 +454,9 @@ margin-top:1ex;</string>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">border: 1px solid rgb(68, 190, 176);</string>
+                 </property>
+                 <property name="text">
+                  <string>1500</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>

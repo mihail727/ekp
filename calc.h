@@ -1,20 +1,25 @@
 #ifndef CALC_H
 #define CALC_H
 
+#include "calc.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <QFile>
+#include <QMessageBox>
 #include <QObject>
 
 class Calc : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit Calc(QObject *parent = nullptr);
 
 signals:
-
-    void send(int);
+    void send(QString);
+    void sendError(QString);
+    void killThread();
 
 public slots:
-
     void doCalc();
 
 };
