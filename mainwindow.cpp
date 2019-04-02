@@ -85,17 +85,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::update(int i)
+//Update progress bar
+{
+    ui->lineEdit->setText("Hello");
+}
+
 void MainWindow::on_FileBtn_clicked()
+//Диалог с открытием файла
 {
     fileName = QFileDialog::getOpenFileName(this,tr("Open TextFile"),tr(""), tr("TextFile (*.txt) ") );
 }
 
 void MainWindow::on_action_2_triggered()
+//Диалог с открытием файла
 {
     MainWindow::on_FileBtn_clicked();
 }
 
 void MainWindow::on_action_3_triggered()
+//Выход
 {
     MainWindow::close();
+}
+
+void MainWindow::on_DrawBtn_clicked()
+//Начало расчета и вывода графиков
+{
+    QThread *Thread = new QThread;
+    Calc *TCalc = new Calc;
+
+    TCalc->moveToThread(Thread);
+
+    connect(TCalc, SIGNAL(send(int)),this, SLOT(update()));
+    connect(Thread, SIGNAL(started()),TCalc,SLOT(doCalc()));
 }

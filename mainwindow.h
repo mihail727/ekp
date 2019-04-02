@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "calc.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,8 +26,13 @@ private slots:
 
     void on_action_3_triggered();
 
+    void update(int);
+
+    void on_DrawBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
+
 };
 
 #endif // MAINWINDOW_H
