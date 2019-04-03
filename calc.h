@@ -6,7 +6,6 @@
 #include "ui_mainwindow.h"
 #include <QFile>
 #include <QMessageBox>
-#include <QObject>
 
 class Calc : public QObject
 {
@@ -17,10 +16,12 @@ public:
 signals:
     void send(QString);
     void sendError(QString);
-    void killThread();
+    void drawGraphic();
 
 public slots:
     void doCalc();
+
+private:
 
 };
 

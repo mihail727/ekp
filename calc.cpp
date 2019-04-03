@@ -1,14 +1,19 @@
 #include "calc.h"
 
+//Сделать проверку ввода
+//Попробовать вместо Vector ---> динам. массив
+//и реализовать его передачу как сигнал
+//emit send(chrValue);
+
 void Calc::doCalc()
-{    
+{
+    dataArray.clear();
     QFile dataFile(fileName);
 
     if ( (fileName == "") || (!dataFile.open(QIODevice::ReadOnly | QIODevice::Text)) ) {
         QString st("Ошибка чтения файла");
 
         emit sendError(st);
-        emit killThread();
         return;
     }
 
@@ -33,13 +38,13 @@ void Calc::doCalc()
             chrValue = chrValue + dataText[i];
             i++;
         }
+
         double Value = chrValue.toDouble();
+        dataArray.push_back(Value);
+
     }
 
-    /* Сделать проверку ввода
-        Заполнение массива*/
-
     dataFile.close();
-    emit send(chrValue);
-    emit killThread();
+
+    emit drawGraphic();
 }

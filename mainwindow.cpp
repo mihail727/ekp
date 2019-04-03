@@ -7,6 +7,20 @@
 QString fileName;  //путь к файлу
 int selectedLead; //Выбранное отведение
 int firstCount, secondCount; //начало и конец отсчетов <<--->> количество отсчетов
+QVector<double> dataArray;
+static bool key=true;
+
+static QChart *Chart1 ;
+static QLineSeries *Series1;
+static QLineSeries *Series2;
+static QLineSeries *Series3;
+
+static QChart *Chart2;
+static QLineSeries *LineSeries1;
+static QLineSeries *LineSeries2;
+static QLineSeries *LineSeries3;
+static QChartView *ChartView1;
+static QChartView *ChartView2;
 
 using namespace QtCharts;
 
@@ -36,20 +50,14 @@ MainWindow::MainWindow(QWidget *parent) :
     MainWindow::setWindowIcon(icon);
 
     //Создаем Chart
-    QChart *Chart1 = new QChart();
-    QChart *Chart2 = new QChart();
-    QLineSeries *Series1 = new QLineSeries();
-    QLineSeries *Series2 = new QLineSeries();
-    QLineSeries *Series3 = new QLineSeries();
-    QLineSeries *LineSeries1 = new QLineSeries();
-    QLineSeries *LineSeries2 = new QLineSeries();
-    QLineSeries *LineSeries3 = new QLineSeries();
-
-//    for (int i=0; i<10; i++) //Для заполнения
-//    {
-//        Series1->append(i,i+10);
-//        Series2->append(i,15);
-//    }
+    Chart1 = new QChart();
+    Chart2 = new QChart();
+    Series1 = new QLineSeries();
+    Series2 = new QLineSeries();
+    Series3 = new QLineSeries();
+    LineSeries1 = new QLineSeries();
+    LineSeries2 = new QLineSeries();
+    LineSeries3 = new QLineSeries();
 
     Series1->setColor( QColor(Qt::red) );
     Series2->setColor( QColor(Qt::darkBlue) );
@@ -58,27 +66,15 @@ MainWindow::MainWindow(QWidget *parent) :
     LineSeries2->setColor( QColor(Qt::darkBlue) );
     LineSeries3->setColor( QColor(Qt::green) );
 
-    Chart1->addSeries(Series1);
-    Chart1->addSeries(Series2);
-    Chart1->addSeries(Series3);
-    Chart1->legend()->hide();
-    Chart1->createDefaultAxes();
-
     Chart2->addSeries(LineSeries1);
     Chart2->addSeries(LineSeries2);
     Chart2->addSeries(LineSeries3);
     Chart2->legend()->hide();
     Chart2->createDefaultAxes();
 
-    QChartView *ChartView1 = new QChartView(Chart1);
-    ChartView1->setRenderHint(QPainter::Antialiasing);
-    QChartView *ChartView2 = new QChartView(Chart2);
+    ChartView2 = new QChartView(Chart2);
     ChartView2->setRenderHint(QPainter::Antialiasing);
 
-    QGridLayout *layout1 = new QGridLayout;
-    layout1->addWidget(ChartView1);
-    layout1->setMargin(0);
-    ui->tab->setLayout(layout1);
     QGridLayout *layout2 = new QGridLayout;
     layout2->addWidget(ChartView2);
     layout2->setMargin(0);
@@ -108,7 +104,7 @@ void MainWindow::showError(QString st)
 void MainWindow::on_FileBtn_clicked()
 //Диалог с открытием файла
 {
-    fileName = QFileDialog::getOpenFileName(this,tr("Открытие файла с данными"),
+    fileName = QFileDialog::getOpenFileName(this, tr("Открытие файла с данными"),
                                             tr(""), tr("TextFile (*.txt) ") );
 }
 
@@ -140,11 +136,49 @@ void MainWindow::on_DrawBtn_clicked()
 
     TCalc->moveToThread(Thread);
 
-    connect(TCalc, SIGNAL(sendError(QString)),this, SLOT(showError(QString)));
-    connect(TCalc, SIGNAL(send(QString)),this, SLOT(showInfo(QString)));
-    connect(Thread, SIGNAL(started()),TCalc,SLOT(doCalc()));
-    connect(TCalc, SIGNAL(killThread()), Thread, SLOT(terminate()));
+    connect(TCalc, SIGNAL(drawGraphic() ), this, SLOT(_drawGraphic() ));
+
+    connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
+
+    connect(TCalc, SIGNAL(send(QString)), this, SLOT(showInfo(QString)));
+
+    connect(Thread, SIGNAL(started()), TCalc, SLOT(doCalc()));
 
     Thread->start();
 
+}
+void MainWindow::_drawGraphic()
+{
+    MainWindow::on_action_4_triggered();
+
+    for(int i=0; i<dataArray.size()-1; i++)
+    {
+        Series1->append(i, dataArray[i]);
+        Series2->append(i, 0);
+    }
+    if (key){
+        Chart1->addSeries(Series1);
+        Chart1->addSeries(Series2);
+        Chart1->addSeries(Series3);
+        Chart1->legend()->hide();
+        Chart1->createDefaultAxes();
+        ChartView1 = new QChartView(Chart1);
+        ChartView1->setRenderHint(QPainter::Antialiasing);
+        QGridLayout *layout1 = new QGridLayout;
+        layout1->addWidget(ChartView1);
+        layout1->setMargin(0);
+        ui->tab->setLayout(layout1);
+    };
+    key=false;
+    ui->textEdit->insertPlainText(QString::number(dataArray.size()));
+};
+
+void MainWindow::on_action_4_triggered()
+{
+    Series1->clear();
+    Series2->clear();
+    Series3->clear();
+    LineSeries1->clear();
+    LineSeries2->clear();
+    LineSeries3->clear();
 }
