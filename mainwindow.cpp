@@ -8,7 +8,6 @@ QString fileName;  //путь к файлу
 int selectedLead; //Выбранное отведение
 int firstCount, secondCount; //начало и конец отсчетов <<--->> количество отсчетов
 QVector<double> dataArray;
-static bool key=true;
 
 static QChart *Chart1 ;
 static QLineSeries *Series1;
@@ -66,11 +65,48 @@ MainWindow::MainWindow(QWidget *parent) :
     LineSeries2->setColor( QColor(Qt::darkBlue) );
     LineSeries3->setColor( QColor(Qt::green) );
 
+    Chart1->addSeries(Series1);
+    Chart1->addSeries(Series2);
+    Chart1->addSeries(Series3);
+    Chart1->legend()->hide();
+
+    QValueAxis *axisX = new QValueAxis;
+    QValueAxis *axisY = new QValueAxis;
+
+    axisX->setRange(0,100);
+    axisX->setTickCount(11);
+    axisX->setLabelFormat("%i");
+
+    axisY->setRange(0,100);
+    axisY->setTickCount(11);
+    axisY->setLabelFormat("%i");
+
+    Chart1->addAxis(axisX, Qt::AlignBottom);
+    Chart1->addAxis(axisY, Qt::AlignLeft);
+
+    Series1->attachAxis(axisX);
+    Series1->attachAxis(axisY);
+    Series3->attachAxis(axisX);
+    Series3->attachAxis(axisY);
+    Series2->attachAxis(axisX);
+    Series2->attachAxis(axisY);
+
+    Series1->setUseOpenGL(true);
+    Series2->setUseOpenGL(true);
+    Series3->setUseOpenGL(true);
+
     Chart2->addSeries(LineSeries1);
     Chart2->addSeries(LineSeries2);
     Chart2->addSeries(LineSeries3);
     Chart2->legend()->hide();
     Chart2->createDefaultAxes();
+
+    ChartView1 = new QChartView(Chart1);
+    ChartView1->setRenderHint(QPainter::Antialiasing);
+    QGridLayout *layout1 = new QGridLayout;
+    layout1->addWidget(ChartView1);
+    layout1->setMargin(0);
+    ui->tab->setLayout(layout1);
 
     ChartView2 = new QChartView(Chart2);
     ChartView2->setRenderHint(QPainter::Antialiasing);
@@ -126,6 +162,8 @@ void MainWindow::on_DrawBtn_clicked()
     ui->textEdit->clear();
     ui->textEdit_2->clear();
 
+    MainWindow::on_action_4_triggered();
+
     firstCount = ui->lineEdit_2->text().toInt();
     secondCount = ui->lineEdit->text().toInt();
 
@@ -149,28 +187,14 @@ void MainWindow::on_DrawBtn_clicked()
 }
 void MainWindow::_drawGraphic()
 {
-    MainWindow::on_action_4_triggered();
-
     for(int i=0; i<dataArray.size()-1; i++)
     {
         Series1->append(i, dataArray[i]);
         Series2->append(i, 0);
     }
-    if (key){
-        Chart1->addSeries(Series1);
-        Chart1->addSeries(Series2);
-        Chart1->addSeries(Series3);
-        Chart1->legend()->hide();
-        Chart1->createDefaultAxes();
-        ChartView1 = new QChartView(Chart1);
-        ChartView1->setRenderHint(QPainter::Antialiasing);
-        QGridLayout *layout1 = new QGridLayout;
-        layout1->addWidget(ChartView1);
-        layout1->setMargin(0);
-        ui->tab->setLayout(layout1);
-    };
-    key=false;
-    ui->textEdit->insertPlainText(QString::number(dataArray.size()));
+    Chart1->addSeries(Series1);
+    Chart1->addSeries(Series2);
+    Chart1->addSeries(Series3);
 };
 
 void MainWindow::on_action_4_triggered()
@@ -178,7 +202,13 @@ void MainWindow::on_action_4_triggered()
     Series1->clear();
     Series2->clear();
     Series3->clear();
+    Chart1->removeSeries(Series1);
+    Chart1->removeSeries(Series2);
+    Chart1->removeSeries(Series3);
     LineSeries1->clear();
     LineSeries2->clear();
     LineSeries3->clear();
+    Chart2->removeSeries(LineSeries1);
+    Chart2->removeSeries(LineSeries2);
+    Chart2->removeSeries(LineSeries3);
 }
