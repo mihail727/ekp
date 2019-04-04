@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QChartView>
+#include <QLineSeries>
 
 int main(int argc, char *argv[])
 {

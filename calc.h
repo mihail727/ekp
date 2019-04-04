@@ -4,8 +4,6 @@
 #include "calc.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QFile>
-#include <QMessageBox>
 
 class Calc : public QObject
 {
@@ -14,7 +12,6 @@ class Calc : public QObject
 public:
 
 signals:
-    void send(QString);
     void sendError(QString);
     void drawGraphic();
 

@@ -2,11 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-extern QString fileName;  //путь к файлу
-extern int selectedLead; //Выбранное отведение
-extern int firstCount, secondCount; //начало и конец отсчетов <<--->> количество отсчетов
-extern QVector<double> dataArray; //массив с данными
+#include <QFile>
+/*///////////////////////////////////////////////////////////////////*/
+                    /*ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ*/
+/*///////////////////////////////////////////////////////////////////*/
+extern QString fileName;
+extern int selectedLead;
+extern int firstCount, secondCount;
+extern QVector<double> dataArray;
+extern double minValueOfDataArray, maxValueOfDataArray;
+extern double maxValueOfCount;
+extern QFile dataFile;
+/*///////////////////////////////////////////////////////////////////*/
 
 namespace Ui {
 class MainWindow;
@@ -24,11 +31,13 @@ private slots:
     void on_FileBtn_clicked();
     void on_action_2_triggered();
     void on_action_3_triggered();
-    void showInfo(QString);
     void showError(QString);
     void on_DrawBtn_clicked();
     void _drawGraphic();
     void on_action_4_triggered();
+    void on_action_5_triggered();
+
+    void on_action_triggered();
 
 private:
     Ui::MainWindow *ui;

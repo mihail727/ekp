@@ -1,22 +1,34 @@
 #include "calc.h"
 
-//Сделать проверку ввода
-//Попробовать вместо Vector ---> динам. массив
-//и реализовать его передачу как сигнал
-//emit send(chrValue);
-
 void Calc::doCalc()
 {
     dataArray.clear();
-    QFile dataFile(fileName);
+/*---------------------------------------------------------*/
+/*ПРОВЕРКА ДОСТУПНОСТИ ФАЙЛА И ОПРЕДЕЛЕНИЕ МАКС СТРОК В НЕМ*/
+/*---------------------------------------------------------*/
+    dataFile.setFileName(fileName);
+    if ( (fileName == "") || (!dataFile.exists()) ||
+            (!dataFile.open(QIODevice::ReadOnly | QIODevice::Text)) ) {
 
-    if ( (fileName == "") || (!dataFile.open(QIODevice::ReadOnly | QIODevice::Text)) ) {
         QString st("Ошибка чтения файла");
-
         emit sendError(st);
         return;
     }
-
+    maxValueOfCount = 0;
+    while(!dataFile.atEnd()){
+        QString buff = dataFile.readLine();
+        maxValueOfCount++;
+    };
+    dataFile.close();
+/*-------------------------------------------------------*/
+    if (secondCount>maxValueOfCount) {
+        emit sendError("Введённные значения отсчета больше допустимых");
+        return;
+    }
+/*-------------------------------------------------------*/
+            /*ЗАПОЛНЕНИЕ МАССИВА С ДАННЫМИ*/
+/*-------------------------------------------------------*/
+    dataFile.open(QIODevice::ReadOnly | QIODevice::Text);
     QString chrValue;
 
     for(int j=0; j<secondCount; j++) {
@@ -41,10 +53,15 @@ void Calc::doCalc()
 
         double Value = chrValue.toDouble();
         dataArray.push_back(Value);
-
     }
 
     dataFile.close();
-
+/*-------------------------------------------------------*/
+    for(int i=0; i<dataArray.size()-1; i++) {
+        if(minValueOfDataArray>dataArray[i])
+            minValueOfDataArray = dataArray[i];
+        if(maxValueOfDataArray<dataArray[i])
+            maxValueOfDataArray = dataArray[i];
+    }
     emit drawGraphic();
 }
