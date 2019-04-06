@@ -3,18 +3,6 @@
 #include "QPixmap"
 #include "QtCharts/QtCharts"
 #include <calc.h>
-/*///////////////////////////////////////////////////////////////////*/
-                    /*ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ*/
-/*///////////////////////////////////////////////////////////////////*/
-QString fileName;  //путь к файлу
-int selectedLead; //Выбранное отведение
-int firstCount, secondCount; //начало и конец отсчетов <<--->> количество отсчетов
-QVector<double> dataArray; //массив с данными
-double minValueOfDataArray = 0; //макс и мин значения отсчетов
-double maxValueOfDataArray = 0; //<<--->> верхняя и нижняя границы графика
-double maxValueOfCount = 0; //макс значение строк в файле <<-->> макс кол-во отсчетов
-QFile dataFile; //файл с данными
-/*///////////////////////////////////////////////////////////////////*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
         /*ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И ОБЬЕКТЫ ДЛЯ mainwindow.cpp*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -37,7 +25,8 @@ using namespace QtCharts;
                     /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-void MainWindow::_drawGraphic()
+void MainWindow::_drawGraphic(QVector<double> dataArray, const double &minValueOfDataArray,
+                              const double &maxValueOfDataArray)
 {
     on_action_4_triggered();
 
@@ -50,17 +39,8 @@ void MainWindow::_drawGraphic()
         //Series2
     }
 
-    int buff = 20;
-    while(true)
-    {
-        if ( (firstCount - secondCount) % buff == 0) break;
-        buff--;
-    }
-
     axisX->setRange(firstCount, secondCount);
-    axisX->setTickInterval(buff);
     axisY->setRange(minValueOfDataArray, maxValueOfDataArray);
-    axisY->setTickInterval(buff);
     axisZero->setRange(minValueOfDataArray, maxValueOfDataArray);
     Chart1->addSeries(Series1);
     Chart1->addSeries(Series2);
@@ -113,23 +93,24 @@ void MainWindow::on_DrawBtn_clicked()
     }
 
     QThread *Thread = new QThread;
-    Calc *TCalc = new Calc;
+    Calc *TCalc = new Calc();
 
     selectedLead = ui->comboBox->currentIndex()+1;
 
     TCalc->moveToThread(Thread);
 
-    connect(TCalc, SIGNAL(drawGraphic() ), this, SLOT(_drawGraphic() ));
+    connect(TCalc, SIGNAL(drawGraphic(QVector<double>, const double &, const double &)),
+            this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)));
 
     connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
 
-    connect(Thread, SIGNAL(started()), TCalc, SLOT(doCalc()));
-
     Thread->start();
+    TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
 }
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
                     /*ФУНКЦИИ ВТОРОЙ ВАЖНОСТИ*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -173,32 +154,33 @@ MainWindow::MainWindow(QWidget *parent) :
     Chart1->addSeries(Series2);
     Chart1->legend()->hide();
 
-    axisZero = new QCategoryAxis;
-    axisZero->append("",0);
-    axisZero->setGridLinePen(QColor(Qt::darkBlue) );
-
-    Chart1->addAxis(axisZero, Qt::AlignRight);
-    Series1->attachAxis(axisZero);
-    Series2->attachAxis(axisZero);
-
     axisX = new QValueAxis;
     axisY = new QValueAxis;
+    axisZero = new QCategoryAxis;
 
     axisX->setRange(0,100);
     axisX->setTickCount(11);
+    axisX->setTickInterval(20);
     axisX->setLabelFormat("%i");
 
     axisY->setRange(0,100);
     axisY->setTickCount(11);
+    axisY->setTickInterval(20);
     axisY->setLabelFormat("%i");
+
+    axisZero->append("", 0);
+    axisZero->setGridLineColor(QColor(Qt::darkBlue));
 
     Chart1->addAxis(axisX, Qt::AlignBottom);
     Chart1->addAxis(axisY, Qt::AlignLeft);
+    Chart1->addAxis(axisZero, Qt::AlignRight);
 
     Series1->attachAxis(axisX);
     Series1->attachAxis(axisY);
     Series2->attachAxis(axisX);
     Series2->attachAxis(axisY);
+    Series1->attachAxis(axisZero);
+    Series2->attachAxis(axisZero);
 
     Chart2->addSeries(LineSeries1);
     Chart2->addSeries(LineSeries2);
@@ -257,4 +239,3 @@ void MainWindow::on_action_triggered()
 {
     on_DrawBtn_clicked();
 }
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1145</width>
-    <height>700</height>
+    <height>705</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>705</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -1374,7 +1380,7 @@ border-color: rgb(63, 83, 109);</string>
      <x>0</x>
      <y>0</y>
      <width>1145</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">

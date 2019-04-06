@@ -1,11 +1,16 @@
 #include "calc.h"
 
-void Calc::doCalc()
+void Calc::doCalc(const QString &fileName, const int &selectedLead,
+                  const int &firstCount, const int &secondCount)
 {
+    QVector<double> dataArray;
+    QFile dataFile(fileName);
     dataArray.clear();
-/*---------------------------------------------------------*/
+    minValueOfDataArray = 0;
+    maxValueOfDataArray = 0;
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 /*ПРОВЕРКА ДОСТУПНОСТИ ФАЙЛА И ОПРЕДЕЛЕНИЕ МАКС СТРОК В НЕМ*/
-/*---------------------------------------------------------*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
     dataFile.setFileName(fileName);
     if ( (fileName == "") || (!dataFile.exists()) ||
             (!dataFile.open(QIODevice::ReadOnly | QIODevice::Text)) ) {
@@ -14,20 +19,20 @@ void Calc::doCalc()
         emit sendError(st);
         return;
     }
-    maxValueOfCount = 0;
+    double maxValueOfCount = 0;
     while(!dataFile.atEnd()){
         QString buff = dataFile.readLine();
         maxValueOfCount++;
     };
     dataFile.close();
-/*-------------------------------------------------------*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
     if (secondCount>maxValueOfCount) {
         emit sendError("Введённные значения отсчета больше допустимых");
         return;
     }
-/*-------------------------------------------------------*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
             /*ЗАПОЛНЕНИЕ МАССИВА С ДАННЫМИ*/
-/*-------------------------------------------------------*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
     dataFile.open(QIODevice::ReadOnly | QIODevice::Text);
     QString chrValue;
 
@@ -56,12 +61,17 @@ void Calc::doCalc()
     }
 
     dataFile.close();
-/*-------------------------------------------------------*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+            /*ОПРЕДЕЛЕНИЕ ГРАНИЦ ДЛЯ ГРАФИКА
+                        * <<==>>
+                * НАХОЖДЕНИЕ МАКС И МИН*/
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
     for(int i=0; i<dataArray.size()-1; i++) {
         if(minValueOfDataArray>dataArray[i])
             minValueOfDataArray = dataArray[i];
         if(maxValueOfDataArray<dataArray[i])
             maxValueOfDataArray = dataArray[i];
     }
-    emit drawGraphic();
+    emit drawGraphic(dataArray, minValueOfDataArray,
+                     maxValueOfDataArray);
 }

@@ -3,17 +3,6 @@
 
 #include <QMainWindow>
 #include <QFile>
-/*///////////////////////////////////////////////////////////////////*/
-                    /*ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ*/
-/*///////////////////////////////////////////////////////////////////*/
-extern QString fileName;
-extern int selectedLead;
-extern int firstCount, secondCount;
-extern QVector<double> dataArray;
-extern double minValueOfDataArray, maxValueOfDataArray;
-extern double maxValueOfCount;
-extern QFile dataFile;
-/*///////////////////////////////////////////////////////////////////*/
 
 namespace Ui {
 class MainWindow;
@@ -33,7 +22,7 @@ private slots:
     void on_action_3_triggered();
     void showError(QString);
     void on_DrawBtn_clicked();
-    void _drawGraphic();
+    void _drawGraphic(QVector<double>, const double &, const double &);
     void on_action_4_triggered();
     void on_action_5_triggered();
 
@@ -41,7 +30,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
+    QString fileName;
+    int selectedLead, firstCount, secondCount;
 };
 
 #endif // MAINWINDOW_H

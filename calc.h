@@ -10,16 +10,17 @@ class Calc : public QObject
     Q_OBJECT
 
 public:
+    void doCalc(const QString &, const int &, const int &, const int &);
 
 signals:
     void sendError(QString);
-    void drawGraphic();
+    void drawGraphic(QVector<double>, const double &, const double &);
 
 public slots:
-    void doCalc();
 
 private:
-
+    double minValueOfDataArray;
+    double maxValueOfDataArray;
 };
 
 #endif // CALC_H
