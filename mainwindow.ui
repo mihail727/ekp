@@ -496,7 +496,7 @@ margin-top:1ex;</string>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>150</height>
+                <height>140</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -1367,6 +1367,22 @@ border-color: rgb(63, 83, 109);</string>
            </widget>
           </widget>
          </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QProgressBar" name="progressBar">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>10</height>
+            </size>
+           </property>
+           <property name="value">
+            <number>24</number>
+           </property>
+           <property name="textVisible">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
@@ -1380,7 +1396,7 @@ border-color: rgb(63, 83, 109);</string>
      <x>0</x>
      <y>0</y>
      <width>1145</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">

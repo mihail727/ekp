@@ -2,7 +2,6 @@
 #define CHARTVIEW_H
 
 #include <QtCharts/QChartView>
-#include <QtWidgets/QRubberBand>
 
 QT_CHARTS_USE_NAMESPACE
 

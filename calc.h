@@ -10,13 +10,13 @@ class Calc : public QObject
     Q_OBJECT
 
 public:
-    void doCalc(const QString &, const int &, const int &, const int &);
 
 signals:
     void sendError(QString);
     void drawGraphic(QVector<double>, const double &, const double &);
 
 public slots:
+    void doCalc(QString fileName, int selectedLead, int firstCount, int secondCount);
 
 private:
     double minValueOfDataArray;

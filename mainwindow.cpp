@@ -101,12 +101,14 @@ void MainWindow::on_DrawBtn_clicked()
     TCalc->moveToThread(Thread);
 
     connect(TCalc, SIGNAL(drawGraphic(QVector<double>, const double &, const double &)),
-            this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)));
+            this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)), Qt::QueuedConnection);
 
-    connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
+    connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)), Qt::QueuedConnection);
 
     Thread->start();
-    TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
+
+    QMetaObject::invokeMethod(TCalc, "doCalc", Qt::QueuedConnection, Q_ARG(QString, fileName),
+                              Q_ARG(int, selectedLead), Q_ARG(int, firstCount), Q_ARG(int, secondCount));
 }
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -137,6 +139,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //Иконка приложения
     QIcon icon(":/resource/img/icons8-plus-48.png");
     MainWindow::setWindowIcon(icon);
+
+    ui->progressBar->setVisible(false);
+    ui->progressBar->setRange(0,100);
 
     //Создаем Chart
     Chart1 = new Chart();

@@ -1,7 +1,6 @@
 #include "calc.h"
 
-void Calc::doCalc(const QString &fileName, const int &selectedLead,
-                  const int &firstCount, const int &secondCount)
+void Calc::doCalc(QString fileName, int selectedLead, int firstCount, int secondCount)
 {
     QVector<double> dataArray;
     QFile dataFile(fileName);
