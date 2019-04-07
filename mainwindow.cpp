@@ -3,18 +3,20 @@
 #include "QPixmap"
 #include "QtCharts/QtCharts"
 #include <calc.h>
+#include <chartview.h>
+#include <chart.h>
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
         /*ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И ОБЬЕКТЫ ДЛЯ mainwindow.cpp*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-static QChart *Chart1 ;
+static ChartView *ChartView1;
+static Chart *Chart1;
 static QLineSeries *Series1;
 static QLineSeries *Series2;
 
-static QChart *Chart2;
+static Chart *Chart2;
 static QLineSeries *LineSeries1;
 static QLineSeries *LineSeries2;
-static QChartView *ChartView1;
-static QChartView *ChartView2;
+static ChartView *ChartView2;
 
 static QValueAxis *axisX;
 static QValueAxis *axisY;
@@ -24,7 +26,6 @@ using namespace QtCharts;
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
                     /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
 void MainWindow::_drawGraphic(QVector<double> dataArray, const double &minValueOfDataArray,
                               const double &maxValueOfDataArray)
 {
@@ -138,8 +139,8 @@ MainWindow::MainWindow(QWidget *parent) :
     MainWindow::setWindowIcon(icon);
 
     //Создаем Chart
-    Chart1 = new QChart();
-    Chart2 = new QChart();
+    Chart1 = new Chart();
+    Chart2 = new Chart();
     Series1 = new QLineSeries();
     Series2 = new QLineSeries();
     LineSeries1 = new QLineSeries();
@@ -187,14 +188,15 @@ MainWindow::MainWindow(QWidget *parent) :
     Chart2->legend()->hide();
     Chart2->createDefaultAxes();
 
-    ChartView1 = new QChartView(Chart1);
+    ChartView1 = new ChartView(Chart1);
     ChartView1->setRenderHint(QPainter::Antialiasing);
+
     QGridLayout *layout1 = new QGridLayout;
     layout1->addWidget(ChartView1);
     layout1->setMargin(0);
     ui->tab->setLayout(layout1);
 
-    ChartView2 = new QChartView(Chart2);
+    ChartView2 = new ChartView(Chart2);
     ChartView2->setRenderHint(QPainter::Antialiasing);
 
     QGridLayout *layout2 = new QGridLayout;

@@ -27,11 +27,15 @@ CONFIG += c++11
 SOURCES += \
         mainwindow.cpp \
     calc.cpp \
-    main.cpp
+    main.cpp \
+    chartview.cpp \
+    chart.cpp
 
 HEADERS += \
         mainwindow.h \
-    calc.h
+    calc.h \
+    chartview.h \
+    chart.h
 
 FORMS += \
         mainwindow.ui
