@@ -17,6 +17,7 @@ public:
 
 signals:
     void sendArray(QVector<double>);
+    void finished();
 
 public slots:
     void doCalc();

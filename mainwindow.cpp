@@ -110,7 +110,7 @@ void MainWindow::on_DrawBtn_clicked()
     connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
     connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
     connect(TCalc, SIGNAL(finished(QVector<double>) ), TCalc, SLOT(deleteLater() ));
-    connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(deleteLater() ));
+    connect(Thread, SIGNAL(finished() ), Thread, SLOT(deleteLater() ));
 
     TCalc->moveToThread(Thread);
 
@@ -136,6 +136,9 @@ void MainWindow::newTaskLFHF(QVector<double> Array)
 
     connect(thread, SIGNAL(started() ), HFLF, SLOT(doCalc() ));
     connect(HFLF, SIGNAL(sendArray(QVector<double>) ), this, SLOT(checkHFLF(QVector<double>) ));
+    connect(HFLF, SIGNAL(finished() ), thread, SLOT(quit() ));
+    connect(HFLF, SIGNAL(finished() ), HFLF, SLOT(deleteLater() ));
+    connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
 
     thread->start();
 

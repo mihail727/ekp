@@ -62,4 +62,5 @@ void hflf::doCalc()
     Tmvl.clear();
 
     emit sendArray(FTvl);
+    emit finished();
 }
