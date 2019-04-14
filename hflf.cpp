@@ -1,7 +1,7 @@
 #include "hflf.h"
 #include <QtMath>
 
-void hflf::doCalc()
+void hflf::doCalc(const QVector<double> &AVal, int Nvl)
 {
     const double TwoPi = 6.283185307179586;
     int i, j, n, m, Mmax, Istp;

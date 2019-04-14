@@ -19,7 +19,8 @@ signals:
     void finished(QVector<double>);
 
 public slots:
-    void doCalc();
+    void doCalc(QString &fileName, int &selectedLead,
+                int &firstCount, int &secondCount);
 
 private:
     double minValueOfDataArray;

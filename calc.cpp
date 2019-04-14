@@ -1,6 +1,7 @@
 #include "calc.h"
 
-void Calc::doCalc()
+void Calc::doCalc(QString &fileName, int &selectedLead,
+                  int &firstCount, int &secondCount)
 {
     QFile dataFile(fileName);
     dataArray.clear();

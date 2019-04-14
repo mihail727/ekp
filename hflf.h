@@ -9,22 +9,16 @@ class hflf : public QObject
     Q_OBJECT
 
 public:
-    hflf(QVector<double> &_dataArray, int _Nvl)
-    {
-        AVal = _dataArray;
-        Nvl = _Nvl;
-    }
 
 signals:
     void sendArray(QVector<double>);
     void finished();
 
 public slots:
-    void doCalc();
+    void doCalc(const QVector<double> &AVal, int Nvl);
 
 private:
-    QVector<double> AVal;
-    int Nvl;
+
 };
 
 #endif // HFLF_H

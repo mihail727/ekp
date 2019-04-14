@@ -96,21 +96,18 @@ void MainWindow::on_DrawBtn_clicked()
     QThread *Thread = new QThread;
     Calc *TCalc = new Calc();
 
-    TCalc->fileName = fileName;
-    TCalc->selectedLead = selectedLead;
-    TCalc->firstCount = firstCount;
-    TCalc->secondCount = secondCount;
-
     connect(TCalc, SIGNAL(drawGraphic(QVector<double>, const double &, const double &)),
             this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)));
     connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
-
-    connect(Thread, SIGNAL(started() ), TCalc, SLOT(doCalc() ));
 
     connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
     connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
     connect(TCalc, SIGNAL(finished(QVector<double>) ), TCalc, SLOT(deleteLater() ));
     connect(Thread, SIGNAL(finished() ), Thread, SLOT(deleteLater() ));
+
+    connect(Thread, &QThread::started, TCalc, [=] {
+        TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
+    });
 
     TCalc->moveToThread(Thread);
 
@@ -130,11 +127,14 @@ void MainWindow::newTaskLFHF(QVector<double> Array)
     }
     //______________________________________
     QThread *thread = new QThread;
-    hflf *HFLF = new hflf(Array, Array.size());
+    hflf *HFLF = new hflf();
 
     HFLF->moveToThread(thread);
 
-    connect(thread, SIGNAL(started() ), HFLF, SLOT(doCalc() ));
+    connect(thread, &QThread::started, HFLF, [=] {
+        HFLF->doCalc(Array, Array.size());
+    });
+
     connect(HFLF, SIGNAL(sendArray(QVector<double>) ), this, SLOT(checkHFLF(QVector<double>) ));
     connect(HFLF, SIGNAL(finished() ), thread, SLOT(quit() ));
     connect(HFLF, SIGNAL(finished() ), HFLF, SLOT(deleteLater() ));
