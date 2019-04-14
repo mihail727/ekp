@@ -1,8 +1,7 @@
 #include "calc.h"
 
-void Calc::doCalc(QString fileName, int selectedLead, int firstCount, int secondCount)
+void Calc::doCalc()
 {
-    QVector<double> dataArray;
     QFile dataFile(fileName);
     dataArray.clear();
     minValueOfDataArray = 0;
@@ -18,20 +17,11 @@ void Calc::doCalc(QString fileName, int selectedLead, int firstCount, int second
         emit sendError(st);
         return;
     }
-    double maxValueOfCount = 0;
-    while(!dataFile.atEnd()){
-        QString buff = dataFile.readLine();
-        maxValueOfCount++;
-    };
-    dataFile.close();
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-    if (secondCount>maxValueOfCount) {
-        emit sendError("Введённные значения отсчета больше допустимых");
-        return;
-    }
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
             /*ЗАПОЛНЕНИЕ МАССИВА С ДАННЫМИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+    dataFile.close();
+
     dataFile.open(QIODevice::ReadOnly | QIODevice::Text);
     QString chrValue;
 
@@ -73,9 +63,5 @@ void Calc::doCalc(QString fileName, int selectedLead, int firstCount, int second
     }
     emit drawGraphic(dataArray, minValueOfDataArray,
                      maxValueOfDataArray);
-}
-
-Calc::~Calc()
-{
-
+    emit finished(dataArray);
 }

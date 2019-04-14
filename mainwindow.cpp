@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "QPixmap"
 #include "QtCharts/QtCharts"
+
+#include <hflf.h>
 #include <calc.h>
 #include <chartview.h>
 #include <chart.h>
@@ -88,32 +90,60 @@ void MainWindow::on_DrawBtn_clicked()
         showError("Не верно введены значения отсчетов");
         return;
     }
-    if (secondCount-firstCount>100000){
-        showError("Введённные значения отсчета больше допустимых");
-        return;
-    }
+
+    selectedLead = ui->comboBox->currentIndex()+1;
 
     QThread *Thread = new QThread;
     Calc *TCalc = new Calc();
 
-    selectedLead = ui->comboBox->currentIndex()+1;
+    TCalc->fileName = fileName;
+    TCalc->selectedLead = selectedLead;
+    TCalc->firstCount = firstCount;
+    TCalc->secondCount = secondCount;
+
+    connect(TCalc, SIGNAL(drawGraphic(QVector<double>, const double &, const double &)),
+            this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)));
+    connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
+
+    connect(Thread, SIGNAL(started() ), TCalc, SLOT(doCalc() ));
+
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), TCalc, SLOT(deleteLater() ));
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(deleteLater() ));
 
     TCalc->moveToThread(Thread);
 
-    connect(TCalc, SIGNAL(drawGraphic(QVector<double>, const double &, const double &)),
-            this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)), Qt::QueuedConnection);
-
-    connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)), Qt::QueuedConnection);
-
-    QMetaObject::invokeMethod(TCalc, "doCalc", Qt::QueuedConnection, Q_ARG(QString, fileName),
-                              Q_ARG(int, selectedLead), Q_ARG(int, firstCount), Q_ARG(int, secondCount));
-
     Thread->start();
-//    connect(Thread, &QThread::finished, Thread, &QObject::deleteLater);
 
-//    bool kk = Thread->isFinished();
-//    if (kk)
-//        ui->textEdit->setText("Done.");
+}
+
+void MainWindow::newTaskLFHF(QVector<double> Array)
+{
+    //размер массива кратен степени 2
+    int n = 0;
+    while (Array.size() > qPow(2 , n)){
+        n++;
+    }
+    for (int i=0; Array.size()<qPow(2, n); i++){
+        Array.push_back(0);
+    }
+    //______________________________________
+    QThread *thread = new QThread;
+    hflf *HFLF = new hflf(Array, Array.size());
+
+    HFLF->moveToThread(thread);
+
+    connect(thread, SIGNAL(started() ), HFLF, SLOT(doCalc() ));
+    connect(HFLF, SIGNAL(sendArray(QVector<double>) ), this, SLOT(checkHFLF(QVector<double>) ));
+
+    thread->start();
+
+}
+
+void MainWindow::checkHFLF(QVector<double> a)
+{
+    ui->textEdit->insertPlainText(QString::number(a[0]));
 }
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

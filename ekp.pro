@@ -29,13 +29,15 @@ SOURCES += \
     calc.cpp \
     main.cpp \
     chartview.cpp \
-    chart.cpp
+    chart.cpp \
+    hflf.cpp
 
 HEADERS += \
         mainwindow.h \
     calc.h \
     chartview.h \
-    chart.h
+    chart.h \
+    hflf.h
 
 FORMS += \
         mainwindow.ui

@@ -26,6 +26,8 @@ private slots:
     void on_action_4_triggered();
     void on_action_5_triggered();
     void on_action_triggered();
+    void newTaskLFHF(QVector<double>);
+    void checkHFLF(QVector<double>);
 
 private:
     Ui::MainWindow *ui;
