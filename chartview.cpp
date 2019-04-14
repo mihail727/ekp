@@ -4,6 +4,11 @@
 ChartView::ChartView(QChart *chart, QWidget *parent) :
     QChartView(chart, parent)
 {
-    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setAnimationOptions(QChart::SeriesAnimations);
     chart->setAnimationDuration(400);
+}
+
+ChartView::~ChartView()
+{
+
 }

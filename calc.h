@@ -10,6 +10,7 @@ class Calc : public QObject
     Q_OBJECT
 
 public:
+    ~Calc();
 
 signals:
     void sendError(QString);

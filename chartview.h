@@ -9,6 +9,7 @@ class ChartView : public QChartView
 {
 public:
     ChartView(QChart *chart, QWidget *parent = nullptr);
+    ~ChartView();
 
 protected:
 

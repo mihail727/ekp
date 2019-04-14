@@ -25,7 +25,6 @@ private slots:
     void _drawGraphic(QVector<double>, const double &, const double &);
     void on_action_4_triggered();
     void on_action_5_triggered();
-
     void on_action_triggered();
 
 private:

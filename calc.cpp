@@ -74,3 +74,8 @@ void Calc::doCalc(QString fileName, int selectedLead, int firstCount, int second
     emit drawGraphic(dataArray, minValueOfDataArray,
                      maxValueOfDataArray);
 }
+
+Calc::~Calc()
+{
+
+}
