@@ -28,11 +28,11 @@ private slots:
     void on_action_triggered();
     void newTaskLFHF(QVector<double>);
     void checkHFLF(QVector<double>);
+    void newTaskQRS(QVector<double>);
+    void drawQRS();
 
 private:
     Ui::MainWindow *ui;
-    QString fileName;
-    int selectedLead, firstCount, secondCount;
 };
 
 #endif // MAINWINDOW_H

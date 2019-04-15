@@ -7,6 +7,7 @@
 #include <calc.h>
 #include <chartview.h>
 #include <chart.h>
+#include <cqrs.h>
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
         /*ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И ОБЬЕКТЫ ДЛЯ mainwindow.cpp*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -23,6 +24,10 @@ static ChartView *ChartView2;
 static QValueAxis *axisX;
 static QValueAxis *axisY;
 static QCategoryAxis *axisZero;
+
+static QString fileName;
+static int selectedLead;
+static int firstCount, secondCount;
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 using namespace QtCharts;
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -118,11 +123,39 @@ void MainWindow::on_DrawBtn_clicked()
     });
     //по заврешению работы TCalc запускатеся newTaskLFHF
     connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
+    //по завершению работы TCalc запускается newTaskQRS
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskQRS(QVector<double>) ));
 
     TCalc->moveToThread(Thread);
 
     Thread->start();
 //--------------------------------------------------------------------------------------------
+}
+
+void MainWindow::newTaskQRS(QVector<double> Array)
+//Выполнение метода Пана-Томпкинса --- вывод графика QRS
+{
+    QThread *thread = new QThread;
+    cQRS *qrs = new cQRS();
+
+    qrs->moveToThread(thread);
+
+    connect(thread, &QThread::started, qrs, [=] {
+        qrs->doCalc(Array, selectedLead, firstCount, secondCount);
+    });
+
+    connect(qrs, SIGNAL(finished() ), thread, SLOT(quit() ));
+    connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
+    connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
+    connect(qrs, SIGNAL(sendQRSValues() ), this, SLOT(drawQRS() ));
+
+    thread->start();
+}
+
+void MainWindow::drawQRS()
+//Вывод графика QRS
+{
+
 }
 
 void MainWindow::newTaskLFHF(QVector<double> Array)
