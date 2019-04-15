@@ -8,7 +8,7 @@ void Calc::doCalc(QString &fileName, int &selectedLead,
     minValueOfDataArray = 0;
     maxValueOfDataArray = 0;
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-/*ПРОВЕРКА ДОСТУПНОСТИ ФАЙЛА И ОПРЕДЕЛЕНИЕ МАКС СТРОК В НЕМ*/
+                /*ПРОВЕРКА ДОСТУПНОСТИ ФАЙЛА*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
     dataFile.setFileName(fileName);
     if ( (fileName == "") || (!dataFile.exists()) ||
@@ -54,7 +54,7 @@ void Calc::doCalc(QString &fileName, int &selectedLead,
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
             /*ОПРЕДЕЛЕНИЕ ГРАНИЦ ДЛЯ ГРАФИКА
                         * <<==>>
-                * НАХОЖДЕНИЕ МАКС И МИН*/
+         * НАХОЖДЕНИЕ МАКС И МИН (из всего графика)*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
     for(int i=0; i<dataArray.size()-1; i++) {
         if(minValueOfDataArray>dataArray[i])

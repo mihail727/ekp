@@ -31,6 +31,7 @@ using namespace QtCharts;
 void MainWindow::_drawGraphic(QVector<double> dataArray, const double &minValueOfDataArray,
                               const double &maxValueOfDataArray)
 {
+//Вывод графика
     on_action_4_triggered();
 
     Chart1->removeSeries(Series1);
@@ -51,22 +52,29 @@ void MainWindow::_drawGraphic(QVector<double> dataArray, const double &minValueO
 
 void MainWindow::on_action_4_triggered()
 {
+//--------------------------------------------------------------------------------------------
+//Очистка Чартов
     Series1->clear();
     Series2->clear();
     LineSeries1->clear();
     LineSeries2->clear();
+//--------------------------------------------------------------------------------------------
 }
 
 void MainWindow::showError(QString st)
+//--------------------------------------------------------------------------------------------
+//Вывод сообщения об ошибке + вывод сообщения
 {
     QPixmap MainIcon(":/resource/img/icons8-plus-48.png");
     QMessageBox msgBox(QMessageBox::NoIcon, tr("Ошибка"), st, QMessageBox::Ok);
 
     msgBox.setWindowIcon(MainIcon);
     msgBox.exec();
+//--------------------------------------------------------------------------------------------
 }
 
 void MainWindow::on_DrawBtn_clicked()
+//--------------------------------------------------------------------------------------------
 //Начало расчета и вывода графиков
 {
     ui->textEdit->clear();
@@ -92,7 +100,8 @@ void MainWindow::on_DrawBtn_clicked()
     }
 
     selectedLead = ui->comboBox->currentIndex()+1;
-
+//--------------------------------------------------------------------------------------------
+//Обработка файла + создание массива с исходными данными
     QThread *Thread = new QThread;
     Calc *TCalc = new Calc();
 
@@ -100,7 +109,6 @@ void MainWindow::on_DrawBtn_clicked()
             this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)));
     connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
 
-    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
     connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
     connect(TCalc, SIGNAL(finished(QVector<double>) ), TCalc, SLOT(deleteLater() ));
     connect(Thread, SIGNAL(finished() ), Thread, SLOT(deleteLater() ));
@@ -108,16 +116,19 @@ void MainWindow::on_DrawBtn_clicked()
     connect(Thread, &QThread::started, TCalc, [=] {
         TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
     });
+    //по заврешению работы TCalc запускатеся newTaskLFHF
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
 
     TCalc->moveToThread(Thread);
 
     Thread->start();
-
+//--------------------------------------------------------------------------------------------
 }
 
 void MainWindow::newTaskLFHF(QVector<double> Array)
 {
-    //размер массива кратен степени 2
+//--------------------------------------------------------------------------------------------
+//Размер массива становится кратен степени 2
     int n = 0;
     while (Array.size() > qPow(2 , n)){
         n++;
@@ -141,10 +152,11 @@ void MainWindow::newTaskLFHF(QVector<double> Array)
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
 
     thread->start();
-
+//--------------------------------------------------------------------------------------------
 }
 
 void MainWindow::checkHFLF(QVector<double> a)
+//для проверки HFLF массива --потом убрать!
 {
     ui->textEdit->insertPlainText(QString::number(a[0]));
 }
@@ -281,6 +293,7 @@ void MainWindow::on_action_3_triggered()
 
 void MainWindow::on_action_5_triggered()
 {
+//Исходный масштаб чартов
     Chart1->zoomReset();
     Chart2->zoomReset();
     ChartView1->repaint();
@@ -289,5 +302,6 @@ void MainWindow::on_action_5_triggered()
 
 void MainWindow::on_action_triggered()
 {
+//вывести график
     on_DrawBtn_clicked();
 }
