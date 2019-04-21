@@ -24,6 +24,9 @@ static ChartView *ChartView2;
 static QValueAxis *axisX;
 static QValueAxis *axisY;
 static QCategoryAxis *axisZero;
+static QValueAxis *axisX2;
+static QValueAxis *axisY2;
+static QCategoryAxis *axisZero2;
 
 static QString fileName;
 static int selectedLead;
@@ -37,7 +40,8 @@ void MainWindow::_drawGraphic(QVector<double> dataArray, const double &minValueO
                               const double &maxValueOfDataArray)
 {
 //Вывод графика
-    on_action_4_triggered();
+    Series1->clear();
+    Series2->clear();
 
     Chart1->removeSeries(Series1);
     Chart1->removeSeries(Series2);
@@ -59,10 +63,8 @@ void MainWindow::on_action_4_triggered()
 {
 //--------------------------------------------------------------------------------------------
 //Очистка Чартов
-    Series1->clear();
-    Series2->clear();
-    LineSeries1->clear();
-    LineSeries2->clear();
+
+
 //--------------------------------------------------------------------------------------------
 }
 
@@ -141,21 +143,43 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     qrs->moveToThread(thread);
 
     connect(thread, &QThread::started, qrs, [=] {
-        qrs->doCalc(Array, selectedLead, firstCount, secondCount);
+        qrs->doCalc(Array, firstCount, secondCount);
     });
 
     connect(qrs, SIGNAL(finished() ), thread, SLOT(quit() ));
     connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-    connect(qrs, SIGNAL(sendQRSValues() ), this, SLOT(drawQRS() ));
+    connect(qrs, SIGNAL(sendQRSValues(QVector<double> ) ), this, SLOT(drawQRS(QVector<double> ) ));
 
     thread->start();
 }
 
-void MainWindow::drawQRS()
+void MainWindow::drawQRS(QVector<double> Array)
 //Вывод графика QRS
 {
+    double min = 0, max = 0;
+    for(int i=0; i<Array.size(); i++) {
+        if(min > Array[i]) min = Array[i];
+        if(max < Array[i]) max = Array[i];
+    }
 
+    LineSeries1->clear();
+    LineSeries2->clear();
+
+    Chart2->removeSeries(LineSeries1);
+    Chart2->removeSeries(LineSeries2);
+
+    for(int i=0; i<Array.size()-1; i++)
+    {
+        LineSeries1->append(i, Array[i]);
+        //Series2
+    }
+
+    axisX2->setRange(firstCount, secondCount);
+    axisY2->setRange(min, max);
+    axisZero2->setRange(firstCount, secondCount);
+    Chart2->addSeries(LineSeries1);
+    Chart2->addSeries(LineSeries2);
 }
 
 void MainWindow::newTaskLFHF(QVector<double> Array)
@@ -243,7 +267,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Series1->setColor( QColor(Qt::red) );
     Series2->setColor( QColor(Qt::green) );
-    LineSeries1->setColor( QColor(Qt::darkBlue) );
+    LineSeries1->setColor( QColor(Qt::darkMagenta) );
     LineSeries2->setColor( QColor(Qt::green) );
 
     Chart1->addSeries(Series1);
@@ -267,6 +291,23 @@ MainWindow::MainWindow(QWidget *parent) :
     axisZero->append("", 0);
     axisZero->setGridLineColor(QColor(Qt::darkBlue));
 
+    axisX2 = new QValueAxis;
+    axisY2 = new QValueAxis;
+    axisZero2 = new QCategoryAxis;
+
+    axisX2->setRange(0,100);
+    axisX2->setTickCount(11);
+    axisX2->setTickInterval(20);
+    axisX2->setLabelFormat("%i");
+
+    axisY2->setRange(0,100);
+    axisY2->setTickCount(11);
+    axisY2->setTickInterval(20);
+    axisY2->setLabelFormat("%i");
+
+    axisZero2->append("", 0);
+    axisZero2->setGridLineColor(QColor(Qt::darkBlue));
+
     Chart1->addAxis(axisX, Qt::AlignBottom);
     Chart1->addAxis(axisY, Qt::AlignLeft);
     Chart1->addAxis(axisZero, Qt::AlignRight);
@@ -281,7 +322,17 @@ MainWindow::MainWindow(QWidget *parent) :
     Chart2->addSeries(LineSeries1);
     Chart2->addSeries(LineSeries2);
     Chart2->legend()->hide();
-    Chart2->createDefaultAxes();
+
+    Chart2->addAxis(axisX2, Qt::AlignBottom);
+    Chart2->addAxis(axisY2, Qt::AlignLeft);
+    Chart2->addAxis(axisZero2, Qt::AlignRight);
+
+    LineSeries1->attachAxis(axisX2);
+    LineSeries1->attachAxis(axisY2);
+    LineSeries2->attachAxis(axisX2);
+    LineSeries2->attachAxis(axisY2);
+    LineSeries1->attachAxis(axisZero2);
+    LineSeries2->attachAxis(axisZero2);
 
     ChartView1 = new ChartView(Chart1);
     ChartView1->setRenderHint(QPainter::Antialiasing);

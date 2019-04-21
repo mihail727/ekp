@@ -10,11 +10,10 @@ public:
 
 signals:
     void finished();
-    void sendQRSValues();
+    void sendQRSValues(QVector<double>);
 
 public slots:
-     void doCalc(const QVector<double> &mas, int selectedLead,
-                 int firstCount, int secondCount);
+     void doCalc(const QVector<double> &mas, int firstCount, int secondCount);
 
 };
 

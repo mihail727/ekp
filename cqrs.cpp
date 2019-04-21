@@ -1,15 +1,7 @@
 #include "cqrs.h"
 #include <QVector>
 
-/*
- * mas - массив с иходными данными; selectedLead - выбранное отведение;
- * first - second Count - начальное - конечное значение отсчетов;
- * Тебе нужно сформировать массив с данными но уже QRS
- *
- * { И ещё ГФ сказал что ты в своем методе находишь макс точки
- * если да то засунь его сюда тоже и скажи какие переменные под эти
- * значения выделил! }
-*/
+
 QVector <double> masspoint1(1000);
 
 void low (const QVector<double> &masspoint3, int firstCount, int secondCount) // фильтр нижних частот
@@ -122,15 +114,16 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
         }
       
 
-        void cQRS::doCalc(const QVector<double> &mas, int selectedLead,
-                          int firstCount, int secondCount)
+        void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
         {
             QVector<double> result(1000);
+
             low(mas, firstCount, secondCount );
             high(masspoint1, firstCount, secondCount );
             differentiation(masspoint1, firstCount, secondCount );
             square(masspoint1, firstCount, secondCount );
             result = integration(masspoint1, firstCount, secondCount );
-            //emit sendQRSValues();
+
+            emit sendQRSValues(result);
             emit finished();
         }

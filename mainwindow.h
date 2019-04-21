@@ -29,7 +29,7 @@ private slots:
     void newTaskLFHF(QVector<double>);
     void checkHFLF(QVector<double>);
     void newTaskQRS(QVector<double>);
-    void drawQRS();
+    void drawQRS(QVector<double>);
 
 private:
     Ui::MainWindow *ui;
