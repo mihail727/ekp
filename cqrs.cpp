@@ -11,18 +11,7 @@
  * значения выделил! }
 */
 QVector <double> masspoint1(1000);
-void cQRS::doCalc(const QVector<double> &mas, int selectedLead,
-                  int firstCount, int secondCount)
-{
 
-   /* low(mas);
-    high(masspoint1);
-    differentiation(masspoint1);
-    square(masspoint1);
-    integration(masspoint1);
-    //emit sendQRSValues();*/
-    emit finished();
-}
 void low (const QVector<double> &masspoint3, int firstCount, int secondCount) // фильтр нижних частот
         {
             int n = secondCount-firstCount;   
@@ -133,4 +122,15 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
         }
       
 
-
+        void cQRS::doCalc(const QVector<double> &mas, int selectedLead,
+                          int firstCount, int secondCount)
+        {
+            QVector<double> result(1000);
+            low(mas, firstCount, secondCount );
+            high(masspoint1, firstCount, secondCount );
+            differentiation(masspoint1, firstCount, secondCount );
+            square(masspoint1, firstCount, secondCount );
+            result = integration(masspoint1, firstCount, secondCount );
+            //emit sendQRSValues();
+            emit finished();
+        }
