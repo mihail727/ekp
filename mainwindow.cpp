@@ -1,38 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QPixmap"
-#include "QtCharts/QtCharts"
 
 #include <hflf.h>
 #include <calc.h>
-#include <chartview.h>
-#include <chart.h>
 #include <cqrs.h>
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-        /*ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И ОБЬЕКТЫ ДЛЯ mainwindow.cpp*/
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-static ChartView *ChartView1;
-static Chart *Chart1;
-static QLineSeries *Series1;
-static QLineSeries *Series2;
 
-static Chart *Chart2;
-static QLineSeries *LineSeries1;
-static QLineSeries *LineSeries2;
-static ChartView *ChartView2;
-
-static QValueAxis *axisX;
-static QValueAxis *axisY;
-static QCategoryAxis *axisZero;
-static QValueAxis *axisX2;
-static QValueAxis *axisY2;
-static QCategoryAxis *axisZero2;
-
-static QString fileName;
-static int selectedLead;
-static int firstCount, secondCount;
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 using namespace QtCharts;
+
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
                     /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -63,8 +38,18 @@ void MainWindow::on_action_4_triggered()
 {
 //--------------------------------------------------------------------------------------------
 //Очистка Чартов
+    Series1->clear();
+    Series2->clear();
+    LineSeries1->clear();
+    LineSeries2->clear();
 
+    axisX->setRange(0, 100);
+    axisY->setRange(0, 100);
+    axisZero->setRange(0, 100);
 
+    axisX2->setRange(0, 100);
+    axisY2->setRange(0, 100);
+    axisZero2->setRange(0, 100);
 //--------------------------------------------------------------------------------------------
 }
 

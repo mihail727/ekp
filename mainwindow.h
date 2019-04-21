@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include <QFile>
+#include "QtCharts/QtCharts"
+
+#include <chartview.h>
+#include <chart.h>
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +37,26 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    ChartView *ChartView1;
+    Chart *Chart1;
+    QLineSeries *Series1;
+    QLineSeries *Series2;
+
+    Chart *Chart2;
+    QLineSeries *LineSeries1;
+    QLineSeries *LineSeries2;
+    ChartView *ChartView2;
+
+    QValueAxis *axisX;
+    QValueAxis *axisY;
+    QCategoryAxis *axisZero;
+    QValueAxis *axisX2;
+    QValueAxis *axisY2;
+    QCategoryAxis *axisZero2;
+
+    QString fileName;
+    int selectedLead;
+    int firstCount, secondCount;
 };
 
 #endif // MAINWINDOW_H
