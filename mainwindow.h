@@ -5,8 +5,8 @@
 #include <QFile>
 #include "QtCharts/QtCharts"
 
-#include <chartview.h>
-#include <chart.h>
+#include <Widgets/Chartview.h>
+#include <Widgets/Chart.h>
 
 namespace Ui {
 class MainWindow;

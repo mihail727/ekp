@@ -25,19 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    Widgets/Chart.cpp \
+    Widgets/Chartview.cpp \
         mainwindow.cpp \
     calc.cpp \
     main.cpp \
-    chartview.cpp \
-    chart.cpp \
     hflf.cpp \
     cqrs.cpp
 
 HEADERS += \
+    Widgets/Chart.h \
+    Widgets/Chartview.h \
         mainwindow.h \
     calc.h \
-    chartview.h \
-    chart.h \
     hflf.h \
     cqrs.h
 
