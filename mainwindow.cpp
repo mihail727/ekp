@@ -213,16 +213,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QDesktopWidget screen;
-
-    QRect screenGeom = screen.screenGeometry(this);
-
-    int screenCenterX = screenGeom.center().x();
-    int screenCenterY = screenGeom.center().y();
-
-    move(screenCenterX - width () / 2,
-         screenCenterY - height() / 2);
-
     //Заголовок приложения
     MainWindow::setWindowTitle("Экстренное оказание кардиологической помощи");
 
