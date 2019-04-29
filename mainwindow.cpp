@@ -2,9 +2,9 @@
 #include "ui_mainwindow.h"
 #include "QPixmap"
 
-#include <hflf.h>
-#include <calc.h>
-#include <cqrs.h>
+#include <Methods/hflf.h>
+#include <Methods/calc.h>
+#include <Methods/cqrs.h>
 
 using namespace QtCharts;
 

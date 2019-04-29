@@ -69,6 +69,93 @@ QTabBar::tab::!selected{
 }
 QTabBar::tab::!selected:hover {
 	background-color:rgb(212, 212, 212);
+}
+QGroupBox#groupBox_10{
+	border:1px solid gray;
+	border-radius:2px;
+	margin-top:1ex;
+}
+QGroupBox#groupBox_9{
+	border:1px solid gray;
+	border-radius:2px;
+	margin-top:1ex;
+}
+QGroupBox#groupBox_8{
+	border:1px solid gray;
+	border-radius:2px;
+	margin-top:1ex;
+}
+QRadioButton{
+	border:0px;
+	margin-top:1ex;
+}
+QGroupBox#groupBox_10 &gt; QLabel{
+	border:0px;
+	margin-top:1ex;	
+}
+QGroupBox#groupBox_9 &gt; QLabel{
+	border:0px;
+	margin-top:1ex;	
+}
+QGroupBox#groupBox_8 &gt; QLabel{
+	border:0px;
+	margin-top:1ex;	
+}
+QGroupBox#groupBox_10 &gt; QLineEdit{
+	min-height:20px;
+	border: 1px solid rgb(68, 190, 176);
+}
+QGroupBox#groupBox_9 &gt; QLineEdit{
+	min-height:20px;
+	border: 1px solid rgb(68, 190, 176);
+}
+QGroupBox#groupBox_8 &gt; QLineEdit{
+	min-height:20px;
+	border: 1px solid rgb(68, 190, 176);
+}
+QGroupBox#groupBox_12{
+	border:1px solid gray;
+	border-radius:2px;
+	margin-top:1ex;
+}
+QTextEdit#textEdit_2{
+	border-style: solid;
+	border-width:2px;
+	border-color: rgb(63, 83, 109);
+}
+QTextEdit#textEdit{
+	border:1px solid gray;
+	border-radius:2px;
+	margin-top:1ex;
+	border-style: solid;	
+	border-width:2px;
+	border-color: rgb(63, 83, 109);
+}
+QGroupBox#groupBox_5{
+	border:1px solid gray;
+	border-radius:2px;
+	margin-top:1ex;
+}
+QGroupBox#groupBox_6{
+	border:1px solid gray;
+	border-radius:2px;
+	margin-top:1ex;
+}
+QGroupBox#groupBox_7{
+	border:1px solid gray;
+	border-radius:2px
+}
+QGroupBox#groupBox_7 &gt; QPushButton{
+	min-width:45px;
+	min-height:40px;	
+}
+QGroupBox#groupBox_5 &gt; QLabel{
+	border:0px;
+	margin-top:1ex;
+}
+QGroupBox#groupBox_5 &gt; QLineEdit{
+	min-height:20px;
+	border: 1px solid rgb(68, 190, 176);
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -147,8 +234,7 @@ QTabBar::tab::!selected:hover {
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">border:1px solid gray;
-border-radius:2px</string>
+               <string notr="true"/>
               </property>
               <property name="title">
                <string/>
@@ -164,8 +250,8 @@ border-radius:2px</string>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>47</width>
-                   <height>42</height>
+                   <width>45</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -175,8 +261,7 @@ border-radius:2px</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">min-width:45px;
-min-height:40px;</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>
@@ -199,8 +284,8 @@ min-height:40px;</string>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>47</width>
-                   <height>42</height>
+                   <width>45</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -210,8 +295,7 @@ min-height:40px;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">min-width:45px;
-min-height:40px;</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>
@@ -248,9 +332,7 @@ min-height:40px;</string>
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">border:1px solid gray;
-border-radius:2px;
-margin-top:1ex;</string>
+               <string notr="true"/>
               </property>
               <property name="title">
                <string>Отведение:</string>
@@ -277,18 +359,18 @@ margin-top:1ex;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">color: rgb(0, 0, 0);
-background-color: rgb(255, 255, 255);
-border-radius: 5px;
-selection-background-color: rgb(68, 190, 176);
-selection-color: rgb(255, 255, 255);
-border-style: solid;
-border-width:1px;
-border-color: rgb(68, 190, 176);
+                  <string notr="true">	color: rgb(0, 0, 0);
+	background-color: rgb(255, 255, 255);
+	border-radius: 5px;
+	selection-background-color: rgb(68, 190, 176);	
+	selection-color: rgb(255, 255, 255);
+	border-style: solid;
+	border-width:1px;
+	border-color: rgb(68, 190, 176);
 drop-down {
 	border-radius: 2px;
 	border-color:rgb(63, 83, 109);
- }</string>
+}</string>
                  </property>
                  <property name="currentIndex">
                   <number>0</number>
@@ -379,9 +461,7 @@ drop-down {
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">border:1px solid gray;
-border-radius:2px;
-margin-top:1ex;</string>
+               <string notr="true"/>
               </property>
               <property name="title">
                <string>Количество отсчетов:</string>
@@ -390,8 +470,7 @@ margin-top:1ex;</string>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_3">
                  <property name="styleSheet">
-                  <string notr="true">border:0px;
-margin-top:1ex;</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string>от:</string>
@@ -416,8 +495,7 @@ margin-top:1ex;</string>
                   <enum>Qt::LeftToRight</enum>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string>0</string>
@@ -430,8 +508,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                <item row="2" column="0">
                 <widget class="QLabel" name="label_2">
                  <property name="styleSheet">
-                  <string notr="true">border:0px;
-margin-top:1ex;</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string>до:</string>
@@ -449,7 +526,7 @@ margin-top:1ex;</string>
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>25</height>
+                   <height>22</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -459,7 +536,7 @@ margin-top:1ex;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">border: 1px solid rgb(68, 190, 176);</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string>1500</string>
@@ -506,12 +583,7 @@ margin-top:1ex;</string>
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">border:1px solid gray;
-border-radius:2px;
-margin-top:1ex;
-border-style: solid;
-border-width:2px;
-border-color: rgb(63, 83, 109);</string>
+               <string notr="true"/>
               </property>
               <property name="readOnly">
                <bool>true</bool>
@@ -633,9 +705,7 @@ border-color: rgb(63, 83, 109);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">border:1px solid gray;
-border-radius:2px;
-margin-top:1ex;</string>
+              <string notr="true"/>
              </property>
              <property name="title">
               <string/>
@@ -680,8 +750,7 @@ margin-top:1ex;</string>
                  <item>
                   <widget class="QRadioButton" name="radioButton">
                    <property name="styleSheet">
-                    <string notr="true">border:0px;
-margin-top:1ex;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
                     <string>Мужчина</string>
@@ -694,8 +763,7 @@ margin-top:1ex;</string>
                  <item>
                   <widget class="QRadioButton" name="radioButton_3">
                    <property name="styleSheet">
-                    <string notr="true">border:0px;
-margin-top:1ex;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
                     <string>Женщина</string>
@@ -705,8 +773,7 @@ margin-top:1ex;</string>
                  <item>
                   <widget class="QRadioButton" name="radioButton_2">
                    <property name="styleSheet">
-                    <string notr="true">border:0px;
-margin-top:1ex;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
                     <string>Ребенок</string>
@@ -737,8 +804,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>Вариабельность интервала &lt;varQT, %&gt;:</string>
@@ -759,7 +825,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -769,8 +835,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                 <string notr="true"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -798,8 +863,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Стандартное отклонение отклонение&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;средних значений кардиоциклов &amp;lt;SDANN&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -817,7 +881,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -827,8 +891,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                 <string notr="true"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -859,9 +922,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">border:1px solid gray;
-border-radius:2px;
-margin-top:1ex;</string>
+              <string notr="true"/>
              </property>
              <property name="title">
               <string/>
@@ -900,8 +961,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Расстояние между зубцами &amp;lt;R, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -925,7 +985,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -935,8 +995,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                 <string notr="true"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -964,8 +1023,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от вершины зубца до конца&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;RS&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -986,7 +1044,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1025,8 +1083,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от начала зубца до вершины&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;QR&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1047,7 +1104,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1089,9 +1146,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">border:1px solid gray;
-border-radius:2px;
-margin-top:1ex;</string>
+              <string notr="true"/>
              </property>
              <property name="title">
               <string/>
@@ -1130,8 +1185,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время комплекса &amp;lt;QRS, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1152,7 +1206,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1162,8 +1216,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                 <string notr="true"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1191,8 +1244,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Отношение волн низкой и высокой&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;частоты &amp;lt;LF/HF&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1213,7 +1265,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1226,8 +1278,7 @@ margin-top:1ex;</string>
                  <enum>Qt::LeftToRight</enum>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                 <string notr="true"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1255,8 +1306,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border:0px;
-margin-top:1ex;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от конца зубца S до конца T&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;ST-T&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1277,7 +1327,7 @@ margin-top:1ex;</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>25</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1287,8 +1337,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">min-height:20px;
-border: 1px solid rgb(68, 190, 176);</string>
+                 <string notr="true"/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1324,9 +1373,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">border:1px solid gray;
-border-radius:2px;
-margin-top:1ex;</string>
+              <string notr="true"/>
              </property>
              <property name="title">
               <string>Диагноз:</string>
@@ -1353,9 +1400,7 @@ margin-top:1ex;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">border-style: solid;
-border-width:2px;
-border-color: rgb(63, 83, 109);</string>
+                 <string notr="true"/>
                 </property>
                 <property name="readOnly">
                  <bool>true</bool>
