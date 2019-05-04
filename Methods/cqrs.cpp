@@ -7,7 +7,7 @@ QVector <double> masspoint1(1000);
 
 void low (const QVector<double> &masspoint3, int firstCount, int secondCount) // фильтр нижних частот
         {
-            int n = secondCount-firstCount;   
+            int n = secondCount;
             QVector <double> filter1(n);
             QVector <double> filter2(n);
 
@@ -27,7 +27,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
         void high(const QVector<double> &masspoint3, int firstCount, int secondCount)// фильтр верхних частот
         {
             
-            int n = secondCount-firstCount;
+            int n = secondCount;
             QVector <double> filter1(n);
             QVector <double> filter2(n);
 
@@ -49,7 +49,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
 
         void differentiation(const QVector<double> &masspoint3, int firstCount, int secondCount)//функция дифференцирования
         {
-            int n = secondCount-firstCount;
+            int n = secondCount;
             QVector <double> filter1(n);
             QVector <double> filter2(n);
 
@@ -70,7 +70,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
 
         void square(const QVector<double> &masspoint3, int firstCount, int secondCount)//функция возведения в квадрат
         {
-            int n = secondCount-firstCount;
+            int n = secondCount;
             QVector <double> filter1(n);
 
             for (int i = firstCount; i < secondCount; i++)
@@ -85,7 +85,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
         {
             int N=100;
          //   N = Convert.ToInt32(comboBox1.Text); измени сам. с формы должна "ширина окна" передаваться
-            int n = secondCount-firstCount;
+            int n = secondCount;
             QVector <double> filter1(n);
             QVector <double> filter2(n);
 
@@ -116,15 +116,18 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
 
         QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
         {
-            QVector<double> res(mas.size());
-            double max;
-            for (int i=0; i < mas.size()-1; i++)
+            int n= mas.size();
+            QVector<double> res(n);
+            double max = 0;
+            for (int i=0; i < n-1; i++)
             {
-                max = mas1[i];
+                std::cout << "0";
                 while (abs(mas[i+1] - mas[i]) >= 10)
                 {
-                    if (max < mas1[i])
-                        max = mas[i];
+                    std::cout << "1";
+                    if (mas1[max] < mas1[i])
+                        max = i;
+                    i++;
                 }
                 res[i] = max;
             }
@@ -133,15 +136,16 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
 
         void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
         {
-            QVector<double> result(1000);
-
+            QVector<double> result(secondCount);
+            QVector<double> result1(secondCount);
             low(mas, firstCount, secondCount );
             high(masspoint1, firstCount, secondCount );
             differentiation(masspoint1, firstCount, secondCount );
             square(masspoint1, firstCount, secondCount );
             result = integration(masspoint1, firstCount, secondCount );
-            for (int i=0; i < result.size(); i++)
-                std :: cout << result[i] << std :: endl;
+            result1 = topsQRS(mas, result);
+            for (int i=0; i < result1.size(); i++)
+                std :: cout << result1[i] << std :: endl;
             emit sendQRSValues(result);
             emit finished();
         }
