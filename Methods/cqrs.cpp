@@ -1,5 +1,6 @@
 #include "cqrs.h"
 #include <QVector>
+#include <iostream>
 
 
 QVector <double> masspoint1(1000);
@@ -112,7 +113,23 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             masspoint1 = filter2;
             return masspoint1;
         }
-      
+
+        QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
+        {
+            QVector<double> res(mas.size());
+            double max;
+            for (int i=0; i < mas.size()-1; i++)
+            {
+                max = mas1[i];
+                while (abs(mas[i+1] - mas[i]) >= 10)
+                {
+                    if (max < mas1[i])
+                        max = mas[i];
+                }
+                res[i] = max;
+            }
+            return res;
+        }
 
         void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
         {
@@ -123,7 +140,8 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             differentiation(masspoint1, firstCount, secondCount );
             square(masspoint1, firstCount, secondCount );
             result = integration(masspoint1, firstCount, secondCount );
-
+            for (int i=0; i < result.size(); i++)
+                std :: cout << result[i] << std :: endl;
             emit sendQRSValues(result);
             emit finished();
         }
