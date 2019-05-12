@@ -15,7 +15,7 @@ public:
 
 signals:
     void sendError(QString);
-    void drawGraphic(QVector<double>, const double &, const double &);
+    void drawGraphic(QVector<double>);
     void finished(QVector<double>);
 
 public slots:
@@ -23,8 +23,6 @@ public slots:
                 int &firstCount, int &secondCount);
 
 private:
-    double minValueOfDataArray;
-    double maxValueOfDataArray;
     QVector<double> dataArray;
 };
 

@@ -6,7 +6,7 @@
 
 QT       += core gui charts
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = ekp
 TEMPLATE = app
@@ -28,18 +28,16 @@ SOURCES += \
     Methods/calc.cpp \
     Methods/cqrs.cpp \
     Methods/hflf.cpp \
-    Widgets/Chart.cpp \
-    Widgets/Chartview.cpp \
         mainwindow.cpp \
-    main.cpp
+    main.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
     Methods/calc.h \
     Methods/cqrs.h \
     Methods/hflf.h \
-    Widgets/Chart.h \
-    Widgets/Chartview.h \
-        mainwindow.h
+        mainwindow.h \
+    qcustomplot.h
 
 FORMS += \
         mainwindow.ui

@@ -5,8 +5,6 @@ void Calc::doCalc(QString &fileName, int &selectedLead,
 {
     QFile dataFile(fileName);
     dataArray.clear();
-    minValueOfDataArray = 0;
-    maxValueOfDataArray = 0;
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
                 /*ПРОВЕРКА ДОСТУПНОСТИ ФАЙЛА*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -51,18 +49,7 @@ void Calc::doCalc(QString &fileName, int &selectedLead,
     }
 
     dataFile.close();
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-            /*ОПРЕДЕЛЕНИЕ ГРАНИЦ ДЛЯ ГРАФИКА
-                        * <<==>>
-         * НАХОЖДЕНИЕ МАКС И МИН (из всего графика)*/
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-    for(int i=0; i<dataArray.size()-1; i++) {
-        if(minValueOfDataArray>dataArray[i])
-            minValueOfDataArray = dataArray[i];
-        if(maxValueOfDataArray<dataArray[i])
-            maxValueOfDataArray = dataArray[i];
-    }
-    emit drawGraphic(dataArray, minValueOfDataArray,
-                     maxValueOfDataArray);
+
+    emit drawGraphic(dataArray);
     emit finished(dataArray);
 }

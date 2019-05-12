@@ -11,46 +11,37 @@ using namespace QtCharts;
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
                     /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-void MainWindow::_drawGraphic(QVector<double> dataArray, const double &minValueOfDataArray,
-                              const double &maxValueOfDataArray)
+void MainWindow::_drawGraphic(QVector<double> dataArray)
 {
 //Вывод графика
-    Series1->clear();
-    Series2->clear();
+    ui->chart1->clearGraphs();
 
-    Chart1->removeSeries(Series1);
-    Chart1->removeSeries(Series2);
+    ui->chart1->addGraph(); //graph(0)
+    ui->chart1->addGraph(); //graph(1)
 
-    for(int i=0; i<dataArray.size()-1; i++)
-    {
-        Series1->append(i, dataArray[i]);
-        //Series2
+    ui->chart1->graph(0)->setPen(QPen(Qt::red));
+    ui->chart1->graph(1)->setPen(QPen(Qt::blue));
+
+    //формирование графика ЭКГ
+    QVector<double> x_value, y_value, x_zero, y_zero;
+    for(int i=0; i<dataArray.size(); i++) {
+        x_value.push_back(i);
+        y_value.push_back(dataArray[i]);
+        x_zero.push_back(i);
+        y_zero.push_back(0);
     }
 
-    axisX->setRange(firstCount, secondCount);
-    axisY->setRange(minValueOfDataArray, maxValueOfDataArray);
-    axisZero->setRange(minValueOfDataArray, maxValueOfDataArray);
-    Chart1->addSeries(Series1);
-    Chart1->addSeries(Series2);
-}
+    ui->chart1->graph(0)->setData(x_value, y_value);
+    ui->chart1->graph(0)->rescaleAxes();
+    ui->chart1->graph(1)->setData(x_zero, y_zero);
 
-void MainWindow::on_action_4_triggered()
-{
-//--------------------------------------------------------------------------------------------
-//Очистка Чартов
-    Series1->clear();
-    Series2->clear();
-    LineSeries1->clear();
-    LineSeries2->clear();
+    QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
+    ui->chart1->xAxis->setTicker(fixedTicker);
+    ui->chart1->yAxis->setTicker(fixedTicker);
+    fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
 
-    axisX->setRange(0, 100);
-    axisY->setRange(0, 100);
-    axisZero->setRange(0, 100);
-
-    axisX2->setRange(0, 100);
-    axisY2->setRange(0, 100);
-    axisZero2->setRange(0, 100);
-//--------------------------------------------------------------------------------------------
+    ui->chart1->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    ui->chart1->replot();
 }
 
 void MainWindow::showError(QString st)
@@ -65,14 +56,12 @@ void MainWindow::showError(QString st)
 //--------------------------------------------------------------------------------------------
 }
 
-void MainWindow::on_DrawBtn_clicked()
+void MainWindow::on_action_triggered()
 //--------------------------------------------------------------------------------------------
 //Начало расчета и вывода графиков
 {
     ui->textEdit->clear();
     ui->textEdit_2->clear();
-
-    MainWindow::on_action_4_triggered();
 
     bool ok;
     firstCount = ui->lineEdit_2->text().toInt(&ok);
@@ -97,8 +86,7 @@ void MainWindow::on_DrawBtn_clicked()
     QThread *Thread = new QThread;
     Calc *TCalc = new Calc();
 
-    connect(TCalc, SIGNAL(drawGraphic(QVector<double>, const double &, const double &)),
-            this, SLOT(_drawGraphic(QVector<double>, const double &, const double &)));
+    connect(TCalc, SIGNAL(drawGraphic(QVector<double>)), this, SLOT(_drawGraphic(QVector<double>)));
     connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
 
     connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
@@ -134,37 +122,38 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     connect(qrs, SIGNAL(finished() ), thread, SLOT(quit() ));
     connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-    connect(qrs, SIGNAL(sendQRSValues(QVector<double> ) ), this, SLOT(drawQRS(QVector<double> ) ));
+    connect(qrs, SIGNAL(sendQRSValues(QVector<double> , QVector<double> ) ),
+            this, SLOT(drawQRS(QVector<double> , QVector<double> ) ));
 
     thread->start();
+    ui->tabWidget->setCurrentIndex(1);
 }
 
-void MainWindow::drawQRS(QVector<double> Array)
+void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> ArrayPicks)
 //Вывод графика QRS
 {
-    double min = 0, max = 0;
-    for(int i=0; i<Array.size(); i++) {
-        if(min > Array[i]) min = Array[i];
-        if(max < Array[i]) max = Array[i];
+    ui->chart2->addGraph(); //graph0
+
+    ui->chart2->graph(0)->setPen(QPen(Qt::black));
+
+    //формирование графика QRS
+    QVector<double> x_value, y_value;
+    for(int i=firstCount; i<ArrayData.size(); i++) {
+        x_value.push_back(i);
+        y_value.push_back(ArrayData[i]);
     }
 
-    LineSeries1->clear();
-    LineSeries2->clear();
+    ui->chart2->graph(0)->setData(x_value, y_value);
+    ui->chart2->graph(0)->rescaleAxes();
 
-    Chart2->removeSeries(LineSeries1);
-    Chart2->removeSeries(LineSeries2);
+    QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
+    ui->chart2->xAxis->setTicker(fixedTicker);
+    ui->chart2->yAxis->setTicker(fixedTicker);
+    fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
 
-    for(int i=0; i<Array.size()-1; i++)
-    {
-        LineSeries1->append(i, Array[i]);
-        //Series2
-    }
+    ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    ui->chart2->replot();
 
-    axisX2->setRange(firstCount, secondCount);
-    axisY2->setRange(min, max);
-    axisZero2->setRange(firstCount, secondCount);
-    Chart2->addSeries(LineSeries1);
-    Chart2->addSeries(LineSeries2);
 }
 
 void MainWindow::newTaskLFHF(QVector<double> Array)
@@ -207,123 +196,116 @@ void MainWindow::checkHFLF(QVector<double> a)
                     /*ФУНКЦИИ ВТОРОЙ ВАЖНОСТИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == ui->toolBar_2 && acceptDrag)
+    {
+        if (event->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(event);
+            if (mouse_event->button() == Qt::LeftButton)
+            {
+                dragPosition = mouse_event->globalPos() - frameGeometry().topLeft();
+                return false;
+            }
+        }
+        else if (event->type() == QEvent::MouseMove)
+        {
+            QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(event);
+            if (mouse_event->buttons() & Qt::LeftButton)
+            {
+                move(mouse_event->globalPos() - dragPosition);
+                return false;
+            }
+        }
+    }
+    return false;
+}
+
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent, Qt::FramelessWindowHint),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    //Заголовок приложения
-    MainWindow::setWindowTitle("Экстренное оказание кардиологической помощи");
+    ui->toolBar_2->installEventFilter(this);
 
-    //Иконка кнопки FileOpen
-    QPixmap pixFolder(":/resource/img/icons8-folder-48.png");
-    int pixFolder_w = ui->FileBtn->width();
-    int pixFolder_h = ui->FileBtn->height();
-    ui->FileBtn->setIcon(pixFolder.scaled( pixFolder_w, pixFolder_h, Qt::KeepAspectRatio ));
+    ui->toolBar->setContextMenuPolicy(Qt::PreventContextMenu);
+    ui->toolBar_2->setContextMenuPolicy(Qt::PreventContextMenu);
+    ui->toolBar_3->setContextMenuPolicy(Qt::PreventContextMenu);
+    ui->toolBar_4->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    //Иконка кнопки Draw
-    QPixmap pixDraw(":/resource/img/iconfinder_15_3049264.png");
-    int pixDraw_w = ui->DrawBtn->width();
-    int pixDraw_h = ui->DrawBtn->height();
-    ui->DrawBtn->setIcon(pixDraw.scaled( pixDraw_w, pixDraw_h, Qt::KeepAspectRatio ));
+    //Иконка приложения
+    QLabel *WinIconTitle = new QLabel();
+    QIcon WinIcon(":/resource/img/icons8-plus-48.png");
+    QPixmap pixmapWinIcon = WinIcon.pixmap(QSize(25, 25));
+    WinIconTitle->setPixmap(pixmapWinIcon);
+    ui->toolBar_2->addWidget(WinIconTitle);
+
+    //title приложения
+    QLabel *WinTitle = new QLabel("Экстренное оказание кардиологической помощи");
+    ui->toolBar_2->addWidget(WinTitle);
+
+
+    //dock для toolbar *alignRight*
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->toolBar_2->addWidget(spacer);
+
+    //свернуть
+    QIcon HideIcon(":/resource/img/icons8-subtract-filled-40.png");
+    ui->toolBar_2->addAction(HideIcon, "Свернуть приложение", this, SLOT(showMinimized()));
+
+    //расширить окно на фул экран
+    QIcon MaxIcon(":/resource/img/icons8-rectangular-96.png");
+    QAction *action_max = new QAction();
+    action_max->setIcon(MaxIcon);
+    action_max->setText("Развернуть окно на весь экран");
+    auto showFullScreen_ = [this]
+    {
+        oldGeometry = this->geometry();
+        auto screenGeometry = QGuiApplication::screens().first()->availableGeometry();
+        this->setGeometry(screenGeometry);
+        acceptDrag = false;
+    };
+    connect(action_max, &QAction::triggered, showFullScreen_);
+    ui->toolBar_2->addAction(action_max);
+    action_max->setVisible(true);
+
+    //вернуть размер окна в начальное
+    QIcon MinIcon(":/resource/img/icons8-ungroup-objects-96.png");
+    QAction *action_min = new QAction();
+    action_min->setIcon(MinIcon);
+    action_min->setText("Вернуть окно в начальный размер");
+    auto showNormal_ = [this]
+    {
+        this->setGeometry(oldGeometry);
+        acceptDrag = true;
+    };
+    connect(action_min, &QAction::triggered, showNormal_);
+    ui->toolBar_2->addAction(action_min);
+    action_min->setVisible(false);
+
+    auto set_Visible_For_action_min = [action_max, action_min]() {
+        action_min->setVisible(true);
+        action_max->setVisible(false);
+    };
+    connect(action_max, &QAction::triggered, set_Visible_For_action_min);
+
+    auto set_Visible_For_action_max = [action_max, action_min]() {
+        action_max->setVisible(true);
+        action_min->setVisible(false);
+    };
+    connect(action_min, &QAction::triggered, set_Visible_For_action_max);
+
+    //закрыть
+    QIcon CloseIcon(":/resource/img/icons8-delete-512.png");
+    ui->toolBar_2->addAction(CloseIcon, "Закрыть приложение", qApp, SLOT(quit()));
 
     //Иконка приложения
     QIcon icon(":/resource/img/icons8-plus-48.png");
     MainWindow::setWindowIcon(icon);
 
-    //Создаем Chart
-    Chart1 = new Chart();
-    Chart2 = new Chart();
-    Series1 = new QLineSeries();
-    Series2 = new QLineSeries();
-    LineSeries1 = new QLineSeries();
-    LineSeries2 = new QLineSeries();
-
-    Series1->setColor( QColor(Qt::red) );
-    Series2->setColor( QColor(Qt::green) );
-    LineSeries1->setColor( QColor(Qt::darkMagenta) );
-    LineSeries2->setColor( QColor(Qt::green) );
-
-    Chart1->addSeries(Series1);
-    Chart1->addSeries(Series2);
-    Chart1->legend()->hide();
-
-    axisX = new QValueAxis;
-    axisY = new QValueAxis;
-    axisZero = new QCategoryAxis;
-
-    axisX->setRange(0,100);
-    axisX->setTickCount(11);
-    axisX->setTickInterval(20);
-    axisX->setLabelFormat("%i");
-
-    axisY->setRange(0,100);
-    axisY->setTickCount(11);
-    axisY->setTickInterval(20);
-    axisY->setLabelFormat("%i");
-
-    axisZero->append("", 0);
-    axisZero->setGridLineColor(QColor(Qt::darkBlue));
-
-    axisX2 = new QValueAxis;
-    axisY2 = new QValueAxis;
-    axisZero2 = new QCategoryAxis;
-
-    axisX2->setRange(0,100);
-    axisX2->setTickCount(11);
-    axisX2->setTickInterval(20);
-    axisX2->setLabelFormat("%i");
-
-    axisY2->setRange(0,100);
-    axisY2->setTickCount(11);
-    axisY2->setTickInterval(20);
-    axisY2->setLabelFormat("%i");
-
-    axisZero2->append("", 0);
-    axisZero2->setGridLineColor(QColor(Qt::darkBlue));
-
-    Chart1->addAxis(axisX, Qt::AlignBottom);
-    Chart1->addAxis(axisY, Qt::AlignLeft);
-    Chart1->addAxis(axisZero, Qt::AlignRight);
-
-    Series1->attachAxis(axisX);
-    Series1->attachAxis(axisY);
-    Series2->attachAxis(axisX);
-    Series2->attachAxis(axisY);
-    Series1->attachAxis(axisZero);
-    Series2->attachAxis(axisZero);
-
-    Chart2->addSeries(LineSeries1);
-    Chart2->addSeries(LineSeries2);
-    Chart2->legend()->hide();
-
-    Chart2->addAxis(axisX2, Qt::AlignBottom);
-    Chart2->addAxis(axisY2, Qt::AlignLeft);
-    Chart2->addAxis(axisZero2, Qt::AlignRight);
-
-    LineSeries1->attachAxis(axisX2);
-    LineSeries1->attachAxis(axisY2);
-    LineSeries2->attachAxis(axisX2);
-    LineSeries2->attachAxis(axisY2);
-    LineSeries1->attachAxis(axisZero2);
-    LineSeries2->attachAxis(axisZero2);
-
-    ChartView1 = new ChartView(Chart1);
-    ChartView1->setRenderHint(QPainter::Antialiasing);
-
-    QGridLayout *layout1 = new QGridLayout;
-    layout1->addWidget(ChartView1);
-    layout1->setMargin(0);
-    ui->tab->setLayout(layout1);
-
-    ChartView2 = new ChartView(Chart2);
-    ChartView2->setRenderHint(QPainter::Antialiasing);
-
-    QGridLayout *layout2 = new QGridLayout;
-    layout2->addWidget(ChartView2);
-    layout2->setMargin(0);
-    ui->tab_2->setLayout(layout2);
 }
 
 MainWindow::~MainWindow()
@@ -331,36 +313,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_FileBtn_clicked()
+void MainWindow::on_action_2_triggered()
 //Диалог с открытием файла
 {
     fileName = QFileDialog::getOpenFileName(this, tr("Открытие файла с данными"),
                                             tr(""), tr("TextFile (*.txt) ") );
-}
-
-void MainWindow::on_action_2_triggered()
-//Диалог с открытием файла
-{
-    MainWindow::on_FileBtn_clicked();
-}
-
-void MainWindow::on_action_3_triggered()
-//Выход
-{
-    MainWindow::close();
-}
-
-void MainWindow::on_action_5_triggered()
-{
-//Исходный масштаб чартов
-    Chart1->zoomReset();
-    Chart2->zoomReset();
-    ChartView1->repaint();
-    ChartView2->repaint();
-}
-
-void MainWindow::on_action_triggered()
-{
-//вывести график
-    on_DrawBtn_clicked();
 }
