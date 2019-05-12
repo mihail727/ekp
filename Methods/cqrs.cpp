@@ -123,10 +123,11 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             {
                 res[i] = 0;
             }
+            double max = 0;
             for (int i=1; i < n; i++)
             {
-                double max = 0;
-                while ((mas[i] >= 10) && (i < n-1))
+
+                while ((mas[i] >= 100) && (i < n-1))
                 {
                     if (mas1[max] < mas1[i])
                         max = i;
@@ -135,7 +136,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
                 }
                 if (res.indexOf(max)==-1)
                 res[i] = max;
-
+                max=0;
             }
             res.removeAll(0);
             return res;
