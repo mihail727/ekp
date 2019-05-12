@@ -121,41 +121,24 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             QVector<double> res(n);
             for (int i = 0; i< n; i ++)
             {
-                res[i] = -1;
+                res[i] = 0;
             }
             for (int i=1; i < n; i++)
             {
-                int max = i;
-                while (mas[i] - mas[i-1] >= 10)
+                double max = 0;
+                while ((mas[i] >= 10) && (i < n-1))
                 {
                     if (mas1[max] < mas1[i])
                         max = i;
                     i++;
+
                 }
-                if (res.indexOf(max)!=-1)
+                if (res.indexOf(max)==-1)
                 res[i] = max;
-            }
-            int k = 0;
 
-            for (int i = 0; i < n-1; i++)
-            {
-                if (res[i] == -1)
-                {
-                    res[i] = res[i+1];
-                    res[i+1] = -1;
-
-                }
-                else {
-                     k++;
-                }
             }
-            qDebug() << k;
-            QVector<double> res1(k);
-            for (int i =0; i <k; i++)
-            {
-                res1[i] = res[i];
-            }
-            return res1;
+            res.removeAll(0);
+            return res;
         }
 
         void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
