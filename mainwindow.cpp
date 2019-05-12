@@ -122,14 +122,14 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     connect(qrs, SIGNAL(finished() ), thread, SLOT(quit() ));
     connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-    connect(qrs, SIGNAL(sendQRSValues(QVector<double> , QVector<double> ) ),
-            this, SLOT(drawQRS(QVector<double> , QVector<double> ) ));
+    connect(qrs, SIGNAL(sendQRSValues(QVector<double> , QVector<double> , QVector<double>) ),
+            this, SLOT(drawQRS(QVector<double> , QVector<double> , QVector<double>) ));
 
     thread->start();
     ui->tabWidget->setCurrentIndex(1);
 }
 
-void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> ArrayPicks)
+void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks, QVector<double> MainArray)
 //Вывод графика QRS
 {
     ui->chart2->addGraph(); //graph0
@@ -137,7 +137,8 @@ void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> ArrayPicks)
     ui->chart2->graph(0)->setPen(QPen(Qt::black));
 
     //формирование графика QRS
-    QVector<double> x_value, y_value;
+    QVector<double> x_value, y_value, y_picks;
+    int j=0;
     for(int i=firstCount; i<ArrayData.size(); i++) {
         x_value.push_back(i);
         y_value.push_back(ArrayData[i]);
@@ -154,6 +155,24 @@ void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> ArrayPicks)
     ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
     ui->chart2->replot();
 
+    //вывод макс точек на Основной график
+    ui->chart1->addGraph(); //graph2
+    ui->chart1->graph(2)->setPen(QPen(Qt::red));
+
+    for(int i=0; i<MainArray.size(); i++) {
+        if( (j<x_picks.size()) && (int(x_picks[j]) == i) ) {
+            y_picks.push_back(MainArray[i]);
+            j++;
+        }
+    }
+
+    ui->chart1->graph(2)->setData(x_picks, y_picks);
+    ui->chart1->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::blue), QColor(Qt::red), 7));
+
+    for(int i=0; i<x_picks.size(); i++)
+        qDebug() << x_picks[i] << y_picks[i];
+
+    ui->chart1->replot();
 }
 
 void MainWindow::newTaskLFHF(QVector<double> Array)

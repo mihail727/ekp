@@ -4,7 +4,7 @@
 #include <QDebug>
 
 
-QVector <double> masspoint1(1000);
+static QVector <double> masspoint1(1000);
 
 void low (const QVector<double> &masspoint3, int firstCount, int secondCount) // фильтр нижних частот
         {
@@ -152,8 +152,8 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             square(masspoint1, firstCount, secondCount );
             result = integration(masspoint1, firstCount, secondCount );
             result1 = topsQRS(mas, result);
-            for (int i=0; i < result1.size(); i++)
-                std :: cout << result1[i] << std :: endl;
-            emit sendQRSValues (result, result1);
+//            for (int i=0; i < result1.size(); i++)
+//                qDebug() << result1[i];
+            emit sendQRSValues (result, result1, mas);  //mas - ??????????
             emit finished();
         }
