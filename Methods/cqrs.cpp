@@ -123,7 +123,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             {
                 res[i] = 0;
             }
-            double max = 0;
+            int max = 0;
             for (int i=1; i < n; i++)
             {
 
@@ -154,6 +154,6 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             result1 = topsQRS(mas, result);
 //            for (int i=0; i < result1.size(); i++)
 //                qDebug() << result1[i];
-            emit sendQRSValues (result, result1, mas);  //mas - ??????????
+            emit sendQRSValues (result, result1);
             emit finished();
         }
