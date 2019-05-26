@@ -38,7 +38,7 @@ private:
     QPoint dragPosition;
     bool acceptDrag = true;
 
-    bool eventFilter(QObject *watched, QEvent *event);
+    bool eventFilter(QObject *object, QEvent *event);
 };
 
 #endif // MAINWINDOW_H

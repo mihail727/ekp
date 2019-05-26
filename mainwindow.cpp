@@ -39,6 +39,7 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
     ui->chart1->xAxis->setTicker(fixedTicker);
     ui->chart1->yAxis->setTicker(fixedTicker);
     fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
+    fixedTicker->setTickCount(16);
 
     ui->chart1->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
     ui->chart1->replot();
@@ -151,6 +152,7 @@ void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks)
     ui->chart2->xAxis->setTicker(fixedTicker);
     ui->chart2->yAxis->setTicker(fixedTicker);
     fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
+    fixedTicker->setTickCount(16);
 
     ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
@@ -256,14 +258,16 @@ MainWindow::MainWindow(QWidget *parent) :
     //Иконка приложения
     QLabel *WinIconTitle = new QLabel();
     QIcon WinIcon(":/resource/img/icons8-plus-48.png");
-    QPixmap pixmapWinIcon = WinIcon.pixmap(QSize(25, 25));
+    QPixmap pixmapWinIcon = WinIcon.pixmap(QSize(20, 20));
     WinIconTitle->setPixmap(pixmapWinIcon);
     ui->toolBar_2->addWidget(WinIconTitle);
 
     //title приложения
     QLabel *WinTitle = new QLabel("Экстренное оказание кардиологической помощи");
+    WinTitle->setStyleSheet("QLabel{ font-size: 8pt;"
+                                    "font: Bold;"
+                                    "margin: 1px; }");
     ui->toolBar_2->addWidget(WinTitle);
-
 
     //dock для toolbar *alignRight*
     QWidget* spacer = new QWidget();
