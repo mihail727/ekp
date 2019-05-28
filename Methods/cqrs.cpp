@@ -115,7 +115,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             return masspoint1;
         }
 
-        QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
+        QVector<double> topsQRS(const QVector<double> &mas)
         {
             int n= mas.size();
             QVector<double> res(n);
@@ -129,7 +129,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
 
                 while ((mas[i] >= 100) && (i < n-1))
                 {
-                    if (mas1[max] < mas1[i])
+                    if (mas[max] < mas[i])
                         max = i;
                     i++;
 
@@ -151,7 +151,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             differentiation(masspoint1, firstCount, secondCount );
             square(masspoint1, firstCount, secondCount );
             result = integration(masspoint1, firstCount, secondCount );
-            result1 = topsQRS(mas, result);
+            result1 = topsQRS(result);
 //            for (int i=0; i < result1.size(); i++)
 //                qDebug() << result1[i];
             emit sendQRSValues (result, result1);
