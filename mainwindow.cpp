@@ -123,14 +123,14 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     connect(qrs, SIGNAL(finished() ), thread, SLOT(quit() ));
     connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-    connect(qrs, SIGNAL(sendQRSValues(QVector<double> , QVector<double>) ),
-            this, SLOT(drawQRS(QVector<double>, QVector<double> )));
+    connect(qrs, SIGNAL(sendQRSValues(QVector<double> , QVector<double>, QVector<double>)  ),
+            this, SLOT(drawQRS(QVector<double>, QVector<double>, QVector<double> )));
 
     thread->start();
-    ui->tabWidget->setCurrentIndex(1);
 }
 
-void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks)
+void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks,
+                         QVector<double> MainData)
 //Вывод графика QRS
 {
     ui->chart2->addGraph(); //graph0
@@ -157,23 +157,20 @@ void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks)
     ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
     //вывод макс точек на qrs график
-    ui->chart2->addGraph(); //graph2
-    ui->chart2->graph(1)->setPen(QPen(Qt::red));
+    ui->chart1->addGraph(); //graph2
+    ui->chart1->graph(2)->setPen(QPen(Qt::red));
 
-    for(int i=0; i<ArrayData.size(); i++) {
+    for(int i=0; i<MainData.size(); i++) {
         if( (j<x_picks.size()) && (int(x_picks[j]) == i) ) {
-            y_picks.push_back(ArrayData[i]);
+            y_picks.push_back(MainData[i]);
             j++;
         }
     }
 
-    for(int i=0; i<x_picks.size(); i++)
-        qDebug() << x_picks[i] << y_picks[i];
+    ui->chart1->graph(2)->setData(x_picks, y_picks);
+    ui->chart1->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::blue), QColor(Qt::red), 7));
 
-    ui->chart2->graph(1)->setData(x_picks, y_picks);
-    ui->chart2->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::blue), QColor(Qt::red), 7));
-
-    ui->chart2->replot();
+    ui->chart1->replot();
 }
 
 void MainWindow::newTaskLFHF(QVector<double> Array)

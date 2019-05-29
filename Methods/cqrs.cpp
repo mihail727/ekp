@@ -152,8 +152,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             square(masspoint1, firstCount, secondCount );
             result = integration(masspoint1, firstCount, secondCount );
             result1 = topsQRS(result);
-//            for (int i=0; i < result1.size(); i++)
-//                qDebug() << result1[i];
-            emit sendQRSValues (result, result1);
+
+            emit sendQRSValues (result, result1, masspoint1);
             emit finished();
         }
