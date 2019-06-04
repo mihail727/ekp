@@ -123,14 +123,16 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     connect(qrs, SIGNAL(finished() ), thread, SLOT(quit() ));
     connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-    connect(qrs, SIGNAL(sendQRSValues(QVector<double> , QVector<double>, QVector<double>)  ),
-            this, SLOT(drawQRS(QVector<double>, QVector<double>, QVector<double> )));
+    connect(qrs, SIGNAL(sendQRSValues(QVector<double>, QVector<double>,
+                                      QVector<double>, QVector<double>, QVector<double>)  ),
+            this, SLOT(drawQRS(QVector<double>, QVector<double>,
+                               QVector<double>, QVector<double>, QVector<double>)));
 
     thread->start();
 }
 
 void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks,
-                         QVector<double> MainData)
+                         QVector<double> MainData, QVector<double> QValues, QVector<double> SValues)
 //Вывод графика QRS
 {
     ui->chart2->addGraph(); //graph0
@@ -156,10 +158,15 @@ void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks,
 
     ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
-    //вывод макс точек на qrs график
+    //вывод макс точек на график
     ui->chart1->addGraph(); //graph2
-    ui->chart1->graph(2)->setPen(QPen(Qt::red));
+    ui->chart1->graph(2)->setPen(QPen(Qt::green));
+    ui->chart1->addGraph(); //graph3
+    ui->chart1->graph(3)->setPen(QPen(Qt::blue));
+    ui->chart1->addGraph(); //graph4
+    ui->chart1->graph(4)->setPen(QPen(Qt::blue));
 
+    //формирование R пиков
     for(int i=0; i<MainData.size(); i++) {
         if( (j<x_picks.size()) && (int(x_picks[j]) == i) ) {
             y_picks.push_back(MainData[i]);
@@ -167,8 +174,39 @@ void MainWindow::drawQRS(QVector<double> ArrayData, QVector<double> x_picks,
         }
     }
 
+    //формирование Q точек
+    QVector<double> QValues_y; j=0;
+    for(int i=0; i<MainData.size(); i++) {
+        if( (j<QValues.size()) && (int(QValues[j]) == i) ) {
+            QValues_y.push_back(MainData[i]);
+            j++;
+        }
+    }
+
+    //формирование S точек
+    QVector<double> SValues_y; j=0;
+    for(int i=0; i<MainData.size(); i++) {
+        if( (j<SValues.size()) && (int(SValues[j]) == i) ) {
+            SValues_y.push_back(MainData[i]);
+            j++;
+        }
+    }
+
     ui->chart1->graph(2)->setData(x_picks, y_picks);
-    ui->chart1->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::blue), QColor(Qt::red), 7));
+    ui->chart1->graph(3)->setData(QValues, QValues_y);
+    ui->chart1->graph(4)->setData(SValues, SValues_y);
+
+    ui->chart1->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::green), 7));
+    ui->chart1->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::green), 7));
+    ui->chart1->graph(4)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::green), 7));
+
+    ui->chart1->graph(3)->setLineStyle(QCPGraph::lsNone);
+    ui->chart1->graph(4)->setLineStyle(QCPGraph::lsNone);
+
+    ui->chart1->yAxis->setRange( ui->chart1->yAxis->range().lower-100, ui->chart1->yAxis->range().upper+100 );
+
+    ui->chart1->axisRect()->setRangeDrag(Qt::Horizontal);
+    ui->chart1->axisRect()->setRangeZoom(Qt::Horizontal);
 
     ui->chart1->replot();
 }

@@ -115,44 +115,114 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             return masspoint1;
         }
 
-        QVector<double> topsQRS(const QVector<double> &mas)
-        {
-            int n= mas.size();
-            QVector<double> res(n);
-            for (int i = 0; i< n; i ++)
-            {
-                res[i] = 0;
-            }
-            int max = 0;
-            for (int i=1; i < n; i++)
-            {
+        QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
+               {
+                   int n= mas.size();
+                   QVector<double> res(n);
+                   for (int i = 0; i< n; i ++)
+                   {
+                       res[i] = 0;
+                   }
+                   double max = 0;
+                   for (int i=1; i < n; i++)
+                   {
 
-                while ((mas[i] >= 100) && (i < n-1))
-                {
-                    if (mas[max] < mas[i])
-                        max = i;
-                    i++;
+                       while ((mas[i] >= 100) && (i < n-1))
+                       {
+                           if (mas1[max] < mas1[i])
+                               max = i;
+                           i++;
 
-                }
-                if (res.indexOf(max)==-1)
-                res[i] = max;
-                max=0;
-            }
-            res.removeAll(0);
-            return res;
-        }
+                       }
+                       if (res.indexOf(max)==-1)
+                       res[i] = max;
+                       max=0;
+                   }
+                   res.removeAll(0);
+                   return res;
+               }
+         QVector<double> topsQ(const QVector<double> &mas1, const QVector<double> &mas)
+         {
+             int n = mas.size();
+             QVector<double> res(n);
+             for (int i = 0; i< n; i ++)
+             {
+                 res[i] = 0;
+             }
+             double min = 0;
+
+             for (int j = 0; j < mas.size(); j++)
+             {
+
+                 min = mas[j];
+             for (int i=mas[j] - 100; i < mas[j]; i++)
+             {
+
+                 while ((i < mas[j]))
+                 {
+                     if (mas1[min] > mas1[i])
+                         min = i;
+                     i++;
+
+                 }
+                 if (res.indexOf(min)==-1)
+                res[j]= min;
+             }
+             }
+             res.removeAll(0);
+             return res;
+
+         }
+         QVector<double> topsS(const QVector<double> &mas1, const QVector<double> &mas)
+         {
+             int n = mas.size();
+             QVector<double> res(n);
+             for (int i = 0; i< n; i ++)
+             {
+                 res[i] = 0;
+             }
+             double min = 0;
+
+             for (int j = 0; j < mas.size(); j++)
+             {
+
+                 min = mas[j];
+             for (int i=mas[j] + 100; i > mas[j]; i--)
+             {
+
+                 while ((i > mas[j]))
+                 {
+                     if (mas1[min] > mas1[i])
+                         min = i;
+                     i--;
+                 }
+                 if (res.indexOf(min)==-1)
+                res[j]= min;
+
+
+
+
+             }
+             }
+             res.removeAll(0);
+             return res;
+
+         }
 
         void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
         {
             QVector<double> result(secondCount);
             QVector<double> result1(secondCount);
+            QVector<double> result2(secondCount);
+            QVector<double> result3(secondCount);
             low(mas, firstCount, secondCount );
             high(masspoint1, firstCount, secondCount );
             differentiation(masspoint1, firstCount, secondCount );
             square(masspoint1, firstCount, secondCount );
             result = integration(masspoint1, firstCount, secondCount );
-            result1 = topsQRS(result);
-
-            emit sendQRSValues (result, result1, masspoint1);
+            result1 = topsQRS(mas, result);
+            result2 = topsQ(mas, result1);
+            result3 = topsS(mas, result1);
+            emit sendQRSValues (result, result1, mas, result2, result3);
             emit finished();
         }
