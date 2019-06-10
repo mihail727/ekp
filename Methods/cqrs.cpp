@@ -117,11 +117,16 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
 
         QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
         {
+            int k =0;
             double max1 = 0;
             for (int i = 100; i < mas.size()-1; i++)
             {
                 if (max1 < mas[i])
+                {
+                    k=i;
                     max1 = mas[i];
+                }
+
             }
             double max = 0;
             int n= mas.size();
@@ -131,6 +136,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
                 res[i] = 0;
             }
 
+          //  if (mas1[k] >  0)
             for (int i=90; i < n; i++)
             {
 
@@ -145,6 +151,22 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
                     res[i] = max;
                 max=0;
             }
+           /* else {
+                for (int i=90; i < n; i++)
+                {
+
+                    while ((mas[i] >= max1/2) && (i < n-1))
+                    {
+                        if (mas1[max] > mas1[i-90])
+                            max = i-90;
+                        i++;
+
+                    }
+                    if (res.indexOf(max)==-1)
+                        res[i] = max;
+                    max=0;
+                }
+            }*/
             res.removeAll(0);
             return res;
         }
