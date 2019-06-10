@@ -198,10 +198,38 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
                  }
                  if (res.indexOf(min)==-1)
                 res[j]= min;
+             }
+             }
+             res.removeAll(0);
+             return res;
 
+         }
 
+         QVector<double> topsP(const QVector<double> &mas1, const QVector<double> &mas)
+         {
+             int n = mas.size();
+             QVector<double> res(n);
+             for (int i = 0; i< n; i ++)
+             {
+                 res[i] = 0;
+             }
+             double max = 0;
 
+             for (int j = 0; j < mas.size(); j++)
+             {
 
+                 max = mas[j];
+             for (int i= mas[j] - 250; i < mas[j]- 60; i++)
+             {
+
+                 while ((i < mas[j]))
+                 {
+                     if (mas1[max] < mas1[i])
+                         max = i;
+                     i++;
+                 }
+                 if (res.indexOf(max)==-1)
+                res[j]= max;
              }
              }
              res.removeAll(0);
