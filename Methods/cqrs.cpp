@@ -116,31 +116,38 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
         }
 
         QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
-               {
-                   int n= mas.size();
-                   QVector<double> res(n);
-                   for (int i = 0; i< n; i ++)
-                   {
-                       res[i] = 0;
-                   }
-                   double max = 0;
-                   for (int i=1; i < n; i++)
-                   {
+        {
+            double max1 = 0;
+            for (int i = 100; i < mas.size()-1; i++)
+            {
+                if (max1 < mas[i])
+                    max1 = mas[i];
+            }
+            double max = 0;
+            int n= mas.size();
+            QVector<double> res(n);
+            for (int i = 0; i< n; i ++)
+            {
+                res[i] = 0;
+            }
 
-                       while ((mas[i] >= 100) && (i < n-1))
-                       {
-                           if (mas1[max] < mas1[i])
-                               max = i;
-                           i++;
+            for (int i=90; i < n; i++)
+            {
 
-                       }
-                       if (res.indexOf(max)==-1)
-                       res[i] = max;
-                       max=0;
-                   }
-                   res.removeAll(0);
-                   return res;
-               }
+                while ((mas[i] >= max1/2) && (i < n-1))
+                {
+                    if (mas1[max] < mas1[i-90])
+                        max = i-90;
+                    i++;
+
+                }
+                if (res.indexOf(max)==-1)
+                    res[i] = max;
+                max=0;
+            }
+            res.removeAll(0);
+            return res;
+        }
          QVector<double> topsQ(const QVector<double> &mas1, const QVector<double> &mas)
          {
              int n = mas.size();
@@ -175,6 +182,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
          }
          QVector<double> topsS(const QVector<double> &mas1, const QVector<double> &mas)
          {
+
              int n = mas.size();
              QVector<double> res(n);
              for (int i = 0; i< n; i ++)
@@ -187,18 +195,18 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
              {
 
                  min = mas[j];
-             for (int i=mas[j] + 100; i > mas[j]; i--)
-             {
-
-                 while ((i > mas[j]))
+                 for (int i=mas[j] + 100; i > mas[j]; i--)
                  {
-                     if (mas1[min] > mas1[i])
-                         min = i;
-                     i--;
+
+                     while ((i > mas[j]))
+                     {
+                         if (mas1[min] > mas1[i])
+                             min = i;
+                         i--;
+                     }
+                     if (res.indexOf(min)==-1)
+                         res[j]= min;
                  }
-                 if (res.indexOf(min)==-1)
-                res[j]= min;
-             }
              }
              res.removeAll(0);
              return res;
