@@ -27,21 +27,26 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
     //по заверщению cqrs выводится график drawQRS
     connect(qrs, SIGNAL(sendQRSValues(QVector<double>, QVector<double>,
-                                      QVector<double>, QVector<double>, QVector<double>)  ),
+                                      QVector<double>, QVector<double>, QVector<double>,
+                                      QVector<double>, QVector<double>)  ),
             this, SLOT(drawQRS(QVector<double>, QVector<double>,
-                               QVector<double>, QVector<double>, QVector<double>)));
+                               QVector<double>, QVector<double>, QVector<double>,
+                               QVector<double>, QVector<double>)));
 
     //по завершению начинается расчет Пульса, SDANN, varQT
     connect(qrs, SIGNAL(sendQRSValues(QVector<double>, QVector<double>,
-                                      QVector<double>, QVector<double>, QVector<double>)  ),
+                                      QVector<double>, QVector<double>, QVector<double>,
+                                      QVector<double>, QVector<double>)  ),
             this, SLOT(CalculateSomeProc(QVector<double>, QVector<double>,
-                                         QVector<double>, QVector<double>, QVector<double>) ));
+                                         QVector<double>, QVector<double>, QVector<double>,
+                                         QVector<double>, QVector<double>) ));
 
     thread->start();
 }
 
 void MainWindow::CalculateSomeProc(QVector<double> ArrPanTom, QVector<double> RValues,
-                                   QVector<double>ArrMain, QVector<double> QValues, QVector<double> SValues)
+                                   QVector<double>ArrMain, QVector<double> QValues, QVector<double> SValues,
+                                   QVector<double> a, QVector<double> b)
 //Расчет дополнительных параметров (Пульс, SDANN, varQT ...)
 {
     if(RValues.size() > 2)
@@ -99,7 +104,8 @@ void MainWindow::CalculateSomeProc(QVector<double> ArrPanTom, QVector<double> RV
 }
 
 void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
-                         QVector<double> ArrMain, QVector<double> QValues, QVector<double> SValues)
+                         QVector<double> ArrMain, QVector<double> QValues, QVector<double> SValues,
+                         QVector<double> PValues, QVector<double> TValues)
 //Вывод графика QRS
 {
     ui->chart2->addGraph(); //graph0
@@ -107,7 +113,7 @@ void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
     ui->chart2->graph(0)->setPen(QPen(Qt::black));
 
     //формирование графика QRS
-    QVector<double> ArrPanTom_x, ArrPanTom_y, RValues_y;
+    QVector<double> ArrPanTom_x, ArrPanTom_y;
     int j=0;
     for(int i=firstCount; i<ArrPanTom.size(); i++) {
         ArrPanTom_x.push_back(i);
@@ -126,14 +132,10 @@ void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
     ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
     //вывод макс точек на график
+    //формирование R пиков
     ui->chart1->addGraph(); //graph2
     ui->chart1->graph(2)->setPen(QPen(Qt::green));
-    ui->chart1->addGraph(); //graph3
-    ui->chart1->graph(3)->setPen(QPen(Qt::blue));
-    ui->chart1->addGraph(); //graph4
-    ui->chart1->graph(4)->setPen(QPen(Qt::blue));
-
-    //формирование R пиков
+    QVector<double> RValues_y;
     for(int i=0; i<ArrMain.size(); i++) {
         if( (j<RValues.size()) && (int(RValues[j]) == i) ) {
             RValues_y.push_back(ArrMain[i]);
@@ -142,6 +144,7 @@ void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
     }
 
     //формирование Q точек
+    ui->chart1->addGraph(); //graph3
     QVector<double> QValues_y; j=0;
     for(int i=0; i<ArrMain.size(); i++) {
         if( (j<QValues.size()) && (int(QValues[j]) == i) ) {
@@ -151,6 +154,7 @@ void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
     }
 
     //формирование S точек
+    ui->chart1->addGraph(); //graph4
     QVector<double> SValues_y; j=0;
     for(int i=0; i<ArrMain.size(); i++) {
         if( (j<SValues.size()) && (int(SValues[j]) == i) ) {
@@ -159,16 +163,42 @@ void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
         }
     }
 
+    //формирование P точек
+    ui->chart1->addGraph(); //graph5
+    QVector<double> PValues_y; j=0;
+    for(int i=0; i<ArrMain.size(); i++) {
+        if( (j<PValues.size()) && (int(PValues[j]) == i) ) {
+            PValues_y.push_back(ArrMain[i]);
+            j++;
+        }
+    }
+
+    //формирование T точек
+    ui->chart1->addGraph(); //graph6
+    QVector<double> TValues_y; j=0;
+    for(int i=0; i<ArrMain.size(); i++) {
+        if( (j<TValues.size()) && (int(TValues[j]) == i) ) {
+            TValues_y.push_back(ArrMain[i]);
+            j++;
+        }
+    }
+
     ui->chart1->graph(2)->setData(RValues, RValues_y);
     ui->chart1->graph(3)->setData(QValues, QValues_y);
     ui->chart1->graph(4)->setData(SValues, SValues_y);
+    ui->chart1->graph(5)->setData(PValues, PValues_y);
+    ui->chart1->graph(6)->setData(TValues, TValues_y);
 
     ui->chart1->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::green), 7));
     ui->chart1->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::green), 7));
     ui->chart1->graph(4)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::green), 7));
+    ui->chart1->graph(5)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::red), 7));
+    ui->chart1->graph(6)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::red), 7));
 
     ui->chart1->graph(3)->setLineStyle(QCPGraph::lsNone);
     ui->chart1->graph(4)->setLineStyle(QCPGraph::lsNone);
+    ui->chart1->graph(5)->setLineStyle(QCPGraph::lsNone);
+    ui->chart1->graph(6)->setLineStyle(QCPGraph::lsNone);
 
     ui->chart1->yAxis->setRange( ui->chart1->yAxis->range().lower-100, ui->chart1->yAxis->range().upper+300 );
 

@@ -11,7 +11,8 @@ public:
 signals:
     void finished();
     void sendQRSValues(QVector<double>, QVector<double>,
-                       QVector<double>, QVector<double>, QVector<double>);
+                       QVector<double>, QVector<double>, QVector<double>,
+                       QVector<double>, QVector<double>);
 
 public slots:
      void doCalc(const QVector<double> &mas, int firstCount, int secondCount);
