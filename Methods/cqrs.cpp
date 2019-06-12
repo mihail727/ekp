@@ -153,6 +153,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             }
            else */{
 
+
                 for (int i=90; i < n; i++)
                 {
 
@@ -274,6 +275,8 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             QVector<double> result1(secondCount);
             QVector<double> result2(secondCount);
             QVector<double> result3(secondCount);
+            QVector<double> result4(secondCount);
+            QVector<double> result5(secondCount);
             low(mas, firstCount, secondCount );
             high(masspoint1, firstCount, secondCount );
             differentiation(masspoint1, firstCount, secondCount );
@@ -282,6 +285,6 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
             result1 = topsQRS(mas, result);
             result2 = topsQ(mas, result1);
             result3 = topsS(mas, result1);
-            emit sendQRSValues (result, result1, mas, result2, result3);
+            emit sendQRSValues (result, result1, mas, result2, result3, result4, result5);
             emit finished();
         }
