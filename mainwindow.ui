@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,6 +13,12 @@
     <height>705</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
@@ -17,7 +26,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ЭКП</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QToolBar#toolBar_2 &gt; QLabel{
@@ -819,7 +828,7 @@ drop-down {
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Стандартное отклонение отклонение&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;средних значений кардиоциклов &amp;lt;SDANN&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Стандартное отклонение средних&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;значений кардиоциклов &amp;lt;SDANN&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
