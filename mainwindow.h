@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QFile>
-#include "QtCharts/QtCharts"
+
+#include <qcustomplot.h>
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,8 @@ private slots:
     void newTaskQRS(QVector<double>);
     void drawQRS(QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>, QVector<double>);
+    void CalculateSomeProc(QVector<double>, QVector<double>,
+                           QVector<double>, QVector<double>, QVector<double>);
 private:
     Ui::MainWindow *ui;
 
@@ -39,6 +42,13 @@ private:
     bool acceptDrag = true;
 
     bool eventFilter(QObject *object, QEvent *event);
+    enum sBorder{topleft, left, bottomleft, bottom,
+                 bottomright, right, topright, top, null} Border = null;
+    bool StartResize = false;
+    QPoint dragStartPosition;
+    QRect dragStartGeometry;
+
+    QCPItemText *chartTitle, *Coordinates;
 };
 
 #endif // MAINWINDOW_H
