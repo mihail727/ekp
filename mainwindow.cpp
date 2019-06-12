@@ -258,26 +258,32 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
         if(event->type() == QEvent::MouseMove)
         {
             QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(event);
-            double x, y;
-            x = int(this->ui->chart1->xAxis->pixelToCoord(mouse_event->pos().x()));
-            y = int(this->ui->chart1->yAxis->pixelToCoord(mouse_event->pos().y()));
+            if( mouse_event->pos().x() < 30 || mouse_event->pos().y() > (ui->chart1->height() - 30) )
+            {
+                Coordinates->setVisible(false);
+                ui->chart1->replot();
+            }
+            else {
+                double x, y;
+                x = int(this->ui->chart1->xAxis->pixelToCoord(mouse_event->pos().x()));
+                y = int(this->ui->chart1->yAxis->pixelToCoord(mouse_event->pos().y()));
 
-            QPoint coord;
-            coord.setX(int( x + 80 ));
-            coord.setY(int( y + 220 ));
+                QPoint coord;
+                coord.setX(int( x + 80 ));
+                coord.setY(int( y + 220 ));
 
 
-            Coordinates->setText(QString::number(x) + ":" + QString::number(y));
-            Coordinates->setVisible(true);
-            Coordinates->position->setCoords(coord);
+                Coordinates->setText(QString::number(x) + ":" + QString::number(y));
+                Coordinates->setVisible(true);
+                Coordinates->position->setCoords(coord);
 
-            ui->chart1->replot();
+                ui->chart1->replot();
+            }
             return false;
         }
     }
-
     //События для перетаскивания окна
-    if (object == ui->toolBar_2 && acceptDrag && Border != top)
+    if (object == ui->toolBar_2 && acceptDrag)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {

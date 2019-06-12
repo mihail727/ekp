@@ -44,11 +44,6 @@ private:
     bool acceptDrag = true;
 
     bool eventFilter(QObject *object, QEvent *event);
-    enum sBorder{topleft, left, bottomleft, bottom,
-                 bottomright, right, topright, top, null} Border = null;
-    bool StartResize = false;
-    QPoint dragStartPosition;
-    QRect dragStartGeometry;
 
     QCPItemText *chartTitle, *Coordinates;
 };
