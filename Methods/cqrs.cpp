@@ -296,6 +296,37 @@ QVector<double> topsP(const QVector<double> &mas1, const QVector<double> &mas)
     {
 
         max = mas[j];
+        for (int i= mas[j] - 250; i < mas[j]; i++)
+        {
+
+            while ((i < mas[j]))
+            {
+                if (mas1[max] < mas1[i])
+                    max = i;
+                i++;
+            }
+            if (res.indexOf(max)==-1)
+                res[j]= max;
+        }
+    }
+    res.removeAll(0);
+    return res;
+}
+
+QVector<double> topsT(const QVector<double> &mas1, const QVector<double> &mas)
+{
+    int n = mas.size();
+    QVector<double> res(n);
+    for (int i = 0; i< n; i ++)
+    {
+        res[i] = 0;
+    }
+    double max = 0;
+
+    for (int j = 0; j < mas.size(); j++)
+    {
+
+        max = mas[j];
         for (int i= mas[j] - 250; i < mas[j]- 60; i++)
         {
 
@@ -309,6 +340,20 @@ QVector<double> topsP(const QVector<double> &mas1, const QVector<double> &mas)
                 res[j]= max;
         }
     }
+    res.removeAll(0);
+    return res;
+
+}
+
+QVector<double> beginP(const QVector<double> &mas)
+{
+    int n = mas.size();
+    QVector<double> res(n);
+    for (int i = 0; i< n; i ++)
+    {
+        res[i] = mas[i]-70;
+    }
+
     res.removeAll(0);
     return res;
 
@@ -330,6 +375,8 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     result1 = topsQRS(mas, result);
     result2 = topsQ(mas, result1);
     result3 = topsS(mas, result1);
+    result4 = topsP(mas, result2);
+    result5 = beginP(result4);
     emit sendQRSValues (result, result1, mas, result2, result3, result4, result5);
     emit finished();
 }
