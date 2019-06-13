@@ -269,8 +269,8 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
                 y = int(this->ui->chart1->yAxis->pixelToCoord(mouse_event->pos().y()));
 
                 QPoint coord;
-                coord.setX(int( x + 80 ));
-                coord.setY(int( y + 220 ));
+                coord.setX(int( x + (ui->chart1->xAxis->pixelToCoord(40) - ui->chart1->xAxis->pixelToCoord(0)) ));
+                coord.setY(int( y + (ui->chart1->yAxis->pixelToCoord(-20) - ui->chart1->yAxis->pixelToCoord(0)) ));
 
 
                 Coordinates->setText(QString::number(x) + ":" + QString::number(y));
