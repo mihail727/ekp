@@ -26,7 +26,7 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
     //по заверщению cqrs выводится график drawQRS
-    connect(qrs, SIGNAL(sendQRSValues(QVector<double>, QVector<double>,
+    connect(qrs, SIGNAL(sendValues_for_drawGraphic(QVector<double>, QVector<double>,
                                       QVector<double>, QVector<double>, QVector<double>,
                                       QVector<double>, QVector<double>)  ),
             this, SLOT(drawQRS(QVector<double>, QVector<double>,
@@ -34,19 +34,13 @@ void MainWindow::newTaskQRS(QVector<double> Array)
                                QVector<double>, QVector<double>)));
 
     //по завершению начинается расчет Пульса, SDANN, varQT
-    connect(qrs, SIGNAL(sendQRSValues(QVector<double>, QVector<double>,
-                                      QVector<double>, QVector<double>, QVector<double>,
-                                      QVector<double>, QVector<double>)  ),
-            this, SLOT(CalculateSomeProc(QVector<double>, QVector<double>,
-                                         QVector<double>, QVector<double>, QVector<double>,
-                                         QVector<double>, QVector<double>) ));
+    connect(qrs, SIGNAL(sendValues_for_calculate(QVector<double>, QVector<double>, QVector<double>) ),
+            this, SLOT(CalculateSomeProc(QVector<double>, QVector<double>, QVector<double> )));
 
     thread->start();
 }
 
-void MainWindow::CalculateSomeProc(QVector<double> ArrPanTom, QVector<double> RValues,
-                                   QVector<double>ArrMain, QVector<double> QValues, QVector<double> SValues,
-                                   QVector<double> a, QVector<double> b)
+void MainWindow::CalculateSomeProc(QVector<double> RValues, QVector<double> QValues, QVector<double> SValues)
 //Расчет дополнительных параметров (Пульс, SDANN, varQT ...)
 {
     if(RValues.size() > 2)

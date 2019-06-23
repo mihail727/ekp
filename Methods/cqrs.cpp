@@ -377,6 +377,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     result3 = topsS(mas, result1);
     result4 = topsP(mas, result2);
     result5 = beginP(result4);
-    emit sendQRSValues (result, result1, mas, result2, result3, result4, result5);
+    emit sendValues_for_drawGraphic(result, result1, mas, result2, result3, result4, result5);
+    emit sendValues_for_calculate(result1, result2, result3);
     emit finished();
 }
