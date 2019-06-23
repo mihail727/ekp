@@ -135,7 +135,7 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
     {
         res[i] = 0;
     }
-    qDebug()<< mas1[k];
+    //qDebug()<< mas1[k];
     /*  if (mas1[k] >  0)
             for (int i=90; i < n; i++)
             {

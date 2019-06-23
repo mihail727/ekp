@@ -82,9 +82,40 @@ void MainWindow::CalculateSomeProc(QVector<double> ArrPanTom, QVector<double> RV
         varQt = qCeil( 100/(max/min) );
         //+++++++++++++++++++++++++++++
 
+        //t(RS)
+        int difRS = 0;
+        for(int i=0; i<RValues.size(); i++)
+        {
+            difRS = difRS + int(SValues[i] - RValues[i]);
+        }
+        difRS = difRS / RValues.size();
+        //+++++++++++++++++++++++++++++
+
+        //t(QR)
+        int difQR = 0;
+        for(int i=0; i<RValues.size(); i++)
+        {
+            difQR = difQR + int(RValues[i] - QValues[i]);
+        }
+        difQR = difQR / RValues.size();
+        //+++++++++++++++++++++++++++++
+
+        //t(QRS)
+        int difQRS = 0;
+        for(int i=0; i<RValues.size(); i++)
+        {
+            difQRS = difQRS + int(SValues[i] - QValues[i]);
+        }
+        difQRS = difQRS / RValues.size();
+        //
+
         //Вывод данных
         ui->lineEdit_3->setText(QString::number(summ)); //SDANN
         ui->lineEdit_4->setText(QString::number(varQt)); //varQt
+        ui->lineEdit_5->setText(QString::number(difQR)); //t(QR)
+        ui->lineEdit_6->setText(QString::number(difRS)); //t(RS)
+        ui->lineEdit_7->setText(QString::number(difValue)); //R, mc
+        ui->lineEdit_10->setText(QString::number(difQRS)); //t(QRS)
 
         chartTitle->setText("Средняя длительность кардиоцикла: " + QString::number(difValue) + " (мс); "
                             + "Пульс: " + QString::number(pulse));
@@ -96,6 +127,10 @@ void MainWindow::CalculateSomeProc(QVector<double> ArrPanTom, QVector<double> RV
     else {
         ui->lineEdit_3->clear(); //SDANN
         ui->lineEdit_4->clear(); //varQt
+        ui->lineEdit_5->clear(); //t(QR)
+        ui->lineEdit_6->clear(); //t(RS)
+        ui->lineEdit_7->clear(); //R, mc
+        ui->lineEdit_10->clear(); //t(QRS)
 
         chartTitle->setText("Средняя длительность кардиоцикла: -- ; Пульс: --");
 
@@ -202,7 +237,6 @@ void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
 
     ui->chart1->yAxis->setRange( ui->chart1->yAxis->range().lower-100, ui->chart1->yAxis->range().upper+300 );
 
-    //ui->chart1->axisRect()->setRangeDrag(Qt::Horizontal);
     ui->chart1->axisRect()->setRangeZoom(Qt::Horizontal);
 
     ui->chart1->replot();
@@ -329,12 +363,13 @@ MainWindow::MainWindow(QWidget *parent) :
     chartTitle->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
     chartTitle->position->setType(QCPItemPosition::ptAxisRectRatio);
     chartTitle->position->setCoords(0.5, 0);
-    chartTitle->setFont(QFont(font().family(), 11));
+    chartTitle->setFont(QFont("Tahoma", 11));
     chartTitle->setVisible(false);
 
     //Значения X Y возле курсора
     Coordinates = new QCPItemText(ui->chart1);
-    Coordinates->setFont(QFont(font().family(), 11));
+    Coordinates->setFont(QFont("Tahoma", 10));
+    Coordinates->setBrush(Qt::white);
     Coordinates->setVisible(false);
 
     //Иконка приложения
