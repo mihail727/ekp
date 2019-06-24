@@ -29,9 +29,7 @@ private slots:
     void drawQRS(QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>);
-    void CalculateSomeProc(QVector<double>, QVector<double>,
-                           QVector<double>, QVector<double>, QVector<double>,
-                           QVector<double>, QVector<double>);
+    void CalculateSomeProc(QVector<double>, QVector<double>, QVector<double>);
 private:
     Ui::MainWindow *ui;
 

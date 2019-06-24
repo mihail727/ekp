@@ -135,7 +135,7 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
     {
         res[i] = 0;
     }
-    qDebug()<< mas1[k];
+    //qDebug()<< mas1[k];
     /*  if (mas1[k] >  0)
             for (int i=90; i < n; i++)
             {
@@ -378,8 +378,13 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     result3 = topsS(mas, result1);
     result4 = topsP(mas, result2);
     result5 = beginP(result4);
+<<<<<<< HEAD
     differentiation(masspoint1, firstCount, secondCount );
     dif = masspoint1;
     emit sendQRSValues (dif, result1, mas, result2, result3, result4, result5);
+=======
+    emit sendValues_for_drawGraphic(result, result1, mas, result2, result3, result4, result5);
+    emit sendValues_for_calculate(result1, result2, result3);
+>>>>>>> 8604651aeb0c0603e55a50db7dbc026424396365
     emit finished();
 }
