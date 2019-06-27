@@ -97,7 +97,7 @@ QVector<double> integration(const QVector<double> &masspoint3, int firstCount, i
         for (int j = N; j > 0;  j--)
         {
             summa = summa + filter1[i-(j)];
-            qDebug()<< j << " ";
+
         }
         filter2[i] = summa / N;
     }
