@@ -117,16 +117,15 @@ QVector<double> integration(const QVector<double> &masspoint3, int firstCount, i
 
 QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
 {
-    int k =0;
-    double max1 = 0;
-    for (int i = 100; i < mas.size()-1; i++)
+    int k = 0;
+    double max1 = -10000;
+    for (int i = 0; i < mas.size()-1; i++)
     {
         if (max1 < mas[i])
         {
             k=i;
             max1 = mas[i];
         }
-
     }
     double max = 0;
     int n= mas.size();
@@ -135,25 +134,6 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
     {
         res[i] = 0;
     }
-    //qDebug()<< mas1[k];
-    /*  if (mas1[k] >  0)
-            for (int i=90; i < n; i++)
-            {
-
-                while ((mas[i] >= max1/2) && (i < n-1))
-                {
-                    if (mas1[max] < mas1[i-90])
-                        max = i-90;
-                    i++;
-
-                }
-                if (res.indexOf(max)==-1)
-                    res[i] = max;
-                max=0;
-            }
-           else */{
-
-
         for (int i=99; i < n; i++)
         {
 
@@ -168,7 +148,6 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
                 res[i] = max;
             max=0;
         }
-    }
     res.removeAll(0);
     return res;
 }
@@ -188,12 +167,12 @@ QVector<double> topsQ(const QVector<double> &mas1, const QVector<double> &mas)
         if (mas1[j]>0)
         {
             min = mas1[j];
-            for (int i=mas[j] - 100; i < mas[j]; i++)
+            for (int i=mas[j] - 55; i < mas[j]; i++)
             {
 
                 while ((i < mas[j]))
                 {
-                    if (mas1[min] > mas1[i])
+                    if (mas1[j]+ abs(mas1[min]) > mas1[j] + abs(mas1[i]))
                         min = i;
                     i++;
 
@@ -211,12 +190,12 @@ QVector<double> topsQ(const QVector<double> &mas1, const QVector<double> &mas)
             {
 
                 min = mas[j];
-                for (int i=mas[j] - 100; i < mas[j]; i++)
+                for (int i=mas[j] - 55; i < mas[j]; i++)
                 {
 
                     while ((i < mas[j]))
                     {
-                        if (mas1[min] < mas1[i])
+                        if (mas1[j]-mas1[min] < mas1[j]- mas1[i])
                             min = i;
                         i++;
 
@@ -252,9 +231,10 @@ QVector<double> topsS(const QVector<double> &mas1, const QVector<double> &mas)
 
                 while ((i > mas[j]))
                 {
-                    if (mas1[min] > mas1[i])
+                    if (mas1[j]-mas1[min] < mas1[j]- mas1[i])
                         min = i;
                     i--;
+
                 }
                 if (res.indexOf(min)==-1)
                     res[j]= min;
@@ -268,7 +248,7 @@ QVector<double> topsS(const QVector<double> &mas1, const QVector<double> &mas)
 
                 while ((i > mas[j]))
                 {
-                    if (mas1[min] < mas1[i])
+                    if (mas1[j]-mas1[min] < mas1[j]- mas1[i])
                         min = i;
                     i--;
                 }
@@ -359,6 +339,23 @@ QVector<double> beginP(const QVector<double> &mas)
 
 }
 
+
+
+QVector<double> Proizvodnaya(const QVector<double> &mas)
+{
+    int n = mas.size();
+    QVector<double> res(n);
+    for (int i = 3; i< n; i ++)
+    {
+        res[i] = mas[i]-mas[i-3];
+    }
+
+    res.removeAll(0);
+    return res;
+
+}
+
+
 void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
 {
     QVector<double> result(secondCount);
@@ -378,13 +375,18 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     result3 = topsS(mas, result1);
     result4 = topsP(mas, result2);
     result5 = beginP(result4);
-<<<<<<< HEAD
-    differentiation(masspoint1, firstCount, secondCount );
-    dif = masspoint1;
-    emit sendQRSValues (dif, result1, mas, result2, result3, result4, result5);
-=======
-    emit sendValues_for_drawGraphic(result, result1, mas, result2, result3, result4, result5);
+
+   // low(mas, firstCount, secondCount );
+  //  high(masspoint1, firstCount, secondCount );
+    differentiation(mas, firstCount, secondCount );
+    dif = Proizvodnaya(mas);
+    //dif = masspoint1;
+    for (int i=0; i< dif.size()-3; i++)
+        dif[i] = dif[i+3];
+    //emit sendQRSValues (dif, result1, mas, result2, result3, result4, result5);
+
+    emit sendValues_for_drawGraphic(dif, result1, mas, result2, result3, result4, result5);
     emit sendValues_for_calculate(result1, result2, result3);
->>>>>>> 8604651aeb0c0603e55a50db7dbc026424396365
+
     emit finished();
 }
