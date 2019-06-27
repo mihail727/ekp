@@ -4,42 +4,34 @@
 #include <QDebug>
 
 
-static QVector <double> masspoint1(1000);
+static QVector <double> masspoint1(1000000);
 
 void low (const QVector<double> &masspoint3, int firstCount, int secondCount) // фильтр нижних частот
 {
-    int n = secondCount;
+    int n = secondCount- firstCount;
     QVector <double> filter1(n);
     QVector <double> filter2(n);
-
-    for (int i = firstCount; i < secondCount; i++)
-    {
-        filter1[i] = masspoint3[i];
-    }
-
-    for (int i = firstCount+12; i < secondCount; i++)
+    qDebug()<<masspoint3.size();
+    filter1 = masspoint3;
+    for (int i = 12; i < n; i++)
     {
         filter2[i] =(2 * filter2[i - 1] - filter2[i - 2] + (filter1[i] - 2 * filter1[i - 6] + filter1[i - 12]) / 32);
     }
     masspoint1 = filter2;
-
 }
 
 void high(const QVector<double> &masspoint3, int firstCount, int secondCount)// фильтр верхних частот
 {
 
-    int n = secondCount;
+    int n = secondCount- firstCount;
     QVector <double> filter1(n);
     QVector <double> filter2(n);
 
 
-    for (int i = firstCount; i < secondCount; i++)
-    {
-        filter1[i] = masspoint3[i];
-    }
+    filter1 = masspoint3;
 
 
-    for (int i = firstCount+32; i < secondCount; i++)
+    for (int i = 32; i < n; i++)
     {
         filter2[i]= (filter2[i - 1] - filter1[i] / 32 + filter1[i - 16] - filter1[i - 17] + filter1[i - 32] / 32);
     }
@@ -50,18 +42,15 @@ void high(const QVector<double> &masspoint3, int firstCount, int secondCount)// 
 
 void differentiation(const QVector<double> &masspoint3, int firstCount, int secondCount)//функция дифференцирования
 {
-    int n = secondCount;
+    int n = secondCount- firstCount;
     QVector <double> filter1(n);
     QVector <double> filter2(n);
 
 
-    for (int i = firstCount; i < secondCount; i++)
-    {
-        filter1[i] = masspoint3[i];
-    }
+    filter1 = masspoint3;
 
 
-    for (int i = firstCount+4; i < secondCount; i++)
+    for (int i = 4; i < n; i++)
     {
         filter2[i] = (2*filter1[i] + filter1[i-1] - filter1[i-3] - 2* filter1[i-4])/8;
     }
@@ -71,10 +60,10 @@ void differentiation(const QVector<double> &masspoint3, int firstCount, int seco
 
 void square(const QVector<double> &masspoint3, int firstCount, int secondCount)//функция возведения в квадрат
 {
-    int n = secondCount;
+    int n = secondCount- firstCount;
     QVector <double> filter1(n);
 
-    for (int i = firstCount; i < secondCount; i++)
+    for (int i = 0; i < n; i++)
     {
         filter1[i] = masspoint3[i] * masspoint3[i];
     }
@@ -86,23 +75,23 @@ QVector<double> integration(const QVector<double> &masspoint3, int firstCount, i
 {
     int N=100;
     //   N = Convert.ToInt32(comboBox1.Text); измени сам. с формы должна "ширина окна" передаваться
-    int n = secondCount;
+    int n = secondCount- firstCount;
     QVector <double> filter1(n);
     QVector <double> filter2(n);
 
 
-    for (int i = firstCount; i < secondCount; i++)
+    for (int i = 0; i < n; i++)
     {
         filter1[i] = masspoint3[i];
     }
 
-    for (int i = firstCount; i < secondCount; i++)
+    for (int i = 0; i < n; i++)
     {
         filter2[i] = 0;
     }
 
 
-    for (int i = firstCount+N; i < secondCount; i++)
+    for (int i = N; i < n; i++)
     {
         double summa = 0;
         for (int j = N; j >= firstCount;  j--)
@@ -137,9 +126,9 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
         for (int i=99; i < n; i++)
         {
 
-            while ((mas[i] >= max1/4) && (i < n-1))
+            while ((mas[i] >= max1/2) && (i < n-1))
             {
-                if (abs(mas1[max] - mas1[0]) < abs(mas1[i-99] - mas1[0]))
+                if (abs(mas1[max]) - abs(mas1[0]) < abs(mas1[i-99]) - abs(mas1[0]))
                     max = i-99;
                 i++;
 
@@ -385,7 +374,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
         dif[i] = dif[i+3];
     //emit sendQRSValues (dif, result1, mas, result2, result3, result4, result5);
 
-    emit sendValues_for_drawGraphic(dif, result1, mas, result2, result3, result4, result5);
+    emit sendValues_for_drawGraphic(result, result1, mas, result2, result3, result4, result5);
     emit sendValues_for_calculate(result1, result2, result3);
 
     emit finished();
