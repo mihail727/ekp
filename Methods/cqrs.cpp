@@ -11,7 +11,7 @@ void low (const QVector<double> &masspoint3, int firstCount, int secondCount) //
     int n = secondCount- firstCount;
     QVector <double> filter1(n);
     QVector <double> filter2(n);
-    qDebug()<<masspoint3.size();
+
     filter1 = masspoint3;
     for (int i = 12; i < n; i++)
     {
@@ -94,8 +94,11 @@ QVector<double> integration(const QVector<double> &masspoint3, int firstCount, i
     for (int i = N; i < n; i++)
     {
         double summa = 0;
-        for (int j = N; j >= firstCount;  j--)
+        for (int j = N; j > 0;  j--)
+        {
             summa = summa + filter1[i-(j)];
+            qDebug()<< j << " ";
+        }
         filter2[i] = summa / N;
     }
 
@@ -117,7 +120,7 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
         }
     }
     double max = 0;
-    int n= mas.size();
+    int n = mas.size();
     QVector<double> res(n);
     for (int i = 0; i< n; i ++)
     {
@@ -347,12 +350,12 @@ QVector<double> Proizvodnaya(const QVector<double> &mas)
 
 void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
 {
-    QVector<double> result(secondCount);
-    QVector<double> result1(secondCount);
-    QVector<double> result2(secondCount);
-    QVector<double> result3(secondCount);
-    QVector<double> result4(secondCount);
-    QVector<double> result5(secondCount);
+    QVector<double> result(secondCount-firstCount);
+    QVector<double> result1(secondCount-firstCount);
+    QVector<double> result2(secondCount-firstCount);
+    QVector<double> result3(secondCount-firstCount);
+    QVector<double> result4(secondCount-firstCount);
+    QVector<double> result5(secondCount-firstCount);
     QVector<double> dif(secondCount);
     low(mas, firstCount, secondCount );
     high(masspoint1, firstCount, secondCount );
