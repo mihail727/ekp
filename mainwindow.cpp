@@ -487,11 +487,13 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
 
     //формирование графика ЭКГ
     QVector<double> x_value, y_value, x_zero, y_zero;
+    int buff = firstCount;
     for(int i=0; i<dataArray.size(); i++) {
-        x_value.push_back(i);
+        x_value.push_back(buff);
         y_value.push_back(dataArray[i]);
-        x_zero.push_back(i);
+        x_zero.push_back(buff);
         y_zero.push_back(0);
+        buff++;
     }
 
     ui->chart1->graph(0)->setData(x_value, y_value);
