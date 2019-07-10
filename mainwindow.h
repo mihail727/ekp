@@ -30,12 +30,16 @@ private slots:
                  QVector<double>, QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>);
     void CalculateSomeProc(QVector<double>, QVector<double>, QVector<double>);
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     QString fileName;
     int selectedLead;
     int firstCount, secondCount;
+
+    bool Graphic_isReady;
 
     QRect oldGeometry;
     QPoint dragPosition;

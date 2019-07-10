@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QPixmap"
+#include <QtCore/qmath.h>
 
 #include <Methods/hflf.h>
 #include <Methods/calc.h>
@@ -116,6 +117,8 @@ void MainWindow::CalculateSomeProc(QVector<double> RValues, QVector<double> QVal
         chartTitle->setVisible(true);
 
         ui->chart1->replot();
+
+        Graphic_isReady = true;
         //
     }
     else {
@@ -125,6 +128,7 @@ void MainWindow::CalculateSomeProc(QVector<double> RValues, QVector<double> QVal
         ui->lineEdit_6->clear(); //t(RS)
         ui->lineEdit_7->clear(); //R, mc
         ui->lineEdit_10->clear(); //t(QRS)
+        ui->textEdit_2->clear(); //Диагноз
 
         chartTitle->setText("Средняя длительность кардиоцикла: -- ; Пульс: --");
 
@@ -269,7 +273,7 @@ void MainWindow::newTaskLFHF(QVector<double> Array)
 void MainWindow::checkHFLF(QVector<double> a)
 //для проверки HFLF массива --потом убрать!
 {
-    ui->textEdit->insertPlainText(QString::number(a[0]));
+    //ui->textEdit->insertPlainText(QString::number(a[0]));
 }
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -340,6 +344,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    Graphic_isReady = false;
 
     ui->toolBar_2->installEventFilter(this);
     ui->toolBar_2->setMouseTracking(true);
@@ -514,8 +520,9 @@ void MainWindow::on_action_triggered()
 //--------------------------------------------------------------------------------------------
 //Начало расчета и вывода графиков
 {
-    ui->textEdit->clear();
     ui->textEdit_2->clear();
+
+    Graphic_isReady = false;
 
     bool ok;
     firstCount = ui->lineEdit_2->text().toInt(&ok);
@@ -559,4 +566,84 @@ void MainWindow::on_action_triggered()
 
     Thread->start();
 //--------------------------------------------------------------------------------------------
+}
+
+void MainWindow::on_pushButton_clicked()
+//Начало расчета диагноза
+{
+    if(Graphic_isReady)
+    {
+        int varQT = ui->lineEdit_4->text().toInt();
+        int SDANN = ui->lineEdit_3->text().toInt();
+        int valR = ui->lineEdit_7->text().toInt();
+        int tRS = ui->lineEdit_6->text().toInt();
+        int tQR = ui->lineEdit_5->text().toInt();
+        int QRS = ui->lineEdit_10->text().toInt();
+        int valLFHF = ui->lineEdit_9->text().toInt();
+        int valST = ui->lineEdit_8->text().toInt();
+        double k;
+        if(ui->radioButton->isChecked()) k = 0.37;
+        else if(ui->radioButton_3->isChecked()) k = 0.39;
+        else k = 0.38;
+
+        //+++++КСР КДР+++++
+        enum cGysa{right, left, none}; cGysa Gysa = none;
+        if(ui->checkBox->isChecked()) //Блокада Гиса
+        {
+            if(ui->radioButton_5->isChecked()) Gysa = right;
+            else Gysa = left;
+        }
+
+        double KCR, KDR;
+        KDR = (44.5 - 100*tRS) * (tQR+tRS) - 11*tRS;
+
+        if(Gysa == none)
+        {
+            KCR = (44.5 - 100*tRS) * (tQR+tRS) * ( qSqrt( 1/(qPow( (valST/QRS), (1/3) )) ) )
+                            - 11*tRS * ( qPow( (valST/QRS), (1/3) ) );
+        }
+        else
+        {
+            KCR = 22 * QRS * qSqrt( 1/(qPow( (valST/QRS), (1/3) )) ) - 0.5*tRS * qPow( (valST/QRS), (1/3) );
+        }
+        //++++++++++++++++
+
+        //+++++КСО КДО+++++
+        double KDO, KSO;
+        KDO = 4/3 * M_PI * qPow( KDR, 3 );
+        KSO = 4/3 * M_PI * qPow( KCR, 3 );
+        //+++++++++++++++++
+
+        //+++++ФВ++++
+        double FV;
+        FV = ((KDO-KSO)/KDO) * 100;
+        //+++++++++++
+
+        //+++++K+++++
+        double K;
+        K = -4.518 + 0.02*FV + 0.037*SDANN +0.049*valLFHF - 0.019*varQT;
+        //+++++++++++
+
+        //++++Диагноз+++++
+        QString Diagnosis = "";
+        if( ((k * qSqrt(valR) - varQT)>0) && FV<50 )
+            Diagnosis = "<p>Имеется желудочная тахикардия и экстрасистолия,"
+                        "что характеризует гемодинамически значимую аритмию.</p>"
+                        "Необходимо провести дефибрилляцию.";
+        if( ((k * qSqrt(valR) - varQT)>0) && FV>=50 )
+            Diagnosis = "<p>Имеется желудочная тахикардия и экстрасистолия,"
+                        "что характеризует гемодинамически значимую аритмию.</p>"
+                        "Необходимо провести реваскуляризацию.";
+        if( ((k * qSqrt(valR) - varQT)<=0) )
+            if(K >= 2.5)
+                Diagnosis = "<p>Тяжелый аритмический синдром.</p>"
+                            "Необходимо провести реваскуляризацию.";
+        //++++++++++++++++
+        ui->textEdit_2->clear();
+        ui->textEdit_2->setText(Diagnosis);
+
+    } else {
+        showError("График не был построен или кол-во R-пиков меньше трех. <p>Данные не получены.</p>");
+        return;
+    }
 }
