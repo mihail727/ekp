@@ -625,7 +625,7 @@ void MainWindow::on_pushButton_clicked()
         //+++++++++++
 
         //++++Диагноз+++++
-        QString Diagnosis = "";
+        QString Diagnosis = "Вывести диагноз невозможно";
         if( ((k * qSqrt(valR) - varQT)>0) && FV<50 )
             Diagnosis = "<p>Имеется желудочная тахикардия и экстрасистолия,"
                         "что характеризует гемодинамически значимую аритмию.</p>"

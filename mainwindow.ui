@@ -236,7 +236,7 @@ QGroupBox#groupBox_5 &gt; QLineEdit{
            <property name="maximumSize">
             <size>
              <width>170</width>
-             <height>100000</height>
+             <height>1000000</height>
             </size>
            </property>
            <property name="title">
@@ -273,7 +273,10 @@ QGroupBox#groupBox_5 &gt; QLineEdit{
                <string>Отведение:</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
-               <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+               <property name="topMargin">
+                <number>11</number>
+               </property>
+               <item>
                 <widget class="QComboBox" name="comboBox">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -402,8 +405,29 @@ drop-down {
                <string>Количество отсчетов:</string>
               </property>
               <layout class="QFormLayout" name="formLayout_2">
+               <property name="topMargin">
+                <number>12</number>
+               </property>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_3">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>25</width>
+                   <height>25</height>
+                  </size>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>
@@ -415,10 +439,16 @@ drop-down {
                <item row="1" column="1">
                 <widget class="QLineEdit" name="lineEdit_2">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>22</height>
+                  </size>
                  </property>
                  <property name="maximumSize">
                   <size>
@@ -442,6 +472,24 @@ drop-down {
                </item>
                <item row="2" column="0">
                 <widget class="QLabel" name="label_2">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>25</width>
+                   <height>25</height>
+                  </size>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>
@@ -453,14 +501,14 @@ drop-down {
                <item row="2" column="1">
                 <widget class="QLineEdit" name="lineEdit">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
+                   <width>80</width>
                    <height>22</height>
                   </size>
                  </property>
@@ -486,6 +534,24 @@ drop-down {
             </item>
             <item>
              <widget class="QGroupBox" name="groupBox_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>130</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>150</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">	border:1px solid gray;
 	border-radius:2px;
@@ -547,7 +613,7 @@ drop-down {
               </widget>
              </widget>
             </item>
-            <item alignment="Qt::AlignHCenter">
+            <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
              <widget class="QPushButton" name="pushButton">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -558,7 +624,7 @@ drop-down {
               <property name="minimumSize">
                <size>
                 <width>100</width>
-                <height>25</height>
+                <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -610,6 +676,12 @@ drop-down {
             <number>0</number>
            </property>
            <widget class="QWidget" name="tab">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
@@ -684,7 +756,7 @@ drop-down {
              </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
+               <width>300</width>
                <height>220</height>
               </size>
              </property>
@@ -718,7 +790,7 @@ drop-down {
                 <property name="minimumSize">
                  <size>
                   <width>240</width>
-                  <height>45</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -778,14 +850,19 @@ drop-down {
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>20</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>225</width>
-                  <height>20</height>
+                  <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
@@ -801,7 +878,7 @@ drop-down {
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_4">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -829,7 +906,7 @@ drop-down {
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_4">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -837,13 +914,13 @@ drop-down {
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>226</width>
-                  <height>40</height>
+                  <width>225</width>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -857,7 +934,7 @@ drop-down {
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_3">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -901,7 +978,7 @@ drop-down {
              </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
+               <width>300</width>
                <height>220</height>
               </size>
              </property>
@@ -935,13 +1012,13 @@ drop-down {
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>20</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>225</width>
-                  <height>20</height>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -961,7 +1038,7 @@ drop-down {
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_7">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1020,7 +1097,7 @@ drop-down {
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_6">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1049,7 +1126,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_6">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1080,7 +1157,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_5">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1125,7 +1202,7 @@ border: 1px solid rgb(68, 190, 176);</string>
              </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
+               <width>300</width>
                <height>220</height>
               </size>
              </property>
@@ -1159,13 +1236,13 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="minimumSize">
                  <size>
                   <width>225</width>
-                  <height>0</height>
+                  <height>20</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>225</width>
-                  <height>20</height>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -1182,7 +1259,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_10">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1210,7 +1287,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_10">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1224,7 +1301,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="maximumSize">
                  <size>
                   <width>225</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -1241,7 +1318,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_9">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1272,7 +1349,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_9">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1286,7 +1363,7 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="maximumSize">
                  <size>
                   <width>225</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -1303,7 +1380,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLineEdit" name="lineEdit_8">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1363,10 +1440,13 @@ border: 1px solid rgb(68, 190, 176);</string>
               <string>Диагноз:</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_3">
-              <item row="0" column="0">
+              <property name="topMargin">
+               <number>13</number>
+              </property>
+              <item row="0" column="0" alignment="Qt::AlignTop">
                <widget class="QTextEdit" name="textEdit_2">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1374,13 +1454,13 @@ border: 1px solid rgb(68, 190, 176);</string>
                 <property name="minimumSize">
                  <size>
                   <width>200</width>
-                  <height>0</height>
+                  <height>150</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>700</width>
-                  <height>16777215</height>
+                  <height>190</height>
                  </size>
                 </property>
                 <property name="font">
