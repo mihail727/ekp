@@ -30,7 +30,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QToolBar#toolBar_2 &gt; QLabel{
-	font-size: 10pt;
+	font-size: 10px;
 }
 QToolBar{
 	background-color:rgb(63, 83, 109);
@@ -565,9 +565,27 @@ drop-down {
                 <rect>
                  <x>10</x>
                  <y>50</y>
-                 <width>61</width>
-                 <height>17</height>
+                 <width>60</width>
+                 <height>20</height>
                 </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>60</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>20</height>
+                </size>
                </property>
                <property name="styleSheet">
                 <string notr="true">border:0px;</string>
@@ -584,9 +602,27 @@ drop-down {
                 <rect>
                  <x>10</x>
                  <y>20</y>
-                 <width>111</width>
-                 <height>17</height>
+                 <width>110</width>
+                 <height>20</height>
                 </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>100</width>
+                 <height>20</height>
+                </size>
                </property>
                <property name="styleSheet">
                 <string notr="true">border:0px;</string>
@@ -594,15 +630,36 @@ drop-down {
                <property name="text">
                 <string>Блокада ножек</string>
                </property>
+               <property name="tristate">
+                <bool>false</bool>
+               </property>
               </widget>
               <widget class="QRadioButton" name="radioButton_4">
                <property name="geometry">
                 <rect>
                  <x>80</x>
                  <y>50</y>
-                 <width>61</width>
-                 <height>17</height>
+                 <width>60</width>
+                 <height>20</height>
                 </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>60</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>20</height>
+                </size>
                </property>
                <property name="styleSheet">
                 <string notr="true">border:0px;</string>
@@ -805,6 +862,12 @@ drop-down {
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
                  <item>
                   <widget class="QRadioButton" name="radioButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -818,6 +881,12 @@ drop-down {
                  </item>
                  <item>
                   <widget class="QRadioButton" name="radioButton_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -828,6 +897,12 @@ drop-down {
                  </item>
                  <item>
                   <widget class="QRadioButton" name="radioButton_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -861,7 +936,7 @@ drop-down {
                 </property>
                 <property name="font">
                  <font>
-                  <family>Arial</family>
+                  <family>MS Shell Dlg 2</family>
                  </font>
                 </property>
                 <property name="styleSheet">

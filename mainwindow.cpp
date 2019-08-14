@@ -381,7 +381,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //title приложения
     QLabel *WinTitle = new QLabel("Экстренное оказание кардиологической помощи");
-    WinTitle->setStyleSheet("QLabel{ font-size: 8pt;"
+    WinTitle->setStyleSheet("QLabel{ font-size: 12px;"
                                     "font: Bold;"
                                     "margin: 1px; }");
     ui->toolBar_2->addWidget(WinTitle);
