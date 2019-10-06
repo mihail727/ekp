@@ -4,7 +4,9 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //qputenv("QT_SCALE_FACTOR", "1.5");
     QApplication app(argc, argv);
 
     MainWindow w;

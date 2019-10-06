@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1145</width>
-    <height>705</height>
+    <width>1400</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -192,6 +192,11 @@ QGroupBox#groupBox_5 &gt; QLineEdit{
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
@@ -229,15 +234,20 @@ QGroupBox#groupBox_5 &gt; QLineEdit{
            </property>
            <property name="minimumSize">
             <size>
-             <width>140</width>
+             <width>160</width>
              <height>430</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>170</width>
+             <width>200</width>
              <height>1000000</height>
             </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+            </font>
            </property>
            <property name="title">
             <string/>
@@ -257,14 +267,19 @@ QGroupBox#groupBox_5 &gt; QLineEdit{
               <property name="minimumSize">
                <size>
                 <width>120</width>
-                <height>55</height>
+                <height>60</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>120</width>
-                <height>50</height>
+                <height>70</height>
                </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Arial</family>
+               </font>
               </property>
               <property name="styleSheet">
                <string notr="true"/>
@@ -272,11 +287,11 @@ QGroupBox#groupBox_5 &gt; QLineEdit{
               <property name="title">
                <string>Отведение:</string>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_2">
+              <layout class="QGridLayout" name="gridLayout_5">
                <property name="topMargin">
                 <number>11</number>
                </property>
-               <item>
+               <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                 <widget class="QComboBox" name="comboBox">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -295,6 +310,11 @@ QGroupBox#groupBox_5 &gt; QLineEdit{
                    <width>200</width>
                    <height>25</height>
                   </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">	color: rgb(0, 0, 0);
@@ -394,9 +414,20 @@ drop-down {
               </property>
               <property name="maximumSize">
                <size>
-                <width>150</width>
+                <width>200</width>
                 <height>90</height>
                </size>
+              </property>
+              <property name="sizeIncrement">
+               <size>
+                <width>200</width>
+                <height>90</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Arial</family>
+               </font>
               </property>
               <property name="styleSheet">
                <string notr="true"/>
@@ -428,6 +459,11 @@ drop-down {
                    <height>25</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>
@@ -455,6 +491,11 @@ drop-down {
                    <width>100</width>
                    <height>30</height>
                   </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
                  </property>
                  <property name="layoutDirection">
                   <enum>Qt::LeftToRight</enum>
@@ -490,6 +531,11 @@ drop-down {
                    <height>25</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>
@@ -517,6 +563,11 @@ drop-down {
                    <width>100</width>
                    <height>30</height>
                   </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
                  </property>
                  <property name="styleSheet">
                   <string notr="true"/>
@@ -548,9 +599,14 @@ drop-down {
               </property>
               <property name="maximumSize">
                <size>
-                <width>150</width>
+                <width>200</width>
                 <height>150</height>
                </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Arial</family>
+               </font>
               </property>
               <property name="styleSheet">
                <string notr="true">	border:1px solid gray;
@@ -560,114 +616,113 @@ drop-down {
               <property name="title">
                <string>Дополнительно:</string>
               </property>
-              <widget class="QRadioButton" name="radioButton_5">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>50</y>
-                 <width>60</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>60</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>60</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border:0px;</string>
-               </property>
-               <property name="text">
-                <string>Правая</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QCheckBox" name="checkBox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>110</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>100</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border:0px;</string>
-               </property>
-               <property name="text">
-                <string>Блокада ножек</string>
-               </property>
-               <property name="tristate">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QRadioButton" name="radioButton_4">
-               <property name="geometry">
-                <rect>
-                 <x>80</x>
-                 <y>50</y>
-                 <width>60</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>60</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>60</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border:0px;</string>
-               </property>
-               <property name="text">
-                <string>Левая</string>
-               </property>
-              </widget>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QCheckBox" name="checkBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>150</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border:0px;</string>
+                 </property>
+                 <property name="text">
+                  <string>Блокада ножек</string>
+                 </property>
+                 <property name="tristate">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="radioButton_4">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border:0px;</string>
+                 </property>
+                 <property name="text">
+                  <string>Левая</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="radioButton_5">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Arial</family>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border:0px;</string>
+                 </property>
+                 <property name="text">
+                  <string>Правая</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
             <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
@@ -680,8 +735,8 @@ drop-down {
               </property>
               <property name="minimumSize">
                <size>
-                <width>100</width>
-                <height>30</height>
+                <width>120</width>
+                <height>40</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -692,6 +747,7 @@ drop-down {
               </property>
               <property name="font">
                <font>
+                <family>Arial</family>
                 <pointsize>10</pointsize>
                </font>
               </property>
@@ -720,6 +776,15 @@ drop-down {
              <height>430</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>7</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+             <kerning>false</kerning>
+            </font>
+           </property>
            <property name="cursor">
             <cursorShape>ArrowCursor</cursorShape>
            </property>
@@ -743,7 +808,7 @@ drop-down {
              <string notr="true"/>
             </property>
             <attribute name="title">
-             <string>График ЭКГ</string>
+             <string>График</string>
             </attribute>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
@@ -778,11 +843,16 @@ drop-down {
              <string notr="true"/>
             </property>
             <attribute name="title">
-             <string>QRS комплекс</string>
+             <string>PanTom</string>
             </attribute>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <widget class="QCustomPlot" name="chart2" native="true">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                </font>
+               </property>
                <property name="cursor">
                 <cursorShape>CrossCursor</cursorShape>
                </property>
@@ -817,6 +887,11 @@ drop-down {
                <height>220</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>Arial</family>
+              </font>
+             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -836,37 +911,78 @@ drop-down {
               <property name="bottomMargin">
                <number>6</number>
               </property>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QGroupBox" name="groupBox_11">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>240</width>
+                  <width>290</width>
                   <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>240</width>
-                  <height>45</height>
+                  <width>290</width>
+                  <height>40</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>7</pointsize>
+                 </font>
                 </property>
                 <property name="title">
                  <string/>
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
-                 <item>
+                 <property name="spacing">
+                  <number>2</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>2</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>2</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QRadioButton" name="radioButton">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>90</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>90</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Arial</family>
+                     <pointsize>8</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
                    </property>
                    <property name="styleSheet">
                     <string notr="true"/>
@@ -879,13 +995,33 @@ drop-down {
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QRadioButton" name="radioButton_3">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>90</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>90</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Arial</family>
+                     <pointsize>8</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
                    </property>
                    <property name="styleSheet">
                     <string notr="true"/>
@@ -895,13 +1031,33 @@ drop-down {
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QRadioButton" name="radioButton_2">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>90</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>90</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Arial</family>
+                     <pointsize>8</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
                    </property>
                    <property name="styleSheet">
                     <string notr="true"/>
@@ -914,17 +1070,17 @@ drop-down {
                 </layout>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_5">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>290</width>
                   <height>20</height>
                  </size>
                 </property>
@@ -936,31 +1092,32 @@ drop-down {
                 </property>
                 <property name="font">
                  <font>
-                  <family>MS Shell Dlg 2</family>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
                  </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>Вариабельность интервала &lt;varQT, %&gt;:</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Вариабельность интервала (varQT, %):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="margin">
-                 <number>-5</number>
+                 <number>0</number>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_4">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -969,6 +1126,11 @@ drop-down {
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
@@ -978,17 +1140,17 @@ drop-down {
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_4">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>290</width>
                   <height>40</height>
                  </size>
                 </property>
@@ -998,25 +1160,32 @@ drop-down {
                   <height>45</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
+                  <kerning>true</kerning>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Стандартное отклонение средних&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;значений кардиоциклов &amp;lt;SDANN&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Стандартное отклонение средних&lt;br/&gt;значений кардиоциклов (SDANN):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_3">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1025,6 +1194,11 @@ drop-down {
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
@@ -1057,6 +1231,11 @@ drop-down {
                <height>220</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>Arial</family>
+              </font>
+             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -1076,18 +1255,18 @@ drop-down {
               <property name="bottomMargin">
                <number>6</number>
               </property>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_8">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
-                  <height>20</height>
+                  <width>290</width>
+                  <height>23</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1096,11 +1275,17 @@ drop-down {
                   <height>25</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Расстояние между зубцами &amp;lt;R, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Расстояние между зубцами (R, мс):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="margin">
                  <number>0</number>
@@ -1110,17 +1295,17 @@ drop-down {
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_7">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1129,6 +1314,11 @@ drop-down {
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
@@ -1138,17 +1328,17 @@ drop-down {
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_7">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>290</width>
                   <height>40</height>
                  </size>
                 </property>
@@ -1158,28 +1348,40 @@ drop-down {
                   <height>45</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от вершины зубца до конца&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;RS&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Время от вершины зубца до конца &lt;br/&gt;(t&lt;span style=&quot; vertical-align:sub;&quot;&gt;RS&lt;/span&gt;, мс):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                 <property name="margin">
                  <number>0</number>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_6">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1188,6 +1390,11 @@ drop-down {
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">min-height:20px;
@@ -1198,17 +1405,17 @@ border: 1px solid rgb(68, 190, 176);</string>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_6">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>290</width>
                   <height>40</height>
                  </size>
                 </property>
@@ -1218,28 +1425,34 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <height>45</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от начала зубца до вершины&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;QR&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Время от начала зубца до вершины &lt;br/&gt;(t&lt;span style=&quot; vertical-align:sub;&quot;&gt;QR&lt;/span&gt;, мс):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="margin">
                  <number>0</number>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_5">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1248,6 +1461,11 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">min-height:20px;
@@ -1281,6 +1499,11 @@ border: 1px solid rgb(68, 190, 176);</string>
                <height>220</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>Arial</family>
+              </font>
+             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -1300,18 +1523,18 @@ border: 1px solid rgb(68, 190, 176);</string>
               <property name="bottomMargin">
                <number>6</number>
               </property>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_11">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
-                  <height>20</height>
+                  <width>290</width>
+                  <height>23</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1320,28 +1543,34 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <height>25</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время комплекса &amp;lt;QRS, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Время комплекса &amp;lt;QRS, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="margin">
                  <number>0</number>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_10">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1350,6 +1579,11 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
@@ -1359,17 +1593,17 @@ border: 1px solid rgb(68, 190, 176);</string>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_10">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>290</width>
                   <height>40</height>
                  </size>
                 </property>
@@ -1379,28 +1613,34 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <height>45</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Отношение волн низкой и высокой&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;частоты &amp;lt;LF/HF&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Отношение волн низкой и высокой&lt;br/&gt;частоты (LF/HF):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="margin">
                  <number>0</number>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_9">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1409,6 +1649,11 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="layoutDirection">
                  <enum>Qt::LeftToRight</enum>
@@ -1421,17 +1666,17 @@ border: 1px solid rgb(68, 190, 176);</string>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLabel" name="label_9">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>290</width>
                   <height>40</height>
                  </size>
                 </property>
@@ -1441,28 +1686,34 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <height>45</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Время от конца зубца S до конца T&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&amp;lt;t&lt;span style=&quot; vertical-align:sub;&quot;&gt;ST-T&lt;/span&gt;, мс&amp;gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Время от конца зубца S до конца T&lt;br/&gt;(t&lt;span style=&quot; vertical-align:sub;&quot;&gt;ST-T&lt;/span&gt;, мс):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="margin">
                  <number>0</number>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter">
+              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                <widget class="QLineEdit" name="lineEdit_8">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>225</width>
+                  <width>287</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1471,6 +1722,11 @@ border: 1px solid rgb(68, 190, 176);</string>
                   <width>230</width>
                   <height>25</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                 </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
@@ -1493,19 +1749,20 @@ border: 1px solid rgb(68, 190, 176);</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>220</width>
+               <width>300</width>
                <height>200</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>800</width>
+               <width>2000</width>
                <height>220</height>
               </size>
              </property>
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <family>Arial</family>
+               <pointsize>8</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -1514,11 +1771,29 @@ border: 1px solid rgb(68, 190, 176);</string>
              <property name="title">
               <string>Диагноз:</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_3">
-              <property name="topMargin">
-               <number>13</number>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_3" rowstretch="0">
+              <property name="leftMargin">
+               <number>8</number>
               </property>
-              <item row="0" column="0" alignment="Qt::AlignTop">
+              <property name="topMargin">
+               <number>5</number>
+              </property>
+              <property name="rightMargin">
+               <number>8</number>
+              </property>
+              <property name="bottomMargin">
+               <number>5</number>
+              </property>
+              <property name="spacing">
+               <number>5</number>
+              </property>
+              <item row="0" column="0" alignment="Qt::AlignBottom">
                <widget class="QTextEdit" name="textEdit_2">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1528,18 +1803,19 @@ border: 1px solid rgb(68, 190, 176);</string>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>200</width>
+                  <width>280</width>
                   <height>150</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>700</width>
-                  <height>190</height>
+                  <width>2000</width>
+                  <height>2000</height>
                  </size>
                 </property>
                 <property name="font">
                  <font>
+                  <family>Arial</family>
                   <pointsize>10</pointsize>
                  </font>
                 </property>
@@ -1607,6 +1883,11 @@ border: 1px solid rgb(68, 190, 176);</string>
    <addaction name="action"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
+   <property name="font">
+    <font>
+     <family>Arial</family>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -1712,8 +1993,6 @@ border: 1px solid rgb(68, 190, 176);</string>
  <tabstops>
   <tabstop>lineEdit_2</tabstop>
   <tabstop>lineEdit</tabstop>
-  <tabstop>radioButton</tabstop>
-  <tabstop>radioButton_3</tabstop>
   <tabstop>radioButton_2</tabstop>
   <tabstop>lineEdit_4</tabstop>
   <tabstop>lineEdit_3</tabstop>
@@ -1724,7 +2003,6 @@ border: 1px solid rgb(68, 190, 176);</string>
   <tabstop>lineEdit_9</tabstop>
   <tabstop>lineEdit_8</tabstop>
   <tabstop>textEdit_2</tabstop>
-  <tabstop>comboBox</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>tabWidget</tabstop>
  </tabstops>
