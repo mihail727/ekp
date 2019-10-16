@@ -27,8 +27,10 @@ private slots:
     void checkHFLF(QVector<double>);
     void newTaskQRS(QVector<double>);
     void drawQRS(QVector<double>, QVector<double>,
-                 QVector<double>, QVector<double>, QVector<double>,
-                 QVector<double>, QVector<double>);
+                 QVector<double>, QVector<double>,
+                 QVector<double>, QVector<double>,
+                 QVector<double>, QVector<double>,
+                 QVector<double>);
     void CalculateSomeProc(QVector<double>, QVector<double>, QVector<double>);
     void on_pushButton_clicked();
 
