@@ -24,13 +24,14 @@ private slots:
     void _drawGraphic(QVector<double>);
     void on_action_triggered();
     void newTaskLFHF(QVector<double>);
+    void newTaskEMD(QVector<double>);
     void checkHFLF(QVector<double>);
     void newTaskQRS(QVector<double>);
     void drawQRS(QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>,
-                 QVector<double>, QVector<double>,
-                 QVector<double>);
+                 QVector<double>, QVector<double>);
+    void _drawEMD(QVector<double>, QVector<double>);
     void CalculateSomeProc(QVector<double>, QVector<double>, QVector<double>);
     void on_pushButton_clicked();
 

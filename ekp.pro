@@ -27,6 +27,7 @@ CONFIG += c++11
 SOURCES += \
     Methods/calc.cpp \
     Methods/cqrs.cpp \
+    Methods/emd.cpp \
     Methods/hflf.cpp \
         mainwindow.cpp \
     main.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
 HEADERS += \
     Methods/calc.h \
     Methods/cqrs.h \
+    Methods/emd.h \
     Methods/hflf.h \
         mainwindow.h \
     qcustomplot.h

@@ -119,7 +119,7 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
             max1 = mas[i];
         }
     }
-    double max = 0;
+    auto max = 0;
     int n = mas.size();
     QVector<double> res(n);
     for (int i = 0; i< n; i ++)
@@ -380,7 +380,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     /*Все готово, тебе только создать два массива, и воткнуть их в функцию ниже
     Красным подсвечивается потому что в заголовке в функции описано больше аргументов (было 7 теперь 9)
     Чтобы испрвить это просто создай, заполни и воткни их в функцию (2 массива)*/
-    emit sendValues_for_drawGraphic(result, result1, mas, result2, result3, result4, result5);
+    //emit sendValues_for_drawGraphic(result1, mas, result2, result3, result4, result5);
     emit sendValues_for_calculate(result1, result2, result3);
 
     emit finished();

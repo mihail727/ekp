@@ -6,10 +6,33 @@
 #include <Methods/hflf.h>
 #include <Methods/calc.h>
 #include <Methods/cqrs.h>
+#include <Methods/emd.h>
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
                     /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+void MainWindow::newTaskEMD(QVector<double> Array)
+{
+    QThread *thread = new QThread;
+    cEMD *emd = new cEMD();
+
+    emd->moveToThread(thread);
+
+    connect(thread, &QThread::started, emd, [=] {
+        emd->doCalc(Array, firstCount, secondCount);
+    });
+
+    connect(emd, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(emd, SIGNAL(finished() ), emd, SLOT(deleteLater() ));
+    connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
+
+    //по завершению cEMD выодится график chart2
+    connect(emd, SIGNAL(drawEMD(QVector<double>, QVector<double>)),
+            this, SLOT(_drawEMD(QVector<double>, QVector<double>)));
+
+    thread->start();
+}
 
 void MainWindow::newTaskQRS(QVector<double> Array)
 //Выполнение метода Пана-Томпкинса --- вывод графика QRS
@@ -30,13 +53,11 @@ void MainWindow::newTaskQRS(QVector<double> Array)
     connect(qrs, SIGNAL(sendValues_for_drawGraphic(QVector<double>, QVector<double>,
                                                    QVector<double>, QVector<double>,
                                                    QVector<double>, QVector<double>,
-                                                   QVector<double>, QVector<double>,
-                                                   QVector<double>)  ),
+                                                   QVector<double>, QVector<double>)  ),
             this, SLOT(drawQRS(QVector<double>, QVector<double>,
                                QVector<double>, QVector<double>,
                                QVector<double>, QVector<double>,
-                               QVector<double>, QVector<double>,
-                               QVector<double>) ));
+                               QVector<double>, QVector<double>) ));
 
     //по завершению начинается расчет Пульса, SDANN, varQT
     connect(qrs, SIGNAL(sendValues_for_calculate(QVector<double>, QVector<double>,
@@ -142,36 +163,38 @@ void MainWindow::CalculateSomeProc(QVector<double> RValues, QVector<double> QVal
     }
 }
 
-void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
-                         QVector<double> ArrMain, QVector<double> QValues,
-                         QVector<double> SValues, QVector<double> PValues,
-                         QVector<double> TValues, QVector<double> NewVal1,
-                         QVector<double> NewVal2)
-//Вывод графика QRS
+void MainWindow::_drawEMD(QVector<double> ArrayMain, QVector<double> ArrayEMD)
+//Вывод графика EMD
 {
+    int j = 0;
     ui->chart2->addGraph(); //graph0
-
-    ui->chart2->graph(0)->setPen(QPen(Qt::black));
-
-    //формирование графика QRS
-    QVector<double> ArrPanTom_x, ArrPanTom_y;
-    int j=0;
-    for(int i=firstCount; i<ArrPanTom.size(); i++) {
-        ArrPanTom_x.push_back(i);
-        ArrPanTom_y.push_back(ArrPanTom[i]);
+    ui->chart2->graph(0)->setPen(QPen(Qt::green));
+    QVector<double> ArrayEMD_y;
+    for(int i=0; i<ArrayMain.size(); i++){
+        if( (j<ArrayEMD.size()) && (int(ArrayEMD[j]) == i) ) {
+            ArrayEMD_y.push_back(ArrayMain[i]);
+            j++;
+        }
     }
 
-    ui->chart2->graph(0)->setData(ArrPanTom_x, ArrPanTom_y);
-    ui->chart2->graph(0)->rescaleAxes();
+    ui->chart2->graph(0)->setData(ArrayEMD, ArrayEMD_y);
 
-    QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
-    ui->chart2->xAxis->setTicker(fixedTicker);
-    ui->chart2->yAxis->setTicker(fixedTicker);
-    fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
-    fixedTicker->setTickCount(16);
+    ui->chart2->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QColor(Qt::darkGreen), QColor(Qt::green), 7));
 
-    ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    ui->chart2->graph(0)->setLineStyle(QCPGraph::lsNone);
 
+    ui->chart2->yAxis->setRange( ui->chart2->yAxis->range().lower-100, ui->chart2->yAxis->range().upper+300 );
+
+    ui->chart2->replot();
+}
+
+void MainWindow::drawQRS(QVector<double> RValues, QVector<double> ArrMain,
+                         QVector<double> QValues, QVector<double> SValues,
+                         QVector<double> PValues, QVector<double> TValues,
+                         QVector<double> NewVal1, QVector<double> NewVal2)
+//Вывод графика QRS
+{
+    int j = 0;
     //вывод макс точек на график
     //формирование R пиков
     ui->chart1->addGraph(); //graph2
@@ -268,8 +291,6 @@ void MainWindow::drawQRS(QVector<double> ArrPanTom, QVector<double> RValues,
     ui->chart1->graph(8)->setLineStyle(QCPGraph::lsNone);
 
     ui->chart1->yAxis->setRange( ui->chart1->yAxis->range().lower-100, ui->chart1->yAxis->range().upper+300 );
-
-    ui->chart1->axisRect()->setRangeZoom(Qt::Horizontal);
 
     ui->chart1->replot();
 }
@@ -518,6 +539,7 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
 {
 //Вывод графика
     ui->chart1->clearGraphs();
+    ui->chart2->clearGraphs();
 
     ui->chart1->addGraph(); //graph(0)
     ui->chart1->addGraph(); //graph(1)
@@ -543,10 +565,19 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
     QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
     ui->chart1->xAxis->setTicker(fixedTicker);
     ui->chart1->yAxis->setTicker(fixedTicker);
+
+    ui->chart2->xAxis->setTicker(fixedTicker);
+    ui->chart2->yAxis->setTicker(fixedTicker);
+
     fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
     fixedTicker->setTickCount(16);
 
     ui->chart1->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+    ui->chart1->axisRect()->setRangeZoom(Qt::Horizontal);
+    ui->chart2->axisRect()->setRangeZoom(Qt::Horizontal);
+
     ui->chart1->replot();
 }
 
@@ -595,6 +626,8 @@ void MainWindow::on_action_triggered()
     connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
     //по завершению работы TCalc запускается newTaskQRS
     connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskQRS(QVector<double>) ));
+    //по завершению работы TCalc запускается newTaskEMD
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskEMD(QVector<double>) ));
 
     TCalc->moveToThread(Thread);
 
