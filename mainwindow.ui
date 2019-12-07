@@ -648,6 +648,9 @@ drop-down {
                  <property name="text">
                   <string>Блокада ножек</string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                  <property name="tristate">
                   <bool>false</bool>
                  </property>
@@ -725,7 +728,69 @@ drop-down {
               </layout>
              </widget>
             </item>
-            <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>НС</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QPushButton" name="pushButton_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Фазагров</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter">
              <widget class="QPushButton" name="pushButton">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -755,7 +820,7 @@ drop-down {
                <string notr="true"/>
               </property>
               <property name="text">
-               <string>Диагноз</string>
+               <string>ЭКП</string>
               </property>
              </widget>
             </item>
@@ -795,7 +860,7 @@ drop-down {
             <enum>QTabWidget::Rounded</enum>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="tab">
             <property name="sizePolicy">
@@ -803,6 +868,12 @@ drop-down {
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>9</pointsize>
+             </font>
             </property>
             <property name="styleSheet">
              <string notr="true"/>
@@ -828,16 +899,21 @@ drop-down {
            </widget>
            <widget class="QWidget" name="tab_2">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>100</width>
+              <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Bahnschrift SemiBold</family>
+             </font>
             </property>
             <property name="styleSheet">
              <string notr="true"/>
@@ -850,11 +926,33 @@ drop-down {
               <widget class="QCustomPlot" name="chart2" native="true">
                <property name="font">
                 <font>
-                 <family>Arial</family>
+                 <family>Arial Black</family>
                 </font>
                </property>
                <property name="cursor">
                 <cursorShape>CrossCursor</cursorShape>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <attribute name="title">
+             <string>Фазагров</string>
+            </attribute>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QCustomPlot" name="chart3" native="true">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                </font>
                </property>
               </widget>
              </item>
@@ -1880,7 +1978,6 @@ border: 1px solid rgb(68, 190, 176);</string>
     <bool>false</bool>
    </attribute>
    <addaction name="action_2"/>
-   <addaction name="action"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="font">
@@ -1968,18 +2065,6 @@ border: 1px solid rgb(68, 190, 176);</string>
     <enum>QAction::TextHeuristicRole</enum>
    </property>
   </action>
-  <action name="action">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/resource/img/iconfinder_15_3049264.png</normaloff>:/resource/img/iconfinder_15_3049264.png</iconset>
-   </property>
-   <property name="text">
-    <string>Вывести графики</string>
-   </property>
-   <property name="iconText">
-    <string>Вывести графики</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -2003,7 +2088,6 @@ border: 1px solid rgb(68, 190, 176);</string>
   <tabstop>lineEdit_9</tabstop>
   <tabstop>lineEdit_8</tabstop>
   <tabstop>textEdit_2</tabstop>
-  <tabstop>pushButton</tabstop>
   <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources>

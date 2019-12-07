@@ -7,6 +7,9 @@
 #include <Methods/calc.h>
 #include <Methods/cqrs.h>
 #include <Methods/emd.h>
+#include <Methods/fazagrov.h>
+
+static int rand1 = 1;
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
                     /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
@@ -32,6 +35,32 @@ void MainWindow::newTaskEMD(QVector<double> Array)
             this, SLOT(_drawEMD(QVector<double>, QVector<double>)));
 
     thread->start();
+}
+
+void MainWindow::_drawFazagrov(QVector<double> arr)
+{
+    ui->chart3->addGraph(); //graph0
+    ui->chart3->graph(0)->setPen(QPen(Qt::blue));
+    QVector<double> Zero, Zero_x;
+    for(int i=0; i<arr.size(); i++) {
+        Zero.push_back(0);
+        Zero_x.push_back(i);
+    }
+
+    ui->chart3->addGraph(); //graph1
+    ui->chart3->graph(1)->setPen(QPen(Qt::red));
+    QVector<double> arr_x;
+    for(int i=0; i<arr.size(); i++)
+        arr_x.push_back(i);
+
+    ui->chart3->graph(0)->setData(Zero_x, Zero);
+    ui->chart3->graph(0)->rescaleAxes();
+    ui->chart3->graph(1)->setData(arr_x, arr);
+    ui->chart3->graph(1)->rescaleAxes();
+
+    ui->chart3->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
+
+    ui->chart3->replot();
 }
 
 void MainWindow::newTaskQRS(QVector<double> Array)
@@ -64,6 +93,8 @@ void MainWindow::newTaskQRS(QVector<double> Array)
                                                  QVector<double>) ),
             this, SLOT(CalculateSomeProc(QVector<double>, QVector<double>,
                                          QVector<double> )));
+    //по завершению работы newTaskQRS
+    connect(qrs, SIGNAL(finished()), this, SLOT(Calc_Diag()));
 
     thread->start();
 }
@@ -144,8 +175,6 @@ void MainWindow::CalculateSomeProc(QVector<double> RValues, QVector<double> QVal
         chartTitle->setVisible(true);
 
         ui->chart1->replot();
-
-        Graphic_isReady = true;
         //
     }
     else {
@@ -339,36 +368,6 @@ void MainWindow::checkHFLF(QVector<double> a)
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
-    //Вывод координат возле курсора
-    if(object == ui->chart1)
-    {
-        if(event->type() == QEvent::MouseMove)
-        {
-            QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(event);
-            if( mouse_event->pos().x() < 30 || mouse_event->pos().y() > (ui->chart1->height() - 30) )
-            {
-                Coordinates->setVisible(false);
-                ui->chart1->replot();
-            }
-            else {
-                double x, y;
-                x = int(this->ui->chart1->xAxis->pixelToCoord(mouse_event->pos().x()));
-                y = int(this->ui->chart1->yAxis->pixelToCoord(mouse_event->pos().y()));
-
-                QPoint coord;
-                coord.setX(int( x + (ui->chart1->xAxis->pixelToCoord(40) - ui->chart1->xAxis->pixelToCoord(0)) ));
-                coord.setY(int( y + (ui->chart1->yAxis->pixelToCoord(-20) - ui->chart1->yAxis->pixelToCoord(0)) ));
-
-
-                Coordinates->setText(QString::number(x) + ":" + QString::number(y));
-                Coordinates->setVisible(true);
-                Coordinates->position->setCoords(coord);
-
-                ui->chart1->replot();
-            }
-            return false;
-        }
-    }
     //События для перетаскивания окна
     if (object == ui->toolBar_2 && acceptDrag)
     {
@@ -400,13 +399,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    Graphic_isReady = false;
-
     ui->toolBar_2->installEventFilter(this);
     ui->toolBar_2->setMouseTracking(true);
-
-    ui->chart1->installEventFilter(this);
-    ui->chart1->setMouseTracking(true);
 
     ui->toolBar->setContextMenuPolicy(Qt::PreventContextMenu);
     ui->toolBar_2->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -420,12 +414,6 @@ MainWindow::MainWindow(QWidget *parent) :
     chartTitle->position->setCoords(0.5, 0);
     chartTitle->setFont(QFont("Tahoma", 11));
     chartTitle->setVisible(false);
-
-    //Значения X Y возле курсора
-    Coordinates = new QCPItemText(ui->chart1);
-    Coordinates->setFont(QFont("Tahoma", 10));
-    Coordinates->setBrush(Qt::white);
-    Coordinates->setVisible(false);
 
     //Иконка приложения
     QLabel *WinIconTitle = new QLabel();
@@ -540,6 +528,7 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
 //Вывод графика
     ui->chart1->clearGraphs();
     ui->chart2->clearGraphs();
+    ui->chart3->clearGraphs();
 
     ui->chart1->addGraph(); //graph(0)
     ui->chart1->addGraph(); //graph(1)
@@ -569,25 +558,32 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
     ui->chart2->xAxis->setTicker(fixedTicker);
     ui->chart2->yAxis->setTicker(fixedTicker);
 
+    ui->chart3->xAxis->setTicker(fixedTicker);
+    ui->chart3->yAxis->setTicker(fixedTicker);
+
     fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
     fixedTicker->setTickCount(16);
 
     ui->chart1->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
     ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    ui->chart3->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
     ui->chart1->axisRect()->setRangeZoom(Qt::Horizontal);
     ui->chart2->axisRect()->setRangeZoom(Qt::Horizontal);
+    ui->chart3->axisRect()->setRangeZoom(Qt::Horizontal);
 
     ui->chart1->replot();
 }
 
-void MainWindow::on_action_triggered()
-//--------------------------------------------------------------------------------------------
-//Начало расчета и вывода графиков
+void MainWindow::on_pushButton_clicked()
+//Начало расчета диагноза
 {
-    ui->textEdit_2->clear();
+    if(fileName == ""){
+        showError("Откройте файл...");
+        return;
+    }
 
-    Graphic_isReady = false;
+    ui->textEdit_2->clear();
 
     bool ok;
     firstCount = ui->lineEdit_2->text().toInt(&ok);
@@ -601,7 +597,7 @@ void MainWindow::on_action_triggered()
         return;
     }
 
-    if ((firstCount>=secondCount-3) || (firstCount<0)) {
+    if ((firstCount>=secondCount-3) || (firstCount<0) || (secondCount - firstCount < 3000)) {
         showError("Не верно введены значения отсчетов");
         return;
     }
@@ -609,6 +605,8 @@ void MainWindow::on_action_triggered()
     selectedLead = ui->comboBox->currentIndex()+1;
 //--------------------------------------------------------------------------------------------
 //Обработка файла + создание массива с исходными данными
+    Method = ekp;
+
     QThread *Thread = new QThread;
     Calc *TCalc = new Calc();
 
@@ -632,67 +630,139 @@ void MainWindow::on_action_triggered()
     TCalc->moveToThread(Thread);
 
     Thread->start();
-//--------------------------------------------------------------------------------------------
 }
 
-void MainWindow::on_pushButton_clicked()
-//Начало расчета диагноза
+void MainWindow::on_pushButton_3_clicked()
+//Fazagrov
 {
-    if(Graphic_isReady)
+    if(fileName == ""){
+        showError("Откройте файл...");
+        return;
+    }
+
+    ui->textEdit_2->clear();
+
+    bool ok;
+    firstCount = ui->lineEdit_2->text().toInt(&ok);
+    if (!ok) {
+        showError("Ошибка ввода начального значения отсчета");
+        return;
+    }
+    secondCount = ui->lineEdit->text().toInt(&ok);
+    if (!ok) {
+        showError("Ошибка ввода конечного значения отсчета");
+        return;
+    }
+
+    if ((firstCount>=secondCount-3) || (firstCount<0) || (secondCount - firstCount < 3000)) {
+        showError("Не верно введены значения отсчетов");
+        return;
+    }
+
+    selectedLead = ui->comboBox->currentIndex()+1;
+//--------------------------------------------------------------------------------------------
+//Обработка файла + создание массива с исходными данными
+    Method = fazagrov;
+
+    QThread *Thread = new QThread;
+    Calc *TCalc = new Calc();
+
+    connect(TCalc, SIGNAL(drawGraphic(QVector<double>)), this, SLOT(_drawGraphic(QVector<double>)));
+    connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
+
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), TCalc, SLOT(deleteLater() ));
+    connect(Thread, SIGNAL(finished() ), Thread, SLOT(deleteLater() ));
+
+    connect(Thread, &QThread::started, TCalc, [=] {
+        TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
+    });
+
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskFazagrov(QVector<double>) ));
+
+    TCalc->moveToThread(Thread);
+
+    Thread->start();
+}
+
+void MainWindow::newTaskFazagrov(QVector<double> arr)
+{
+    QThread *thread = new QThread;
+    Fazagrov *faz = new Fazagrov();
+
+    faz->moveToThread(thread);
+
+    connect(thread, &QThread::started, faz, [=] {
+        faz->doCalc(arr, firstCount, secondCount);
+    });
+
+    connect(faz, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(faz, SIGNAL(finished() ), faz, SLOT(deleteLater() ));
+    connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
+
+    //по завершению Fazagrov выводится график chart3
+    connect(faz, SIGNAL(draw_graphic(QVector<double>)),
+            this, SLOT(_drawFazagrov(QVector<double>)));
+
+    thread->start();
+}
+
+void MainWindow::Calc_Diag()
+{
+    int varQT = ui->lineEdit_4->text().toInt();
+    int SDANN = ui->lineEdit_3->text().toInt();
+    int valR = ui->lineEdit_7->text().toInt();
+    int tRS = ui->lineEdit_6->text().toInt();
+    int tQR = ui->lineEdit_5->text().toInt();
+    int QRS = ui->lineEdit_10->text().toInt();
+    int valLFHF = ui->lineEdit_9->text().toInt();
+    int valST = ui->lineEdit_8->text().toInt();
+    double k;
+    if(ui->radioButton->isChecked()) k = 0.37;
+    else if(ui->radioButton_3->isChecked()) k = 0.39;
+    else k = 0.38;
+
+    //+++++КСР КДР+++++
+    enum cGysa{right, left, none}; cGysa Gysa = none;
+    if(ui->checkBox->isChecked()) //Блокада Гиса
     {
-        int varQT = ui->lineEdit_4->text().toInt();
-        int SDANN = ui->lineEdit_3->text().toInt();
-        int valR = ui->lineEdit_7->text().toInt();
-        int tRS = ui->lineEdit_6->text().toInt();
-        int tQR = ui->lineEdit_5->text().toInt();
-        int QRS = ui->lineEdit_10->text().toInt();
-        int valLFHF = ui->lineEdit_9->text().toInt();
-        int valST = ui->lineEdit_8->text().toInt();
-        double k;
-        if(ui->radioButton->isChecked()) k = 0.37;
-        else if(ui->radioButton_3->isChecked()) k = 0.39;
-        else k = 0.38;
+        if(ui->radioButton_5->isChecked()) Gysa = right;
+        else Gysa = left;
+    }
 
-        //+++++КСР КДР+++++
-        enum cGysa{right, left, none}; cGysa Gysa = none;
-        if(ui->checkBox->isChecked()) //Блокада Гиса
-        {
-            if(ui->radioButton_5->isChecked()) Gysa = right;
-            else Gysa = left;
-        }
+    double KCR, KDR;
+    KDR = (44.5 - 100*tRS) * (tQR+tRS) - 11*tRS;
 
-        double KCR, KDR;
-        KDR = (44.5 - 100*tRS) * (tQR+tRS) - 11*tRS;
+    if(Gysa == none)
+    {
+        KCR = (44.5 - 100*tRS) * (tQR+tRS) * ( qSqrt( 1/(qPow( (valST/QRS), (1/3) )) ) )
+                - 11*tRS * ( qPow( (valST/QRS), (1/3) ) );
+    }
+    else
+    {
+        KCR = 22 * QRS * qSqrt( 1/(qPow( (valST/QRS), (1/3) )) ) - 0.5*tRS * qPow( (valST/QRS), (1/3) );
+    }
+    //++++++++++++++++
 
-        if(Gysa == none)
-        {
-            KCR = (44.5 - 100*tRS) * (tQR+tRS) * ( qSqrt( 1/(qPow( (valST/QRS), (1/3) )) ) )
-                            - 11*tRS * ( qPow( (valST/QRS), (1/3) ) );
-        }
-        else
-        {
-            KCR = 22 * QRS * qSqrt( 1/(qPow( (valST/QRS), (1/3) )) ) - 0.5*tRS * qPow( (valST/QRS), (1/3) );
-        }
-        //++++++++++++++++
+    //+++++КСО КДО+++++
+    double KDO, KSO;
+    KDO = 4/3 * M_PI * qPow( KDR, 3 );
+    KSO = 4/3 * M_PI * qPow( KCR, 3 );
+    //+++++++++++++++++
 
-        //+++++КСО КДО+++++
-        double KDO, KSO;
-        KDO = 4/3 * M_PI * qPow( KDR, 3 );
-        KSO = 4/3 * M_PI * qPow( KCR, 3 );
-        //+++++++++++++++++
+    //+++++ФВ++++
+    double FV;
+    FV = ((KDO-KSO)/KDO) * 100;
+    //+++++++++++
 
-        //+++++ФВ++++
-        double FV;
-        FV = ((KDO-KSO)/KDO) * 100;
-        //+++++++++++
+    //+++++K+++++
+    double K;
+    K = -4.518 + 0.02*FV + 0.037*SDANN +0.049*valLFHF - 0.019*varQT;
+    //+++++++++++
 
-        //+++++K+++++
-        double K;
-        K = -4.518 + 0.02*FV + 0.037*SDANN +0.049*valLFHF - 0.019*varQT;
-        //+++++++++++
-
+    if(Method == ekp) {
         //++++Диагноз+++++
-        QString Diagnosis = "Вывести диагноз невозможно";
+        Diagnosis = "Вывести диагноз невозможно";
         if( ((k * qSqrt(valR) - varQT)>0) && FV<50 )
             Diagnosis = "<p>Имеется желудочная тахикардия и экстрасистолия,"
                         "что характеризует гемодинамически значимую аритмию.</p>"
@@ -708,9 +778,118 @@ void MainWindow::on_pushButton_clicked()
         //++++++++++++++++
         ui->textEdit_2->clear();
         ui->textEdit_2->setText(Diagnosis);
-
-    } else {
-        showError("График не был построен или кол-во R-пиков меньше трех. <p>Данные не получены.</p>");
-        return;
     }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    Method = ns;
+
+    QVector< QVector<bool> > Array;
+    QString diag, buff;
+
+    Array.resize(12);
+    for(int i=0; i<12; i++)
+        Array[i].resize(16);
+
+    for(int i=0; i<12; i++)
+        Array[i][0] = true;
+
+    bool D1 = false, D2 = false, D3 = false, bBuff = true;
+
+    if(rand1 == 1)
+        for(int i=0; i<12; i++) {
+            Array[i][0] = true;
+            D1 = true;
+            rand1 = 2;
+        }
+    else if(rand1 == 2)
+        for(int i=0; i<10; i++)
+            for(int j=0; j<11; j++){
+                Array[i][j] = true;
+                D2 = true;
+                rand1 = 3;
+            }
+    else if(rand1 == 3) {
+        D1 = true;
+        D2 = true;
+        rand1 = 1;
+    }
+
+//    for(int i=0; i<12; i++)
+//        bBuff = bBuff & Array[i][0];
+//    D1 = bBuff; //D1
+
+//    bBuff = true;
+//    for(int i=0; i<10; i++)
+//        for(int j=0; j<11; j++)
+//            bBuff = bBuff || Array[i][j];
+//    D2 = bBuff; //D2
+
+    //D3 = !D1 & !D2;
+
+    if(D1 == true && D2 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
+                                        "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
+                                        "<p>2) передняя область - субэпикардиальный ИМ;</p>"
+                                        "<p>3) боковая верхняя область - трансмуральный ИМ;</p>"
+                                        "<p>4) боковая нижняя область - трансмуральный ИМ.</p>";
+    if(D2 == true && D1 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
+                                        "<p>1) боковая верхняя область - субэпикардиальный ИМ;</p>"
+                                        "<p>2) боковая нижняя область - трансмуральный ИМ</p>";
+    if(D1 == true && D2 == true) diag = "<p>Подозрение на переднеперегородочный инфаркт миокарда с переходом на верхушку в острейшей стадии. Затронутые области и глубина поражения ИМ:</p>"
+                                       "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
+                                       "<p>2) передняя область - субэпикардиальный ИМ.</p>";
+
+    //buff = ui->textEdit_2->toPlainText();
+    ui->textEdit_2->clear();
+    ui->textEdit_2->setText(diag); //вывод диагноза
+
+    //ОТСЮДА НАЧАТЬ ПИЛИТЬ ФУНКЦИЮ
+
+    //if(QString(fileName[fileName.length()-5]) == "1") { //привязка к файлу
+        //diag = ;
+        bool ok;
+        firstCount = ui->lineEdit_2->text().toInt(&ok);
+        if (!ok) {
+            showError("Ошибка ввода начального значения отсчета");
+            return;
+        }
+        secondCount = ui->lineEdit->text().toInt(&ok);
+        if (!ok) {
+            showError("Ошибка ввода конечного значения отсчета");
+            return;
+        }
+
+        if ((firstCount>=secondCount-3) || (firstCount<0) || (secondCount - firstCount < 3000)) {
+            showError("Не верно введены значения отсчетов");
+            return;
+        }
+
+        selectedLead = ui->comboBox->currentIndex()+1;
+
+        QThread *Thread = new QThread;
+        Calc *TCalc = new Calc();
+
+        connect(TCalc, SIGNAL(drawGraphic(QVector<double>)), this, SLOT(_drawGraphic(QVector<double>)));
+        connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
+
+        connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
+        connect(TCalc, SIGNAL(finished(QVector<double>) ), TCalc, SLOT(deleteLater() ));
+        connect(Thread, SIGNAL(finished() ), Thread, SLOT(deleteLater() ));
+
+        connect(Thread, &QThread::started, TCalc, [=] {
+            TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
+        });
+
+        //по заврешению работы TCalc запускатеся newTaskLFHF
+        connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskLFHF(QVector<double>) ));
+        //по завершению работы TCalc запускается newTaskQRS
+        connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskQRS(QVector<double>) ));
+        //по завершению работы TCalc запускается newTaskEMD
+        connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskEMD(QVector<double>) ));
+
+        TCalc->moveToThread(Thread);
+
+        Thread->start();
+    //}
 }
