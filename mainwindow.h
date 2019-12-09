@@ -32,7 +32,7 @@ private slots:
                  QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>);
     void _drawEMD(QVector<double>, QVector<double>);
-    void _drawFazagrov(QVector<double>);
+    void _drawFazagrov(QList<QVector<double>>);
     void CalculateSomeProc(QVector<double>, QVector<double>, QVector<double>);
     void on_pushButton_clicked();
 
