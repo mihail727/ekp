@@ -44,6 +44,7 @@ void MainWindow::_drawFazagrov(QList<QVector<double>> List)
     {
         k=0;
         numOfGraph++;
+        buff.clear();
         ui->chart3->addGraph(); //new graph
 
         for(int j=0; j<List[0].size(); j++){

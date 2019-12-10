@@ -5,7 +5,6 @@ void Fazagrov::doCalc(const QVector<double> &mas, int firstCount, int secondCoun
     QList<QVector<double>> List;
     List.push_back(mas);
 
-    //сюда свой код
 
     emit draw_graphic(List);
     emit finished();
