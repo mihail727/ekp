@@ -29,7 +29,6 @@ SOURCES += \
     Methods/cqrs.cpp \
     Methods/emd.cpp \
     Methods/fazagrov.cpp \
-    Methods/hflf.cpp \
         mainwindow.cpp \
     main.cpp \
     qcustomplot.cpp
@@ -39,7 +38,6 @@ HEADERS += \
     Methods/cqrs.h \
     Methods/emd.h \
     Methods/fazagrov.h \
-    Methods/hflf.h \
     Types/cData.h \
         mainwindow.h \
     qcustomplot.h

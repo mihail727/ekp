@@ -15,7 +15,6 @@ public:
 
 signals:
     void sendError(QString);
-    void drawGraphic(QVector<double>);
     void finished(QVector<double>);
 
 public slots:

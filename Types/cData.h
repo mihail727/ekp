@@ -9,7 +9,7 @@ struct cData
     QColor color_Line = QColor(0,0,0),
            color_Point = QColor(0,0,0),
            color_Frame = QColor(0,0,0);
-    enum cType{Line, Point}; cType Type = Line;
+    enum cType{Line, Point}; cType Type = Point;
 
     void Clear()
     {

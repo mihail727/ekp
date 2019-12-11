@@ -2,6 +2,7 @@
 #define CQRS_H
 
 #include <QObject>
+#include <Types/cData.h>
 
 class cQRS : public QObject
 {
@@ -10,11 +11,8 @@ public:
 
 signals:
     void finished();
-    void sendValues_for_drawGraphic(QVector<double>, QVector<double>,
-                                    QVector<double>, QVector<double>,
-                                    QVector<double>, QVector<double>,
-                                    QVector<double>, QVector<double>);
-    void sendValues_for_calculate(QVector<double>, QVector<double>, QVector<double>);
+    void sendValues_for_drawGraphic(QList<cData>);
+    void sendValues_for_calculate(QList<cData>);
 public slots:
      void doCalc(const QVector<double> &mas, int firstCount, int secondCount);
 

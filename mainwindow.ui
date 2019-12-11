@@ -573,7 +573,7 @@ drop-down {
                   <string notr="true"/>
                  </property>
                  <property name="text">
-                  <string>1500</string>
+                  <string>3000</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -824,6 +824,31 @@ drop-down {
               </property>
              </widget>
             </item>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>EMD</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>
@@ -860,7 +885,7 @@ drop-down {
             <enum>QTabWidget::Rounded</enum>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="tab">
             <property name="sizePolicy">
@@ -879,7 +904,7 @@ drop-down {
              <string notr="true"/>
             </property>
             <attribute name="title">
-             <string>График</string>
+             <string> ЭКП и НС</string>
             </attribute>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
@@ -919,7 +944,7 @@ drop-down {
              <string notr="true"/>
             </property>
             <attribute name="title">
-             <string>PanTom</string>
+             <string>EMD</string>
             </attribute>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>

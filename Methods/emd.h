@@ -2,6 +2,7 @@
 #define EMD_H
 
 #include <QObject>
+#include <Types/cData.h>
 
 class cEMD : public QObject
 {
@@ -10,7 +11,7 @@ public:
 
 signals:
     void finished();
-    void drawEMD(QVector<double>, QVector<double>);
+    void draw_graphic(QList<cData>);
 public slots:
     void doCalc(const QVector<double> &mas, int firstCount, int secondCount);
 };

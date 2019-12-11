@@ -50,6 +50,5 @@ void Calc::doCalc(QString &fileName, int &selectedLead,
 
     dataFile.close();
 
-    emit drawGraphic(dataArray);
     emit finished(dataArray);
 }

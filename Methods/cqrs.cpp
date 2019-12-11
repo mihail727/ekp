@@ -3,7 +3,6 @@
 #include <iostream>
 #include <QDebug>
 
-
 static QVector <double> masspoint1(1000000);
 
 void low (const QVector<double> &masspoint3, int firstCount, int secondCount) // фильтр нижних частот
@@ -350,6 +349,9 @@ QVector<double> Proizvodnaya(const QVector<double> &mas)
 
 void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
 {
+    cData Data;
+    QList<cData> List_for_graphic, List_for_calc;
+
     QVector<double> result(secondCount-firstCount);
     QVector<double> result1(secondCount-firstCount);
     QVector<double> result2(secondCount-firstCount);
@@ -368,20 +370,62 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     result4 = topsP(mas, result2);
     result5 = beginP(result4);
 
-   // low(mas, firstCount, secondCount );
-  //  high(masspoint1, firstCount, secondCount );
     differentiation(mas, firstCount, secondCount );
     dif = Proizvodnaya(mas);
-    //dif = masspoint1;
+
     for (int i=0; i< dif.size()-3; i++)
         dif[i] = dif[i+3];
-    //emit sendQRSValues (dif, result1, mas, result2, result3, result4, result5);
 
-    /*Все готово, тебе только создать два массива, и воткнуть их в функцию ниже
-    Красным подсвечивается потому что в заголовке в функции описано больше аргументов (было 7 теперь 9)
-    Чтобы испрвить это просто создай, заполни и воткни их в функцию (2 массива)*/
-    //emit sendValues_for_drawGraphic(result1, mas, result2, result3, result4, result5);
-    emit sendValues_for_calculate(result1, result2, result3);
+/****************************************/
+/*ЭТАП НАСТРОЙКИ ВЕКТОРОВ И ИХ ОТПРАВКИ*/
+/****************************************/
+    Data.Array_X = result1;
+    List_for_calc.push_back(Data);
+//    Data.Type = cData::Point;
+//    Data.color_Line = QColor(255,0,0);
+//    Data.color_Point = QColor(255,255,0);
+//    Data.color_Frame = QColor(255,255,255);
+    Data.Clear();
 
+    Data.Array_X = result2;
+    List_for_calc.push_back(Data);
+    Data.Clear();
+
+    Data.Array_X = result3;
+    List_for_calc.push_back(Data);
+    Data.Clear();
+
+    Data.Array_X = result1;
+    //Data.Array_Y = result1;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Array_X = mas;
+    //Data.Array_Y = mas;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Array_X = result2;
+    //Data.Array_Y = mas;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Array_X = result3;
+    //Data.Array_Y = mas;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Array_X = result4;
+    //Data.Array_Y = mas;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Array_X = result5;
+    //Data.Array_Y = mas;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    emit sendValues_for_calculate(List_for_calc);
+    //emit sendValues_for_drawGraphic(List_for_graphic);
     emit finished();
 }
