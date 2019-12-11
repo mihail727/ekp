@@ -18,7 +18,7 @@ struct cData
         color_Line = QColor(0,0,0);
         color_Point = QColor(0,0,0);
         color_Frame = QColor(0,0,0);
-        Type = Line;
+        Type = Point;
     }
 };
 
