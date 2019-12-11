@@ -5,6 +5,7 @@ void Fazagrov::doCalc(const QVector<double> &mas, int firstCount, int secondCoun
 {
     QList<cData> List;
 
+<<<<<<< HEAD
     for(int i=0; i<mas.size(); i++)
         Data.Array_X.push_back(i);
     Data.Array_Y = mas;
@@ -15,6 +16,8 @@ void Fazagrov::doCalc(const QVector<double> &mas, int firstCount, int secondCoun
     Data.Clear();
 
     List.push_back(Data);
+=======
+>>>>>>> ced1daf1bd8dd0987aa3da8a00f1d8236c4d9bd6
 
     emit draw_graphic(List);
     emit finished();
