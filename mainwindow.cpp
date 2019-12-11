@@ -43,11 +43,6 @@ void MainWindow::_drawFazagrov(QList<cData> List)
     for(int i=0; i<List.size(); i++)
     {
         numOfGraph++;
-<<<<<<< HEAD
-=======
-        buff.clear();
-        ui->chart3->addGraph(); //new graph
->>>>>>> ced1daf1bd8dd0987aa3da8a00f1d8236c4d9bd6
 
         if(Method == fazagrov) {
             ui->chart3->addGraph(); //new graph
