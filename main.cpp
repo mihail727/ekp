@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     qRegisterMetaType<QVector<double> >("QVector<double>");
     qRegisterMetaType<QList<QVector<double>> >("QList<QVector<double>>");
+    qRegisterMetaType<QList<cData> >("QList<cData>");
 
     w.show();
 

@@ -37,32 +37,32 @@ void MainWindow::newTaskEMD(QVector<double> Array)
     thread->start();
 }
 
-void MainWindow::_drawFazagrov(QList<QVector<double>> List)
+void MainWindow::_drawFazagrov(QList<cData> List)
 {
-    QVector<double> buff; int k, numOfGraph=1;
-    for(int i=1; i<List.size(); i++)
+    int numOfGraph = -1;
+    for(int i=0; i<List.size(); i++)
     {
-        k=0;
         numOfGraph++;
-        ui->chart3->addGraph(); //new graph
 
-        for(int j=0; j<List[0].size(); j++){
-            if( (k<List[i].size()) && (int(List[i][k]) == j) ) {
-                buff.push_back(List[0][j]);
-                k++;
+        if(Method == fazagrov) {
+            ui->chart3->addGraph(); //new graph
+            ui->chart3->graph(numOfGraph)->setData(List[i].Array_X, List[i].Array_Y);
+            ui->chart3->graph(numOfGraph)->setPen(QPen(List[i].Line));
+
+            if(List[i].Type == cData::Line)
+                ui->chart3->graph(numOfGraph)->setLineStyle(QCPGraph::lsLine);
+            else {
+                ui->chart3->graph(numOfGraph)->setLineStyle(QCPGraph::lsNone);
+                ui->chart3->graph(numOfGraph)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
+                                                                               List[i].color_Frame,
+                                                                               List[i].color_Point, 7));
             }
+
         }
-
-        ui->chart3->graph(numOfGraph)->setData(List[i], buff);
-        ui->chart3->graph(numOfGraph)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-                                                                       QColor(Qt::darkGreen),
-                                                                       QColor(Qt::green), 7));
-        ui->chart3->graph(numOfGraph)->setLineStyle(QCPGraph::lsNone);
+        ui->chart3->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
+        ui->chart3->rescaleAxes();
+        ui->chart3->replot();
     }
-
-    ui->chart3->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
-
-    ui->chart3->replot();
 }
 
 void MainWindow::newTaskQRS(QVector<double> Array)
@@ -535,14 +535,14 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
     ui->chart1->addGraph(); //graph(0)
     ui->chart1->addGraph(); //graph(1)
 
-    ui->chart3->addGraph(); //graph(0)
-    ui->chart3->addGraph(); //graph(1)
+    //ui->chart3->addGraph(); //graph(0)
+   // ui->chart3->addGraph(); //graph(1)
 
     ui->chart1->graph(0)->setPen(QPen(Qt::red));
     ui->chart1->graph(1)->setPen(QPen(Qt::blue));
 
-    ui->chart3->graph(0)->setPen(QPen(Qt::red));
-    ui->chart3->graph(1)->setPen(QPen(Qt::blue));
+//    ui->chart3->graph(0)->setPen(QPen(Qt::red));
+//    ui->chart3->graph(1)->setPen(QPen(Qt::blue));
 
     //формирование графика ЭКГ
     QVector<double> x_value, y_value, x_zero, y_zero;
@@ -559,9 +559,9 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
     ui->chart1->graph(0)->rescaleAxes();
     ui->chart1->graph(1)->setData(x_zero, y_zero);
 
-    ui->chart3->graph(0)->setData(x_value, y_value);
-    ui->chart3->graph(0)->rescaleAxes();
-    ui->chart3->graph(1)->setData(x_zero, y_zero);
+//    ui->chart3->graph(0)->setData(x_value, y_value);
+//    ui->chart3->graph(0)->rescaleAxes();
+//    ui->chart3->graph(1)->setData(x_zero, y_zero);
 
     QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
     ui->chart1->xAxis->setTicker(fixedTicker);
@@ -585,7 +585,7 @@ void MainWindow::_drawGraphic(QVector<double> dataArray)
     ui->chart3->axisRect()->setRangeZoom(Qt::Horizontal);
 
     ui->chart1->replot();
-    ui->chart3->replot();
+    //ui->chart3->replot();
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -714,8 +714,8 @@ void MainWindow::newTaskFazagrov(QVector<double> arr)
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
 
     //по завершению Fazagrov выводится график chart3
-    connect(faz, SIGNAL(draw_graphic(QList<QVector<double>>)),
-            this, SLOT(_drawFazagrov(QList<QVector<double>>)));
+    connect(faz, SIGNAL(draw_graphic(QList<cData>)),
+            this, SLOT(_drawFazagrov(QList<cData>)));
 
     thread->start();
 }

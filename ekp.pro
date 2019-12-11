@@ -40,6 +40,7 @@ HEADERS += \
     Methods/emd.h \
     Methods/fazagrov.h \
     Methods/hflf.h \
+    Types/cData.h \
         mainwindow.h \
     qcustomplot.h
 

@@ -5,6 +5,7 @@
 #include <QFile>
 
 #include <qcustomplot.h>
+#include <Types/cData.h>
 
 namespace Ui {
 class MainWindow;
@@ -32,7 +33,7 @@ private slots:
                  QVector<double>, QVector<double>,
                  QVector<double>, QVector<double>);
     void _drawEMD(QVector<double>, QVector<double>);
-    void _drawFazagrov(QList<QVector<double>>);
+    void _drawFazagrov(QList<cData>);
     void CalculateSomeProc(QVector<double>, QVector<double>, QVector<double>);
     void on_pushButton_clicked();
 
