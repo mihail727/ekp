@@ -11,7 +11,7 @@ public:
 
 signals:
     void finished();
-    void sendValues_for_drawGraphic(QList<cData>);
+    void draw_graphic(QList<cData>);
     void sendValues_for_calculate(QList<cData>);
 public slots:
      void doCalc(const QVector<double> &mas, int firstCount, int secondCount);

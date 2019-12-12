@@ -22,19 +22,14 @@ public:
 private slots:
     void on_action_2_triggered();
     void showError(QString);
-    void newTaskEMD(QVector<double>);
-    void newTaskQRS(QVector<double>);
-    void newTaskFazagrov(QVector<double>);
+    void newTask(QVector<double>);
     void draw_graphic(QList<cData>);
     void CalculateSomeProc(QList<cData>);
     void on_pushButton_clicked();
     void start_Calc();
-
     void on_pushButton_2_clicked();
     void Calc_Diag();
-
     void on_pushButton_3_clicked();
-
     void on_pushButton_4_clicked();
 
 private:

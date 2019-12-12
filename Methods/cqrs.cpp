@@ -426,6 +426,6 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     emit sendValues_for_calculate(List_for_calc);
-    //emit sendValues_for_drawGraphic(List_for_graphic);
+    //emit draw_graphic(List_for_graphic);
     emit finished();
 }

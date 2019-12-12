@@ -14,23 +14,70 @@ static int rand1 = 1;
                     /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-void MainWindow::newTaskEMD(QVector<double> Array)
+void MainWindow::newTask(QVector<double> Array)
 {
     QThread *thread = new QThread;
-    cEMD *emd = new cEMD();
-
-    emd->moveToThread(thread);
-
-    connect(thread, &QThread::started, emd, [=] {
-        emd->doCalc(Array, firstCount, secondCount);
-    });
-
-    connect(emd, SIGNAL(finished()), thread, SLOT(quit()));
-    connect(emd, SIGNAL(finished() ), emd, SLOT(deleteLater() ));
     connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
 
-    //по завершению cEMD выодится график chart2
-    connect(emd, SIGNAL(draw_graphic(QList<cData>)),
+    QObject *Object = nullptr;
+
+    switch (Method) {
+    case emd: {
+        cEMD *emd = new cEMD();
+        Object = emd;
+
+        connect(thread, &QThread::started, emd, [=] {
+            emd->doCalc(Array, firstCount, secondCount);
+        });
+        break;
+    }
+    case ekp: {
+        cQRS *qrs = new cQRS();
+        Object = qrs;
+
+        connect(thread, &QThread::started, qrs, [=] {
+            qrs->doCalc(Array, firstCount, secondCount);
+        });
+
+        //по завершению начинается расчет Пульса, SDANN, varQT
+//        connect(qrs, SIGNAL(sendValues_for_calculate(QList<cData>)),
+//                this, SLOT(CalculateSomeProc(QList<cData>)));
+//      //по завершению работы newTaskQRS
+//      connect(qrs, SIGNAL(finished()), this, SLOT(Calc_Diag()));
+        break;
+    }
+    case ns: {
+        cQRS *qrs = new cQRS();
+        Object = qrs;
+
+        connect(thread, &QThread::started, qrs, [=] {
+            qrs->doCalc(Array, firstCount, secondCount);
+        });
+
+        //по завершению начинается расчет Пульса, SDANN, varQT
+//        connect(qrs, SIGNAL(sendValues_for_calculate(QList<cData>)),
+//                this, SLOT(CalculateSomeProc(QList<cData>)));
+//      //по завершению работы newTaskQRS
+//      connect(qrs, SIGNAL(finished()), this, SLOT(Calc_Diag()));
+        break;
+    }
+    case fazagrov: {
+        Fazagrov *faz = new Fazagrov();
+        Object = faz;
+
+        connect(thread, &QThread::started, faz, [=] {
+            faz->doCalc(Array, firstCount, secondCount);
+        });
+        break;
+    }}
+
+    Object->moveToThread(thread);
+
+    connect(Object, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(Object, SIGNAL(finished() ), Object, SLOT(deleteLater() ));
+
+    //по завершению Object выодится график
+    connect(Object, SIGNAL(draw_graphic(QList<cData>)),
             this, SLOT(draw_graphic(QList<cData>)));
 
     thread->start();
@@ -42,116 +89,55 @@ void MainWindow::draw_graphic(QList<cData> List)
     ui->chart2->clearGraphs();
     ui->chart3->clearGraphs();
 
+    QCustomPlot *chart = nullptr;
+    switch (Method) {
+    case ekp:
+        chart = ui->chart1;
+        break;
+    case ns:
+        chart = ui->chart3;
+        break;
+    case emd:
+        chart = ui->chart2;
+        break;
+    case fazagrov:
+        chart = ui->chart3;
+        break;
+    }
+
     int numOfGraph = -1;
     for(int i=0; i<List.size(); i++)
     {
         numOfGraph++;
 
-        if(Method == fazagrov) {
-            ui->chart3->addGraph(); //new graph
-            ui->chart3->graph(numOfGraph)->setData(List[i].Array_X, List[i].Array_Y);
-            ui->chart3->graph(numOfGraph)->setPen(QPen(List[i].Line));
+        chart->addGraph(); //new graph
+        chart->graph(numOfGraph)->setData(List[i].Array_X, List[i].Array_Y);
+        chart->graph(numOfGraph)->setPen(QPen(List[i].Line));
 
-            if(List[i].Type == cData::Line)
-                ui->chart3->graph(numOfGraph)->setLineStyle(QCPGraph::lsLine);
-            else {
-                ui->chart3->graph(numOfGraph)->setLineStyle(QCPGraph::lsNone);
-                ui->chart3->graph(numOfGraph)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-                                                                               List[i].color_Frame,
-                                                                               List[i].color_Point, 7));
-            }
+        if(List[i].Type == cData::Line)
+            chart->graph(numOfGraph)->setLineStyle(QCPGraph::lsLine);
+        else {
+            chart->graph(numOfGraph)->setLineStyle(QCPGraph::lsNone);
+            chart->graph(numOfGraph)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
+                                                                      List[i].color_Frame,
+                                                                      List[i].color_Point, 7));
         }
-
-        if(Method == emd) {
-            ui->chart2->addGraph(); //new graph
-            ui->chart2->graph(numOfGraph)->setData(List[i].Array_X, List[i].Array_Y);
-            ui->chart2->graph(numOfGraph)->setPen(QPen(List[i].Line));
-
-            if(List[i].Type == cData::Line)
-                ui->chart2->graph(numOfGraph)->setLineStyle(QCPGraph::lsLine);
-            else {
-                ui->chart2->graph(numOfGraph)->setLineStyle(QCPGraph::lsNone);
-                ui->chart2->graph(numOfGraph)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-                                                                               List[i].color_Frame,
-                                                                               List[i].color_Point, 7));
-            }
-        }
-
-        if(Method == ekp) {
-            ui->chart1->addGraph(); //new graph
-            ui->chart1->graph(numOfGraph)->setData(List[i].Array_X, List[i].Array_Y);
-            ui->chart1->graph(numOfGraph)->setPen(QPen(List[i].Line));
-
-            if(List[i].Type == cData::Line)
-                ui->chart1->graph(numOfGraph)->setLineStyle(QCPGraph::lsLine);
-            else {
-                ui->chart1->graph(numOfGraph)->setLineStyle(QCPGraph::lsNone);
-                ui->chart1->graph(numOfGraph)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-                                                                               List[i].color_Frame,
-                                                                               List[i].color_Point, 7));
-            }
-        }
-
-        QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
-        ui->chart1->xAxis->setTicker(fixedTicker);
-        ui->chart1->yAxis->setTicker(fixedTicker);
-
-        ui->chart2->xAxis->setTicker(fixedTicker);
-        ui->chart2->yAxis->setTicker(fixedTicker);
-
-        ui->chart3->xAxis->setTicker(fixedTicker);
-        ui->chart3->yAxis->setTicker(fixedTicker);
-
-        fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
-        fixedTicker->setTickCount(16);
-
-        ui->chart1->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-        ui->chart2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-        ui->chart3->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-
-        ui->chart1->axisRect()->setRangeZoom(Qt::Horizontal);
-        ui->chart2->axisRect()->setRangeZoom(Qt::Horizontal);
-        ui->chart3->axisRect()->setRangeZoom(Qt::Horizontal);
-
-        ui->chart1->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
-        ui->chart1->rescaleAxes();
-        ui->chart1->replot();
-
-        ui->chart2->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
-        ui->chart2->rescaleAxes();
-        ui->chart2->replot();
-
-        ui->chart3->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
-        ui->chart3->rescaleAxes();
-        ui->chart3->replot();
     }
-}
 
-void MainWindow::newTaskQRS(QVector<double> Array)
-//Выполнение метода Пана-Томпкинса --- вывод графика QRS
-{
-    QThread *thread = new QThread;
-    cQRS *qrs = new cQRS();
+    QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
+    chart->xAxis->setTicker(fixedTicker);
+    chart->yAxis->setTicker(fixedTicker);
 
-    qrs->moveToThread(thread);
+    fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
+    fixedTicker->setTickCount(16);
 
-    connect(thread, &QThread::started, qrs, [=] {
-        qrs->doCalc(Array, firstCount, secondCount);
-    });
+    chart->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
-    connect(qrs, SIGNAL(finished() ), thread, SLOT(quit() ));
-    connect(qrs, SIGNAL(finished() ), qrs, SLOT(deleteLater() ));
-    connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-    //по заверщению cqrs выводится график drawQRS
-    connect(qrs, SIGNAL(sendValues_for_drawGraphic(QList<cData>)),
-            this, SLOT(draw_graphic(QList<cData>)));
-    //по завершению начинается расчет Пульса, SDANN, varQT
-    connect(qrs, SIGNAL(sendValues_for_calculate(QList<cData>)),
-            this, SLOT(CalculateSomeProc(QList<cData>)));
-//    //по завершению работы newTaskQRS
-//    connect(qrs, SIGNAL(finished()), this, SLOT(Calc_Diag()));
+    chart->axisRect()->setRangeZoom(Qt::Horizontal);
 
-    thread->start();
+    chart->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
+    chart->rescaleAxes();
+    chart->replot();
 }
 
 void MainWindow::CalculateSomeProc(QList<cData> List)
@@ -426,28 +412,6 @@ void MainWindow::on_pushButton_3_clicked()
     ui->tabWidget->setCurrentIndex(2);
 }
 
-void MainWindow::newTaskFazagrov(QVector<double> arr)
-{
-    QThread *thread = new QThread;
-    Fazagrov *faz = new Fazagrov();
-
-    faz->moveToThread(thread);
-
-    connect(thread, &QThread::started, faz, [=] {
-        faz->doCalc(arr, firstCount, secondCount);
-    });
-
-    connect(faz, SIGNAL(finished()), thread, SLOT(quit()));
-    connect(faz, SIGNAL(finished() ), faz, SLOT(deleteLater() ));
-    connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-
-    //по завершению Fazagrov выводится график chart3
-    connect(faz, SIGNAL(draw_graphic(QList<cData>)),
-            this, SLOT(draw_graphic(QList<cData>)));
-
-    thread->start();
-}
-
 void MainWindow::Calc_Diag()
 {
     int varQT = ui->lineEdit_4->text().toInt();
@@ -642,24 +606,7 @@ void MainWindow::start_Calc()
         TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
     });
 
-    switch (Method) {
-    case ekp:
-        //по завершению работы TCalc запускается newTaskQRS
-        connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskQRS(QVector<double>) ));
-        break;
-    case ns:
-        //по завершению работы TCalc запускается newTaskQRS
-        connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskQRS(QVector<double>) ));
-        break;
-    case emd:
-        //по завершению работы TCalc запускается newTaskEMD
-        connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskEMD(QVector<double>) ));
-        break;
-    case fazagrov:
-        //по завершению работы TCalc запускается newTaskFazagrov
-        connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTaskFazagrov(QVector<double>) ));
-        break;
-    }
+    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTask(QVector<double>) ));
 
     TCalc->moveToThread(Thread);
 
