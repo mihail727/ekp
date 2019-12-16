@@ -112,7 +112,7 @@ void MainWindow::draw_graphic(QList<cData> List)
 
         chart->addGraph(); //new graph
         chart->graph(numOfGraph)->setData(List[i].Array_X, List[i].Array_Y);
-        chart->graph(numOfGraph)->setPen(QPen(List[i].Line));
+        chart->graph(numOfGraph)->setPen(QPen(List[i].color_Line));
 
         if(List[i].Type == cData::Line)
             chart->graph(numOfGraph)->setLineStyle(QCPGraph::lsLine);
