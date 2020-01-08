@@ -3,6 +3,9 @@
 #include <iostream>
 #include <QDebug>
 
+#include <math.h>
+
+
 static QVector <double> masspoint1(1000000);
 
 void low (const QVector<double> &masspoint3, int firstCount, int secondCount) // фильтр нижних частот
@@ -56,7 +59,23 @@ void differentiation(const QVector<double> &masspoint3, int firstCount, int seco
 
     masspoint1 = filter2;
 }
+void differentiation2(const QVector<double> &masspoint3, int firstCount, int secondCount)//функция дифференцирования вариант 2
+{
+    int n = secondCount- firstCount;
+    QVector <double> filter1(n);
+    QVector <double> filter2(n);
 
+
+    filter1 = masspoint3;
+
+
+    for (int i = 4; i < n-5; i+=5)
+    {
+        filter2[i] = (2*filter1[i] + filter1[i-1] - filter1[i-3] - 2* filter1[i-4])/8;
+    }
+
+    masspoint1 = filter2;
+}
 void square(const QVector<double> &masspoint3, int firstCount, int secondCount)//функция возведения в квадрат
 {
     int n = secondCount- firstCount;
@@ -118,7 +137,7 @@ QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
             max1 = mas[i];
         }
     }
-    auto max = 0;
+    double max = 0;
     int n = mas.size();
     QVector<double> res(n);
     for (int i = 0; i< n; i ++)
@@ -298,10 +317,10 @@ QVector<double> topsT(const QVector<double> &mas1, const QVector<double> &mas)
     {
 
         max = mas[j];
-        for (int i= mas[j] - 250; i < mas[j]- 60; i++)
+        for (int i= mas[j] + 60; i < mas[j]+ 250; i++)
         {
 
-            while ((i < mas[j]))
+            while ((i < mas[j]+250))
             {
                 if (mas1[max] < mas1[i])
                     max = i;
@@ -316,36 +335,126 @@ QVector<double> topsT(const QVector<double> &mas1, const QVector<double> &mas)
 
 }
 
-QVector<double> beginP(const QVector<double> &mas)
+QVector<double> beginP(const QVector<double> &diff, const QVector<double> mas, const QVector<double> original)
 {
     int n = mas.size();
     QVector<double> res(n);
-    for (int i = 0; i< n; i ++)
+    double max, max_dif;
+
+    /*for (int i = 0; i< mas.size(); i ++)
     {
-        res[i] = mas[i]-70;
+        max = diff[i];
+     int  j = mas[i];
+
+        while (diff[j]> max*0.2)
+        {
+            if (diff[j] > max)
+                max = diff[j];
+            j++;
+        }
+        res[i] = j+20;
+    }*/
+
+    for (int i = 0; i< mas.size(); i ++)
+    {
+        max = diff[i];
+        int  j = mas[i];
+
+        while (diff[j]> max*0.1)
+        {
+            if (diff[j] > max)
+                max = diff[j];
+            j--;
+        }
+        res[i] = j-40;
     }
+
 
     res.removeAll(0);
     return res;
 
 }
+QVector<double> endsP(const QVector<double> &diff, const QVector<double> mas, const QVector<double> original)
+{
+    int n = mas.size();
+    QVector<double> res(n);
+    double max, max_dif;
+
+    for (int i = 0; i< mas.size(); i ++)
+    {
+        max = diff[i];
+     int  j = mas[i];
+
+        while (diff[j]> max*0.2)
+        {
+            if (diff[j] > max)
+                max = diff[j];
+            j++;
+        }
+        res[i] = j+40;
+    }
+    res.removeAll(0);
+    return res;
+}
+QVector<double> beginT(const QVector<double> &diff,const QVector<double> &mas )
+{
+    int n = mas.size();
+    QVector<double> res(n);
+    double max, max_dif;
+    for (int i = 0; i< mas.size(); i ++)
+    {
+        max = diff[i];
+        int  j = mas[i];
+
+        while (diff[j]> max*0.1)
+        {
+            if (diff[j] > max)
+                max = diff[j];
+            j--;
+        }
+        res[i] = j-40;
+    }
 
 
+    res.removeAll(0);
+    return res;
+}
+QVector<double> endsT(const QVector<double> &diff, const QVector<double> mas)
+{
+    int n = mas.size();
+    QVector<double> res(n);
+    double max, max_dif;
+
+    for (int i = 0; i< mas.size(); i ++)
+    {
+        max = diff[i];
+     int  j = mas[i];
+
+        while (diff[j]> max*0.2)
+        {
+            if (diff[j] > max)
+                max = diff[j];
+            j++;
+        }
+        res[i] = j+40;
+    }
+    res.removeAll(0);
+    return res;
+}
 
 QVector<double> Proizvodnaya(const QVector<double> &mas)
 {
     int n = mas.size();
     QVector<double> res(n);
-    for (int i = 3; i< n; i ++)
+    for (int i = 40; i< n; i ++)
     {
-        res[i] = mas[i]-mas[i-3];
+       res[i] = abs(mas[i]-mas[i-40]);
     }
 
     res.removeAll(0);
     return res;
 
 }
-
 
 void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
 {
@@ -358,23 +467,29 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     QVector<double> result3(secondCount-firstCount);
     QVector<double> result4(secondCount-firstCount);
     QVector<double> result5(secondCount-firstCount);
+    QVector<double> result6(secondCount-firstCount);
+    QVector<double> result7(secondCount-firstCount);
+    QVector<double> result8(secondCount-firstCount);
+    QVector<double> result9(secondCount-firstCount);
+    QVector<double> afterFilter(secondCount-firstCount);
     QVector<double> dif(secondCount);
     low(mas, firstCount, secondCount );
     high(masspoint1, firstCount, secondCount );
+    afterFilter = masspoint1;
+    dif = Proizvodnaya(afterFilter);
     differentiation(masspoint1, firstCount, secondCount );
     square(masspoint1, firstCount, secondCount );
+
     result = integration(masspoint1, firstCount, secondCount );
     result1 = topsQRS(mas, result);
     result2 = topsQ(mas, result1);
     result3 = topsS(mas, result1);
     result4 = topsP(mas, result2);
-    result5 = beginP(result4);
-
-    differentiation(mas, firstCount, secondCount );
-    dif = Proizvodnaya(mas);
-
-    for (int i=0; i< dif.size()-3; i++)
-        dif[i] = dif[i+3];
+    result5 = beginP(dif, result4, mas);
+    result6 = endsP(dif, result4, mas);
+    result7 = topsT (mas, result3);
+    result8 = beginT (dif, result7);
+    result9 = endsT (dif, result7);
 
 /****************************************/
 /*ЭТАП НАСТРОЙКИ ВЕКТОРОВ И ИХ ОТПРАВКИ*/
@@ -395,37 +510,81 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     List_for_calc.push_back(Data);
     Data.Clear();
 
+
+    Data.Type = cData::Line;
+    for(int i=0; i<mas.size(); i++)
+        Data.Array_X.push_back(i);
+    Data.Array_Y = mas;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result1[i]]);
     Data.Array_X = result1;
-    //Data.Array_Y = result1;
     List_for_graphic.push_back(Data);
     Data.Clear();
 
-    Data.Array_X = mas;
-    //Data.Array_Y = mas;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
-
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result2[i]]);
     Data.Array_X = result2;
-    //Data.Array_Y = mas;
     List_for_graphic.push_back(Data);
     Data.Clear();
 
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result3[i]]);
     Data.Array_X = result3;
-    //Data.Array_Y = mas;
     List_for_graphic.push_back(Data);
     Data.Clear();
 
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result4[i]]);
     Data.Array_X = result4;
-    //Data.Array_Y = mas;
     List_for_graphic.push_back(Data);
     Data.Clear();
 
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result5[i]]);
     Data.Array_X = result5;
-    //Data.Array_Y = mas;
     List_for_graphic.push_back(Data);
     Data.Clear();
 
-    emit sendValues_for_calculate(List_for_calc);
-    //emit draw_graphic(List_for_graphic);
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result6[i]]);
+    Data.Array_X = result6;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result7[i]]);
+    Data.Array_X = result7;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result8[i]]);
+    Data.Array_X = result8;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+    Data.Type = cData::Point;
+    for(int i=0; i<result1.size(); i++)
+        Data.Array_Y.push_back(mas[result9[i]]);
+    Data.Array_X = result9;
+    List_for_graphic.push_back(Data);
+    Data.Clear();
+
+
+
+
+   // emit sendValues_for_calculate(List_for_calc);
+    emit draw_graphic(List_for_graphic);
     emit finished();
 }
