@@ -315,12 +315,11 @@ QVector<double> topsT(const QVector<double> &mas1, const QVector<double> &mas)
 
     for (int j = 0; j < mas.size(); j++)
     {
-
         max = mas[j];
         for (int i= mas[j] + 60; i < mas[j]+ 250; i++)
         {
 
-            while ((i < mas[j]+250))
+            while ((i < mas[j]+250) && (i != mas1.size()))
             {
                 if (mas1[max] < mas1[i])
                     max = i;
@@ -519,6 +518,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Green";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result1[i]]);
     Data.Array_X = result1;
@@ -526,6 +526,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Red";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result2[i]]);
     Data.Array_X = result2;
@@ -533,6 +534,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Blue";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result3[i]]);
     Data.Array_X = result3;
@@ -540,6 +542,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Black";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result4[i]]);
     Data.Array_X = result4;
@@ -547,6 +550,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Yellow";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result5[i]]);
     Data.Array_X = result5;
@@ -554,6 +558,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Orange";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result6[i]]);
     Data.Array_X = result6;
@@ -561,6 +566,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Fuchsia";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result7[i]]);
     Data.Array_X = result7;
@@ -568,6 +574,7 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     Data.Clear();
 
     Data.Type = cData::Point;
+    Data.color_Point = "Cyan";
     for(int i=0; i<result1.size(); i++)
         Data.Array_Y.push_back(mas[result8[i]]);
     Data.Array_X = result8;
