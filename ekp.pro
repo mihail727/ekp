@@ -25,20 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    Methods/calc.cpp \
+    Controls/chartcontrol.cpp \
+    Controls/datafile.cpp \
     Methods/cqrs.cpp \
     Methods/emd.cpp \
-    Methods/fazagrov.cpp \
         mainwindow.cpp \
     main.cpp \
     qcustomplot.cpp
 
 HEADERS += \
-    Methods/calc.h \
+    Controls/chartcontrol.h \
+    Controls/datafile.h \
     Methods/cqrs.h \
     Methods/emd.h \
-    Methods/fazagrov.h \
-    Types/cData.h \
         mainwindow.h \
     qcustomplot.h
 

@@ -127,18 +127,16 @@ QVector<double> integration(const QVector<double> &masspoint3, int firstCount, i
 
 QVector<double> topsQRS(const QVector<double> &mas1, const QVector<double> &mas)
 {
-    int k = 0;
     double max1 = -10000;
     for (int i = 0; i < mas.size()-1; i++)
     {
         if (max1 < mas[i])
         {
-            k=i;
             max1 = mas[i];
         }
     }
     double max = 0;
-    int n = mas.size();
+    int n = mas.length();
     QVector<double> res(n);
     for (int i = 0; i< n; i ++)
     {
@@ -334,25 +332,11 @@ QVector<double> topsT(const QVector<double> &mas1, const QVector<double> &mas)
 
 }
 
-QVector<double> beginP(const QVector<double> &diff, const QVector<double> mas, const QVector<double> original)
+QVector<double> beginP(const QVector<double> &diff, const QVector<double> mas)
 {
     int n = mas.size();
     QVector<double> res(n);
-    double max, max_dif;
-
-    /*for (int i = 0; i< mas.size(); i ++)
-    {
-        max = diff[i];
-     int  j = mas[i];
-
-        while (diff[j]> max*0.2)
-        {
-            if (diff[j] > max)
-                max = diff[j];
-            j++;
-        }
-        res[i] = j+20;
-    }*/
+    double max;
 
     for (int i = 0; i< mas.size(); i ++)
     {
@@ -373,11 +357,11 @@ QVector<double> beginP(const QVector<double> &diff, const QVector<double> mas, c
     return res;
 
 }
-QVector<double> endsP(const QVector<double> &diff, const QVector<double> mas, const QVector<double> original)
+QVector<double> endsP(const QVector<double> &diff, const QVector<double> mas)
 {
     int n = mas.size();
     QVector<double> res(n);
-    double max, max_dif;
+    double max;
 
     for (int i = 0; i< mas.size(); i ++)
     {
@@ -399,7 +383,7 @@ QVector<double> beginT(const QVector<double> &diff,const QVector<double> &mas )
 {
     int n = mas.size();
     QVector<double> res(n);
-    double max, max_dif;
+    double max;
     for (int i = 0; i< mas.size(); i ++)
     {
         max = diff[i];
@@ -422,7 +406,7 @@ QVector<double> endsT(const QVector<double> &diff, const QVector<double> mas)
 {
     int n = mas.size();
     QVector<double> res(n);
-    double max, max_dif;
+    double max;
 
     for (int i = 0; i< mas.size(); i ++)
     {
@@ -455,11 +439,9 @@ QVector<double> Proizvodnaya(const QVector<double> &mas)
 
 }
 
-void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
+void cQRS::doCalc(const QVector<double> &mas, int firstCount,
+                  int secondCount, ChartControl &chartControl, QVector<double> arrayFomatted)
 {
-    cData Data;
-    QList<cData> List_for_graphic, List_for_calc;
-
     QVector<double> result(secondCount-firstCount);
     QVector<double> result1(secondCount-firstCount);
     QVector<double> result2(secondCount-firstCount);
@@ -484,114 +466,87 @@ void cQRS::doCalc(const QVector<double> &mas, int firstCount, int secondCount)
     result2 = topsQ(mas, result1);
     result3 = topsS(mas, result1);
     result4 = topsP(mas, result2);
-    result5 = beginP(dif, result4, mas);
-    result6 = endsP(dif, result4, mas);
+    result5 = beginP(dif, result4);
+    result6 = endsP(dif, result4);
     result7 = topsT (mas, result3);
     result8 = beginT (dif, result7);
     result9 = endsT (dif, result7);
 
-/****************************************/
-/*ЭТАП НАСТРОЙКИ ВЕКТОРОВ И ИХ ОТПРАВКИ*/
-/****************************************/
-    Data.Array_X = result1;
-    List_for_calc.push_back(Data);
-//    Data.Type = cData::Point;
-//    Data.color_Line = QColor(255,0,0);
-//    Data.color_Point = QColor(255,255,0);
-//    Data.color_Frame = QColor(255,255,255);
-    Data.Clear();
+    chartControl.topsQRS = result1;
+    chartControl.topsQ = result2;
+    chartControl.topsS = result3;
 
-    Data.Array_X = result2;
-    List_for_calc.push_back(Data);
-    Data.Clear();
+    chartControl.AddGraphic(arrayFomatted, mas, "lsLine");
 
-    Data.Array_X = result3;
-    List_for_calc.push_back(Data);
-    Data.Clear();
+    QVector<double> buff_Y, buff_X;
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result1[i]]);
+        buff_X.push_back(arrayFomatted[result1[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", Qt::green);
 
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result2[i]]);
+        buff_X.push_back(arrayFomatted[result2[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", Qt::red);
 
-    Data.Type = cData::Line;
-    for(int i=0; i<mas.size(); i++)
-        Data.Array_X.push_back(i);
-    Data.Array_Y = mas;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result3[i]]);
+        buff_X.push_back(arrayFomatted[result3[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", Qt::blue);
 
-    Data.Type = cData::Point;
-    Data.color_Point = "Green";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result1[i]]);
-    Data.Array_X = result1;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result4[i]]);
+        buff_X.push_back(arrayFomatted[result4[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", Qt::black);
 
-    Data.Type = cData::Point;
-    Data.color_Point = "Red";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result2[i]]);
-    Data.Array_X = result2;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result5[i]]);
+        buff_X.push_back(arrayFomatted[result5[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", Qt::yellow);
 
-    Data.Type = cData::Point;
-    Data.color_Point = "Blue";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result3[i]]);
-    Data.Array_X = result3;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result6[i]]);
+        buff_X.push_back(arrayFomatted[result6[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", QColor(255, 123, 0));
 
-    Data.Type = cData::Point;
-    Data.color_Point = "Black";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result4[i]]);
-    Data.Array_X = result4;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result7[i]]);
+        buff_X.push_back(arrayFomatted[result7[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", QColor(255, 0, 230));
 
-    Data.Type = cData::Point;
-    Data.color_Point = "Yellow";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result5[i]]);
-    Data.Array_X = result5;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result8[i]]);
+        buff_X.push_back(arrayFomatted[result8[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", QColor(0, 242, 255));
 
-    Data.Type = cData::Point;
-    Data.color_Point = "Orange";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result6[i]]);
-    Data.Array_X = result6;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
-
-    Data.Type = cData::Point;
-    Data.color_Point = "Fuchsia";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result7[i]]);
-    Data.Array_X = result7;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
-
-    Data.Type = cData::Point;
-    Data.color_Point = "Cyan";
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result8[i]]);
-    Data.Array_X = result8;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
-
-    Data.Type = cData::Point;
-    for(int i=0; i<result1.size(); i++)
-        Data.Array_Y.push_back(mas[result9[i]]);
-    Data.Array_X = result9;
-    List_for_graphic.push_back(Data);
-    Data.Clear();
-
-
-
-
-   // emit sendValues_for_calculate(List_for_calc);
-    emit draw_graphic(List_for_graphic);
-    emit finished();
+    buff_X.clear(); buff_Y.clear();
+    for(int i = 0; i < result1.length(); i++)
+    {
+        buff_Y.push_back(mas[result9[i]]);
+        buff_X.push_back(arrayFomatted[result9[i]]);
+    }
+    chartControl.AddGraphic(buff_X, buff_Y, "lsPoint", QColor(102, 0, 255));
 }

@@ -3,241 +3,8 @@
 #include "QPixmap"
 #include <QtCore/qmath.h>
 
-#include <Methods/calc.h>
 #include <Methods/cqrs.h>
 #include <Methods/emd.h>
-#include <Methods/fazagrov.h>
-
-static int rand1 = 1;
-
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-                    /*ФУНКЦИИ ПЕРВОЙ ВАЖНОСТИ*/
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-void MainWindow::newTask(QVector<double> Array)
-{
-    QThread *thread = new QThread;
-    connect(thread, SIGNAL(finished() ), thread, SLOT(deleteLater() ));
-
-    QObject *Object = nullptr;
-
-    switch (Method) {
-    case emd: {
-        cEMD *emd = new cEMD();
-        Object = emd;
-
-        connect(thread, &QThread::started, emd, [=] {
-            emd->doCalc(Array, firstCount, secondCount);
-        });
-        break;
-    }
-    case ekp: {
-        cQRS *qrs = new cQRS();
-        Object = qrs;
-
-        connect(thread, &QThread::started, qrs, [=] {
-            qrs->doCalc(Array, firstCount, secondCount);
-        });
-
-        //по завершению начинается расчет Пульса, SDANN, varQT
-//        connect(qrs, SIGNAL(sendValues_for_calculate(QList<cData>)),
-//                this, SLOT(CalculateSomeProc(QList<cData>)));
-//      //по завершению работы newTaskQRS
-//      connect(qrs, SIGNAL(finished()), this, SLOT(Calc_Diag()));
-        break;
-    }
-    case ns: {
-        cQRS *qrs = new cQRS();
-        Object = qrs;
-
-        connect(thread, &QThread::started, qrs, [=] {
-            qrs->doCalc(Array, firstCount, secondCount);
-        });
-
-        //по завершению начинается расчет Пульса, SDANN, varQT
-//        connect(qrs, SIGNAL(sendValues_for_calculate(QList<cData>)),
-//                this, SLOT(CalculateSomeProc(QList<cData>)));
-//      //по завершению работы newTaskQRS
-//      connect(qrs, SIGNAL(finished()), this, SLOT(Calc_Diag()));
-        break;
-    }
-    case fazagrov: {
-        Fazagrov *faz = new Fazagrov();
-        Object = faz;
-
-        connect(thread, &QThread::started, faz, [=] {
-            faz->doCalc(Array, firstCount, secondCount);
-        });
-        break;
-    }}
-
-    Object->moveToThread(thread);
-
-    connect(Object, SIGNAL(finished()), thread, SLOT(quit()));
-    connect(Object, SIGNAL(finished() ), Object, SLOT(deleteLater() ));
-
-    //по завершению Object выодится график
-    connect(Object, SIGNAL(draw_graphic(QList<cData>)),
-            this, SLOT(draw_graphic(QList<cData>)));
-
-    thread->start();
-}
-
-void MainWindow::draw_graphic(QList<cData> List)
-{
-    ui->chart1->clearGraphs();
-    ui->chart2->clearGraphs();
-    ui->chart3->clearGraphs();
-
-    QCustomPlot *chart = nullptr;
-    switch (Method) {
-    case ekp:
-        chart = ui->chart1;
-        break;
-    case ns:
-        chart = ui->chart3;
-        break;
-    case emd:
-        chart = ui->chart2;
-        break;
-    case fazagrov:
-        chart = ui->chart3;
-        break;
-    }
-
-    int numOfGraph = -1;
-    for(int i=0; i<List.size(); i++)
-    {
-        numOfGraph++;
-
-        chart->addGraph(); //new graph
-        chart->graph(numOfGraph)->setData(List[i].Array_X, List[i].Array_Y);
-        chart->graph(numOfGraph)->setPen(QPen(List[i].color_Line));
-
-        if(List[i].Type == cData::Line)
-            chart->graph(numOfGraph)->setLineStyle(QCPGraph::lsLine);
-        else {
-            chart->graph(numOfGraph)->setLineStyle(QCPGraph::lsNone);
-            chart->graph(numOfGraph)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-                                                                      List[i].color_Frame,
-                                                                      List[i].color_Point, 7));
-        }
-    }
-
-    QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
-    chart->xAxis->setTicker(fixedTicker);
-    chart->yAxis->setTicker(fixedTicker);
-
-    fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
-    fixedTicker->setTickCount(16);
-
-    chart->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-
-    chart->axisRect()->setRangeZoom(Qt::Horizontal);
-
-    chart->yAxis->setRange( ui->chart3->yAxis->range().lower-100, ui->chart3->yAxis->range().upper+300 );
-    chart->rescaleAxes();
-    chart->replot();
-}
-
-void MainWindow::CalculateSomeProc(QList<cData> List)
-//Расчет дополнительных параметров (Пульс, SDANN, varQT ...)
-{
-//    if(RValues.size() > 2)
-//    {
-//        //Пульс
-//        double difValue = 0;
-//        for(int i=0; i<RValues.size()-1; i++)
-//            difValue = difValue + abs(RValues[i] - RValues[i+1]);
-//        difValue = difValue / (RValues.size()-1);
-//        int pulse;
-//        pulse = int( (1/difValue*1000)*60 );
-//        difValue = int(difValue);
-//        //++++++++++++++++++++++++++++++++++++
-
-//        //SDANN
-//        int summ = 0;
-//        for(int i=0; i< RValues.size()-1; i++)
-//            summ = summ + int( qPow( abs(RValues[i] - RValues[i+1]) - difValue, 2) );
-//        summ = int( ( 1.0/(RValues.size()-1) ) * qSqrt(summ) );
-//        //+++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-//        //varQt
-//        double max = RValues[0];
-//        double min = max;
-//        for(int i=0; i<RValues.size(); i++)
-//        {
-//            if(max < RValues[i])
-//                max = RValues[i];
-//            if(min > RValues[i])
-//                min = RValues[i];
-//        }
-//        double varQt;
-//        varQt = qCeil( 100/(max/min) );
-//        //+++++++++++++++++++++++++++++
-
-//        //t(RS)
-//        int difRS = 0;
-//        for(int i=0; i<RValues.size(); i++)
-//        {
-//            difRS = difRS + int(SValues[i] - RValues[i]);
-//        }
-//        difRS = difRS / RValues.size();
-//        //+++++++++++++++++++++++++++++
-
-//        //t(QR)
-//        int difQR = 0;
-//        for(int i=0; i<RValues.size(); i++)
-//        {
-//            difQR = difQR + int(RValues[i] - QValues[i]);
-//        }
-//        difQR = difQR / RValues.size();
-//        //+++++++++++++++++++++++++++++
-
-//        //t(QRS)
-//        int difQRS = 0;
-//        for(int i=0; i<RValues.size(); i++)
-//        {
-//            difQRS = difQRS + int(SValues[i] - QValues[i]);
-//        }
-//        difQRS = difQRS / RValues.size();
-//        //
-
-//        //Вывод данных
-//        ui->lineEdit_3->setText(QString::number(summ)); //SDANN
-//        ui->lineEdit_4->setText(QString::number(varQt)); //varQt
-//        ui->lineEdit_5->setText(QString::number(difQR)); //t(QR)
-//        ui->lineEdit_6->setText(QString::number(difRS)); //t(RS)
-//        ui->lineEdit_7->setText(QString::number(difValue)); //R, mc
-//        ui->lineEdit_10->setText(QString::number(difQRS)); //t(QRS)
-
-//        chartTitle->setText("Средняя длительность кардиоцикла: " + QString::number(difValue) + " (мс); "
-//                            + "Пульс: " + QString::number(pulse));
-//        chartTitle->setVisible(true);
-
-//        ui->chart1->replot();
-//        //
-//    }
-//    else {
-//        ui->lineEdit_3->clear(); //SDANN
-//        ui->lineEdit_4->clear(); //varQt
-//        ui->lineEdit_5->clear(); //t(QR)
-//        ui->lineEdit_6->clear(); //t(RS)
-//        ui->lineEdit_7->clear(); //R, mc
-//        ui->lineEdit_10->clear(); //t(QRS)
-//        ui->textEdit_2->clear(); //Диагноз
-
-//        chartTitle->setText("Средняя длительность кардиоцикла: -- ; Пульс: --");
-
-//        ui->chart1->replot();
-//    }
-}
-
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-                    /*ФУНКЦИИ ВТОРОЙ ВАЖНОСТИ*/
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
@@ -377,16 +144,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_action_2_triggered()
-//Диалог с открытием файла
-{
-    fileName = QFileDialog::getOpenFileName(this, tr("Открытие файла с данными"),
-                                            tr(""), tr("TextFile (*.txt) ") );
-}
-
 void MainWindow::showError(QString st)
-//--------------------------------------------------------------------------------------------
-//Вывод сообщения об ошибке + вывод сообщения
 {
     QPixmap MainIcon(":/resource/img/icons8-plus-48.png");
     QMessageBox msgBox(QMessageBox::NoIcon, tr("Ошибка"), st, QMessageBox::Ok);
@@ -396,23 +154,7 @@ void MainWindow::showError(QString st)
 //--------------------------------------------------------------------------------------------
 }
 
-void MainWindow::on_pushButton_clicked()
-//Начало расчета диагноза
-{    
-    Method = ekp;
-    start_Calc();
-    ui->tabWidget->setCurrentIndex(0);
-}
-
-void MainWindow::on_pushButton_3_clicked()
-//Fazagrov
-{
-    Method = fazagrov;
-    start_Calc();
-    ui->tabWidget->setCurrentIndex(2);
-}
-
-void MainWindow::Calc_Diag()
+void MainWindow::GenerateDiagnosis()
 {
     int varQT = ui->lineEdit_4->text().toInt();
     int SDANN = ui->lineEdit_3->text().toInt();
@@ -429,9 +171,9 @@ void MainWindow::Calc_Diag()
 
     //+++++КСР КДР+++++
     enum cGysa{right, left, none}; cGysa Gysa = none;
-    if(ui->checkBox->isChecked()) //Блокада Гиса
+    if(ui->checkBoxBlockade->isChecked()) //Блокада Гиса
     {
-        if(ui->radioButton_5->isChecked()) Gysa = right;
+        if(ui->radioButtonBlockadeRight->isChecked()) Gysa = right;
         else Gysa = left;
     }
 
@@ -465,7 +207,7 @@ void MainWindow::Calc_Diag()
     K = -4.518 + 0.02*FV + 0.037*SDANN +0.049*valLFHF - 0.019*varQT;
     //+++++++++++
 
-    if(Method == ekp) {
+    if(currentMethod == ekp) {
         //++++Диагноз+++++
         Diagnosis = "Вывести диагноз невозможно";
         if( ((k * qSqrt(valR) - varQT)>0) && FV<50 )
@@ -486,129 +228,284 @@ void MainWindow::Calc_Diag()
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
-{
-    Method = ns;
-    ui->tabWidget->setCurrentIndex(0);
+//void MainWindow::on_pushButton_2_clicked()
+//{
+//    currentMethod = ns;
 
-    QVector< QVector<bool> > Array;
-    QString diag, buff;
+//    QVector< QVector<bool> > Array;
+//    QString diag, buff;
 
-    Array.resize(12);
-    for(int i=0; i<12; i++)
-        Array[i].resize(16);
-
-    for(int i=0; i<12; i++)
-        Array[i][0] = true;
-
-    bool D1 = false, D2 = false, D3 = false, bBuff = true;
-
-    if(rand1 == 1)
-        for(int i=0; i<12; i++) {
-            Array[i][0] = true;
-            D1 = true;
-            rand1 = 2;
-        }
-    else if(rand1 == 2)
-        for(int i=0; i<10; i++)
-            for(int j=0; j<11; j++){
-                Array[i][j] = true;
-                D2 = true;
-                rand1 = 3;
-            }
-    else if(rand1 == 3) {
-        D1 = true;
-        D2 = true;
-        rand1 = 1;
-    }
+//    Array.resize(12);
+//    for(int i=0; i<12; i++)
+//        Array[i].resize(16);
 
 //    for(int i=0; i<12; i++)
-//        bBuff = bBuff & Array[i][0];
-//    D1 = bBuff; //D1
+//        Array[i][0] = true;
 
-//    bBuff = true;
-//    for(int i=0; i<10; i++)
-//        for(int j=0; j<11; j++)
-//            bBuff = bBuff || Array[i][j];
-//    D2 = bBuff; //D2
+//    bool D1 = false, D2 = false, D3 = false, bBuff = true;
 
-    //D3 = !D1 & !D2;
+//    if(rand1 == 1)
+//        for(int i=0; i<12; i++) {
+//            Array[i][0] = true;
+//            D1 = true;
+//            rand1 = 2;
+//        }
+//    else if(rand1 == 2)
+//        for(int i=0; i<10; i++)
+//            for(int j=0; j<11; j++){
+//                Array[i][j] = true;
+//                D2 = true;
+//                rand1 = 3;
+//            }
+//    else if(rand1 == 3) {
+//        D1 = true;
+//        D2 = true;
+//        rand1 = 1;
+//    }
 
-    if(D1 == true && D2 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
-                                        "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
-                                        "<p>2) передняя область - субэпикардиальный ИМ;</p>"
-                                        "<p>3) боковая верхняя область - трансмуральный ИМ;</p>"
-                                        "<p>4) боковая нижняя область - трансмуральный ИМ.</p>";
-    if(D2 == true && D1 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
-                                        "<p>1) боковая верхняя область - субэпикардиальный ИМ;</p>"
-                                        "<p>2) боковая нижняя область - трансмуральный ИМ</p>";
-    if(D1 == true && D2 == true) diag = "<p>Подозрение на переднеперегородочный инфаркт миокарда с переходом на верхушку в острейшей стадии. Затронутые области и глубина поражения ИМ:</p>"
-                                       "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
-                                       "<p>2) передняя область - субэпикардиальный ИМ.</p>";
+////    for(int i=0; i<12; i++)
+////        bBuff = bBuff & Array[i][0];
+////    D1 = bBuff; //D1
 
-    //buff = ui->textEdit_2->toPlainText();
-    ui->textEdit_2->clear();
-    ui->textEdit_2->setText(diag); //вывод диагноза
+////    bBuff = true;
+////    for(int i=0; i<10; i++)
+////        for(int j=0; j<11; j++)
+////            bBuff = bBuff || Array[i][j];
+////    D2 = bBuff; //D2
 
-    //ОТСЮДА НАЧАТЬ ПИЛИТЬ ФУНКЦИЮ
+//    //D3 = !D1 & !D2;
 
-    start_Calc();
+//    if(D1 == true && D2 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
+//                                        "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
+//                                        "<p>2) передняя область - субэпикардиальный ИМ;</p>"
+//                                        "<p>3) боковая верхняя область - трансмуральный ИМ;</p>"
+//                                        "<p>4) боковая нижняя область - трансмуральный ИМ.</p>";
+//    if(D2 == true && D1 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
+//                                        "<p>1) боковая верхняя область - субэпикардиальный ИМ;</p>"
+//                                        "<p>2) боковая нижняя область - трансмуральный ИМ</p>";
+//    if(D1 == true && D2 == true) diag = "<p>Подозрение на переднеперегородочный инфаркт миокарда с переходом на верхушку в острейшей стадии. Затронутые области и глубина поражения ИМ:</p>"
+//                                       "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
+//                                       "<p>2) передняя область - субэпикардиальный ИМ.</p>";
+
+//    //buff = ui->textEdit_2->toPlainText();
+//    ui->textEdit_2->clear();
+//    ui->textEdit_2->setText(diag); //вывод диагноза
+
+//    //ОТСЮДА НАЧАТЬ ПИЛИТЬ ФУНКЦИЮ
+
+//}
+
+void MainWindow::on_BtnOpenFile_clicked()
+{
+    try
+    {
+        DataFile::OpenFileDlg();
+    } catch (...) {
+        showError("Ошибка на этапе работы с data file.");
+        return;
+    }
 }
 
-void MainWindow::on_pushButton_4_clicked()
-//emd
-{
-    Method = emd;
-    start_Calc();
-    ui->tabWidget->setCurrentIndex(1);
+void MainWindow::on_BtnStart_clicked()
+{    
+    ui->BtnStart->setEnabled(false);
+
+    DataFile* dataFile = new DataFile();
+
+    QThread *thread = QThread::create([dataFile]{ dataFile->GenerateArrayData(); });
+    thread->start();
+    while(!thread->isFinished())
+        QCoreApplication::processEvents();
+
+    try
+    {
+        CheckAllFeilds_isNoEmpty(*dataFile);
+    } catch (...) {
+        showError("Ошибка на этапе проверки входных данных.");
+        ui->BtnStart->setEnabled(true);
+        return;
+    }
+
+    try
+    {
+        QVector<double> currentArrayData = dataFile->GenerateCurrentArray(SamplesCount, CurrentAbduction);
+
+        ChartControl* chartControl = new ChartControl(ui->chart1);
+        chartControl->ClearChart();
+
+        QVector<double> formattedArrayTime = chartControl->getTimeArray(Hertz, SamplesCount);
+
+        switch(currentMethod)
+        {
+        case ekp: {
+            cQRS *qrs = new cQRS();
+            qrs->doCalc(currentArrayData, 0, formattedArrayTime.length(), *chartControl, formattedArrayTime);
+            break;
+        }
+
+        case ns: {
+            break;
+        }
+
+        case fazagrov: {
+            //Fazagrov *faz = new Fazagrov();
+            //faz->doCalc(Array, firstCount, secondCount);
+            break;
+        }
+
+        case emd: {
+            cEMD *emd = new cEMD();
+            emd->doCalc(currentArrayData, *chartControl, formattedArrayTime);
+            break;
+        }
+
+        case Default: {
+            chartControl->AddGraphic(formattedArrayTime, currentArrayData, "lsLine");
+            break;
+        }
+        }
+
+        GenerateDataConfig(chartControl->topsQRS, chartControl->topsQ, chartControl->topsS);
+    } catch (...) {
+        showError("Ошибка на этапе генерации данных текущего метода.");
+        ui->BtnStart->setEnabled(true);
+        return;
+    }
+
+    ui->BtnStart->setEnabled(true);
 }
 
-void MainWindow::start_Calc()
+void MainWindow::CheckAllFeilds_isNoEmpty(DataFile& dataFile)
 {
-    if(fileName == ""){
-        showError("Откройте файл...");
-        return;
+    if (ui->lineEditTime->text() == "" || ui->lineEditTime->text().isNull()
+            ||  ui->lineEditTime->text().toInt() == 0 ||  ui->lineEditTime->text().toInt() < 0)
+        throw QException();
+
+    time = ui->lineEditTime->text().toInt() * timeFactor;
+
+    SamplesCount = (int)(time * Hertz);
+    if(SamplesCount > dataFile.MaxArrayDataSize)
+        SamplesCount = dataFile.MaxArrayDataSize;
+    if(SamplesCount < 1000)
+        SamplesCount = 1000;
+}
+
+void MainWindow::GenerateDataConfig(QVector<double>& topsQRS, QVector<double>& topsQ,
+                                    QVector<double>& topsS)
+{
+    if(topsQRS.length() > 2)
+    {
+        //Пульс
+        double difValue = 0;
+        for(int i=0; i<topsQRS.size()-1; i++)
+            difValue = difValue + abs(topsQRS[i] - topsQRS[i+1]);
+        difValue = difValue / (topsQRS.size()-1);
+        int pulse;
+        pulse = int( (1/difValue*1000)*60 );
+        difValue = int(difValue);
+
+        //SDANN
+        int summ = 0;
+        for(int i=0; i< topsQRS.size()-1; i++)
+            summ = summ + int( qPow( abs(topsQRS[i] - topsQRS[i+1]) - difValue, 2) );
+        summ = int( ( 1.0/(topsQRS.size()-1) ) * qSqrt(summ) );
+
+        //varQt
+        double max = topsQRS[0];
+        double min = max;
+        for(int i=0; i<topsQRS.size(); i++)
+        {
+            if(max < topsQRS[i])
+                max = topsQRS[i];
+            if(min > topsQRS[i])
+                min = topsQRS[i];
+        }
+        double varQt;
+        varQt = qCeil( 100/(max/min) );
+
+        //t(RS)
+        int difRS = 0;
+        for(int i=0; i<topsQRS.size(); i++)
+        {
+            difRS = difRS + int(topsS[i] - topsQRS[i]);
+        }
+        difRS = difRS / topsQRS.size();
+
+        //t(QR)
+        int difQR = 0;
+        for(int i=0; i<topsQRS.size(); i++)
+        {
+            difQR = difQR + int(topsQRS[i] - topsQ[i]);
+        }
+        difQR = difQR / topsQRS.size();
+
+        //t(QRS)
+        int difQRS = 0;
+        for(int i=0; i<topsQRS.size(); i++)
+        {
+            difQRS = difQRS + int(topsS[i] - topsQ[i]);
+        }
+        difQRS = difQRS / topsQRS.size();
+
+        //Вывод данных
+        ui->lineEdit_3->setText(QString::number(summ)); //SDANN
+        ui->lineEdit_4->setText(QString::number(varQt)); //varQt
+        ui->lineEdit_5->setText(QString::number(difQR)); //t(QR)
+        ui->lineEdit_6->setText(QString::number(difRS)); //t(RS)
+        ui->lineEdit_7->setText(QString::number(difValue)); //R, mc
+        ui->lineEdit_10->setText(QString::number(difQRS)); //t(QRS)
+
+        chartTitle->setText("Средняя длительность кардиоцикла: " + QString::number(difValue) + " (мс); "
+                            + "Пульс: " + QString::number(pulse));
+        chartTitle->setVisible(true);
+
+        ui->chart1->replot();
+
+        GenerateDiagnosis();
+
+    } else {
+        ui->lineEdit_3->clear(); //SDANN
+        ui->lineEdit_4->clear(); //varQt
+        ui->lineEdit_5->clear(); //t(QR)
+        ui->lineEdit_6->clear(); //t(RS)
+        ui->lineEdit_7->clear(); //R, mc
+        ui->lineEdit_10->clear(); //t(QRS)
+        ui->textEdit_2->clear(); //Диагноз
+
+        chartTitle->setText("Средняя длительность кардиоцикла: -- ; Пульс: --");
+
+        ui->chart1->replot();
     }
+}
 
-    ui->textEdit_2->clear();
+void MainWindow::on_comboBoxMethod_currentIndexChanged(int index)
+{
+    currentMethod = (Method)index;
+}
 
-    bool ok;
-    firstCount = ui->lineEdit_2->text().toInt(&ok);
-    if (!ok) {
-        showError("Ошибка ввода начального значения отсчета");
-        return;
+void MainWindow::on_comboBoxAbduction_currentIndexChanged(int index)
+{
+    CurrentAbduction = index;
+}
+
+void MainWindow::on_comboBoxTime_currentIndexChanged(int index)
+{
+    switch (index)
+    {
+        case 0:
+            timeFactor = 0.001;
+            break;
+
+        case 1:
+            timeFactor = 1;
+            break;
+
+        case 2:
+            timeFactor = 60;
+            break;
+
+        case 3:
+            timeFactor = 3600;
+            break;
     }
-    secondCount = ui->lineEdit->text().toInt(&ok);
-    if (!ok) {
-        showError("Ошибка ввода конечного значения отсчета");
-        return;
-    }
-
-    if ((firstCount>=secondCount-3) || (firstCount<0) || (secondCount - firstCount < 3000)) {
-        showError("Не верно введены значения отсчетов");
-        return;
-    }
-
-    selectedLead = ui->comboBox->currentIndex()+1;
-
-    //Обработка файла + создание массива с исходными данными
-
-    QThread *Thread = new QThread;
-    Calc *TCalc = new Calc();
-
-    connect(TCalc, SIGNAL(sendError(QString)), this, SLOT(showError(QString)));
-
-    connect(TCalc, SIGNAL(finished(QVector<double>) ), Thread, SLOT(quit() ));
-    connect(TCalc, SIGNAL(finished(QVector<double>) ), TCalc, SLOT(deleteLater() ));
-    connect(Thread, SIGNAL(finished() ), Thread, SLOT(deleteLater() ));
-
-    connect(Thread, &QThread::started, TCalc, [=] {
-        TCalc->doCalc(fileName, selectedLead, firstCount, secondCount);
-    });
-
-    connect(TCalc, SIGNAL(finished(QVector<double>) ), this, SLOT(newTask(QVector<double>) ));
-
-    TCalc->moveToThread(Thread);
-
-    Thread->start();
 }

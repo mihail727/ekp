@@ -5,7 +5,8 @@
 #include <QFile>
 
 #include <qcustomplot.h>
-#include <Types/cData.h>
+#include <Controls/datafile.h>
+#include <Controls/chartcontrol.h>
 
 namespace Ui {
 class MainWindow;
@@ -18,37 +19,49 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-private slots:
-    void on_action_2_triggered();
-    void showError(QString);
-    void newTask(QVector<double>);
-    void draw_graphic(QList<cData>);
-    void CalculateSomeProc(QList<cData>);
-    void on_pushButton_clicked();
-    void start_Calc();
-    void on_pushButton_2_clicked();
-    void Calc_Diag();
-    void on_pushButton_3_clicked();
-    void on_pushButton_4_clicked();
-
-private:
     Ui::MainWindow *ui;
 
-    QString fileName;
-    int selectedLead;
-    int firstCount, secondCount;
-    QString Diagnosis;
+    int CurrentAbduction = 0; // Текущее отведение
+    double Hertz = 1000; // Герцовка аппарата
+    int SamplesCount = 0; // Количество отсчетов во времени
+
+private slots:
+    void showError(QString);
+
+    void GenerateDiagnosis();
+
+    void on_BtnOpenFile_clicked();
+
+    void on_BtnStart_clicked();
+
+    void on_comboBoxMethod_currentIndexChanged(int index);
+
+    void on_comboBoxAbduction_currentIndexChanged(int index);
+
+    void on_comboBoxTime_currentIndexChanged(int index);
+
+private:
+    double time = 0;
+    double timeFactor = 0.001; // мс, с, мин, часы
+
+    int firstCount = 0,
+        secondCount = 0;
+    QString Diagnosis = "";
 
     QRect oldGeometry;
     QPoint dragPosition;
     bool acceptDrag = true;
 
-    enum cMethod{ns, ekp, fazagrov, emd}; cMethod Method = ekp;
+    enum Method{ekp, ns, fazagrov, emd, Default}; Method currentMethod = Method::ekp;
 
     bool eventFilter(QObject *object, QEvent *event);
 
     QCPItemText *chartTitle, *Coordinates;
+
+    void CheckAllFeilds_isNoEmpty(DataFile &dataFile);
+
+    void GenerateDataConfig(QVector<double>& topsQRS, QVector<double>& topsQ,
+                            QVector<double>& topsS);
 };
 
 #endif // MAINWINDOW_H
