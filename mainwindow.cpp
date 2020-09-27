@@ -228,73 +228,6 @@ void MainWindow::GenerateDiagnosis()
     }
 }
 
-//void MainWindow::on_pushButton_2_clicked()
-//{
-//    currentMethod = ns;
-
-//    QVector< QVector<bool> > Array;
-//    QString diag, buff;
-
-//    Array.resize(12);
-//    for(int i=0; i<12; i++)
-//        Array[i].resize(16);
-
-//    for(int i=0; i<12; i++)
-//        Array[i][0] = true;
-
-//    bool D1 = false, D2 = false, D3 = false, bBuff = true;
-
-//    if(rand1 == 1)
-//        for(int i=0; i<12; i++) {
-//            Array[i][0] = true;
-//            D1 = true;
-//            rand1 = 2;
-//        }
-//    else if(rand1 == 2)
-//        for(int i=0; i<10; i++)
-//            for(int j=0; j<11; j++){
-//                Array[i][j] = true;
-//                D2 = true;
-//                rand1 = 3;
-//            }
-//    else if(rand1 == 3) {
-//        D1 = true;
-//        D2 = true;
-//        rand1 = 1;
-//    }
-
-////    for(int i=0; i<12; i++)
-////        bBuff = bBuff & Array[i][0];
-////    D1 = bBuff; //D1
-
-////    bBuff = true;
-////    for(int i=0; i<10; i++)
-////        for(int j=0; j<11; j++)
-////            bBuff = bBuff || Array[i][j];
-////    D2 = bBuff; //D2
-
-//    //D3 = !D1 & !D2;
-
-//    if(D1 == true && D2 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
-//                                        "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
-//                                        "<p>2) передняя область - субэпикардиальный ИМ;</p>"
-//                                        "<p>3) боковая верхняя область - трансмуральный ИМ;</p>"
-//                                        "<p>4) боковая нижняя область - трансмуральный ИМ.</p>";
-//    if(D2 == true && D1 == false) diag = "<p>Подозрение на боковой инфаркт миокарда в рубцовой стадии. Затронутые области и глубина поражения ИМ:</p>"
-//                                        "<p>1) боковая верхняя область - субэпикардиальный ИМ;</p>"
-//                                        "<p>2) боковая нижняя область - трансмуральный ИМ</p>";
-//    if(D1 == true && D2 == true) diag = "<p>Подозрение на переднеперегородочный инфаркт миокарда с переходом на верхушку в острейшей стадии. Затронутые области и глубина поражения ИМ:</p>"
-//                                       "<p>1) перегородочная область - субэпикардиальный ИМ;</p>"
-//                                       "<p>2) передняя область - субэпикардиальный ИМ.</p>";
-
-//    //buff = ui->textEdit_2->toPlainText();
-//    ui->textEdit_2->clear();
-//    ui->textEdit_2->setText(diag); //вывод диагноза
-
-//    //ОТСЮДА НАЧАТЬ ПИЛИТЬ ФУНКЦИЮ
-
-//}
-
 void MainWindow::on_BtnOpenFile_clicked()
 {
     try
@@ -340,16 +273,6 @@ void MainWindow::on_BtnStart_clicked()
         case ekp: {
             cQRS *qrs = new cQRS();
             qrs->doCalc(currentArrayData, 0, formattedArrayTime.length(), *chartControl, formattedArrayTime);
-            break;
-        }
-
-        case ns: {
-            break;
-        }
-
-        case fazagrov: {
-            //Fazagrov *faz = new Fazagrov();
-            //faz->doCalc(Array, firstCount, secondCount);
             break;
         }
 

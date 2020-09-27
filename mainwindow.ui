@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1400</width>
-    <height>894</height>
+    <height>897</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -138,7 +138,7 @@ QLabel{
        <item>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -146,7 +146,7 @@ QLabel{
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>120</height>
+           <height>82</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -169,10 +169,10 @@ QLabel{
          <widget class="QGroupBox" name="groupBox_6">
           <property name="geometry">
            <rect>
-            <x>340</x>
-            <y>20</y>
+            <x>350</x>
+            <y>10</y>
             <width>120</width>
-            <height>70</height>
+            <height>61</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -317,10 +317,10 @@ drop-down {
          <widget class="QGroupBox" name="groupBox_5">
           <property name="geometry">
            <rect>
-            <x>190</x>
-            <y>20</y>
-            <width>147</width>
-            <height>71</height>
+            <x>150</x>
+            <y>10</y>
+            <width>191</width>
+            <height>61</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -358,52 +358,13 @@ drop-down {
           <property name="title">
            <string/>
           </property>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLineEdit" name="lineEditTime">
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>10</y>
-             <width>21</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>25</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Arial</family>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>от:</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineEdit_2">
-           <property name="geometry">
-            <rect>
-             <x>37</x>
-             <y>10</y>
+             <y>20</y>
              <width>100</width>
-             <height>22</height>
+             <height>25</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -436,101 +397,89 @@ drop-down {
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>0</string>
+            <string>300</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QLabel" name="label_2">
+          <widget class="QComboBox" name="comboBoxTime">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>38</y>
-             <width>21</width>
-             <height>20</height>
+             <x>120</x>
+             <y>20</y>
+             <width>60</width>
+             <height>25</height>
             </rect>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>25</width>
+             <width>60</width>
              <height>25</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <family>Arial</family>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>до:</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineEdit">
-           <property name="geometry">
-            <rect>
-             <x>37</x>
-             <y>38</y>
-             <width>100</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
+           <property name="maximumSize">
             <size>
-             <width>80</width>
+             <width>0</width>
              <height>0</height>
             </size>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>30</height>
-            </size>
-           </property>
            <property name="font">
             <font>
              <family>Arial</family>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">	color: rgb(0, 0, 0);
+	background-color: rgb(255, 255, 255);
+	selection-background-color: rgb(68, 190, 176);	
+	selection-color: rgb(255, 255, 255);
+	border-style: solid;
+	border-width:1px;
+	border-color: rgb(68, 190, 176);
+drop-down {
+	border-radius: 2px;
+	border-color:rgb(63, 83, 109);
+}</string>
            </property>
-           <property name="text">
-            <string>3000</string>
+           <property name="currentIndex">
+            <number>0</number>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
+           <item>
+            <property name="text">
+             <string>мс</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>с</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>мин</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ч</string>
+            </property>
+           </item>
           </widget>
          </widget>
          <widget class="QGroupBox" name="groupBox_2">
           <property name="geometry">
            <rect>
-            <x>470</x>
-            <y>20</y>
+            <x>630</x>
+            <y>10</y>
             <width>171</width>
-            <height>71</height>
+            <height>61</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -779,87 +728,13 @@ drop-down {
            <bool>false</bool>
           </property>
          </widget>
-         <widget class="QComboBox" name="comboBoxMethod">
+         <widget class="QGroupBox" name="groupBox_7">
           <property name="geometry">
            <rect>
-            <x>660</x>
-            <y>40</y>
-            <width>120</width>
-            <height>25</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">	color: rgb(0, 0, 0);
-	background-color: rgb(255, 255, 255);
-	selection-background-color: rgb(68, 190, 176);	
-	selection-color: rgb(255, 255, 255);
-	border-style: solid;
-	border-width:1px;
-	border-color: rgb(68, 190, 176);
-drop-down {
-	border-radius: 2px;
-	border-color:rgb(63, 83, 109);
-}</string>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>ЭКП</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Нейроная Сеть</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Фазагров</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>EMD</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Исходный график</string>
-           </property>
-          </item>
-         </widget>
-         <widget class="QLineEdit" name="lineEditTime">
-          <property name="geometry">
-           <rect>
-            <x>660</x>
-            <y>70</y>
-            <width>100</width>
-            <height>22</height>
+            <x>480</x>
+            <y>10</y>
+            <width>140</width>
+            <height>60</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -870,53 +745,8 @@ drop-down {
           </property>
           <property name="minimumSize">
            <size>
-            <width>80</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>300</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-         <widget class="QComboBox" name="comboBoxTime">
-          <property name="geometry">
-           <rect>
-            <x>770</x>
-            <y>70</y>
-            <width>60</width>
-            <height>25</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>60</width>
-            <height>25</height>
+            <width>140</width>
+            <height>60</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -931,7 +761,45 @@ drop-down {
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">	color: rgb(0, 0, 0);
+           <string notr="true"/>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QComboBox" name="comboBoxMethod">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>120</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Arial</family>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">	color: rgb(0, 0, 0);
 	background-color: rgb(255, 255, 255);
 	selection-background-color: rgb(68, 190, 176);	
 	selection-color: rgb(255, 255, 255);
@@ -942,30 +810,26 @@ drop-down {
 	border-radius: 2px;
 	border-color:rgb(63, 83, 109);
 }</string>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>мс</string>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>с</string>
+           <property name="currentIndex">
+            <number>0</number>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>мин</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ч</string>
-           </property>
-          </item>
+           <item>
+            <property name="text">
+             <string>ЭКП</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>EMD</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Исходный график</string>
+            </property>
+           </item>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -989,8 +853,8 @@ drop-down {
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <property name="spacing">
             <number>3</number>
@@ -1897,7 +1761,7 @@ border: 1px solid rgb(68, 190, 176);</string>
               <string notr="true"/>
              </property>
              <property name="title">
-              <string>Диагноз:</string>
+              <string/>
              </property>
              <property name="alignment">
               <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -1905,23 +1769,8 @@ border: 1px solid rgb(68, 190, 176);</string>
              <property name="flat">
               <bool>false</bool>
              </property>
-             <layout class="QGridLayout" name="gridLayout_3" rowstretch="0">
-              <property name="leftMargin">
-               <number>8</number>
-              </property>
-              <property name="topMargin">
-               <number>5</number>
-              </property>
-              <property name="rightMargin">
-               <number>8</number>
-              </property>
-              <property name="bottomMargin">
-               <number>5</number>
-              </property>
-              <property name="spacing">
-               <number>5</number>
-              </property>
-              <item row="0" column="0" alignment="Qt::AlignBottom">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
                <widget class="QTextEdit" name="textEdit_2">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1937,8 +1786,8 @@ border: 1px solid rgb(68, 190, 176);</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>2000</width>
-                  <height>2000</height>
+                  <width>10000000</width>
+                  <height>10000000</height>
                  </size>
                 </property>
                 <property name="font">
@@ -2084,8 +1933,6 @@ border: 1px solid rgb(68, 190, 176);</string>
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>lineEdit</tabstop>
   <tabstop>radioButton_2</tabstop>
   <tabstop>lineEdit_4</tabstop>
   <tabstop>lineEdit_3</tabstop>
@@ -2095,7 +1942,6 @@ border: 1px solid rgb(68, 190, 176);</string>
   <tabstop>lineEdit_10</tabstop>
   <tabstop>lineEdit_9</tabstop>
   <tabstop>lineEdit_8</tabstop>
-  <tabstop>textEdit_2</tabstop>
  </tabstops>
  <resources>
   <include location="resource.qrc"/>

@@ -52,7 +52,7 @@ private:
     QPoint dragPosition;
     bool acceptDrag = true;
 
-    enum Method{ekp, ns, fazagrov, emd, Default}; Method currentMethod = Method::ekp;
+    enum Method{ekp, emd, Default}; Method currentMethod = Method::ekp;
 
     bool eventFilter(QObject *object, QEvent *event);
 
