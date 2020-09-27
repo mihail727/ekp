@@ -2,14 +2,14 @@
 #define EMD_H
 
 #include <QObject>
-#include <Controls/chartcontrol.h>
+#include <Methods/method.h>
 
-class cEMD : public QObject
+class cEMD : public Method
 {
     Q_OBJECT
 public:
-    void doCalc(const QVector<double> &mas, ChartControl& chartControl,
-                QVector<double> arrayFormatted);
+    void doCalc(const QVector<double> &mas, int firstCount, int secondCount,
+                ChartControl& chartControl, QVector<double> arrayFormatted) override;
 };
 
 #endif // EMD_H

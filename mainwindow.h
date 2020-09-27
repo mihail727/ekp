@@ -25,6 +25,8 @@ public:
     double Hertz = 1000; // Герцовка аппарата
     int SamplesCount = 0; // Количество отсчетов во времени
 
+    enum eMethod{ekp, emd, Default}; eMethod currentMethod = ekp;
+
 private slots:
     void showError(QString);
 
@@ -34,11 +36,11 @@ private slots:
 
     void on_BtnStart_clicked();
 
-    void on_comboBoxMethod_currentIndexChanged(int index);
-
     void on_comboBoxAbduction_currentIndexChanged(int index);
 
     void on_comboBoxTime_currentIndexChanged(int index);
+
+    void on_comboBoxMethod_currentIndexChanged(int index);
 
 private:
     double time = 0;
@@ -51,8 +53,6 @@ private:
     QRect oldGeometry;
     QPoint dragPosition;
     bool acceptDrag = true;
-
-    enum Method{ekp, emd, Default}; Method currentMethod = Method::ekp;
 
     bool eventFilter(QObject *object, QEvent *event);
 

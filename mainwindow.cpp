@@ -5,6 +5,8 @@
 
 #include <Methods/cqrs.h>
 #include <Methods/emd.h>
+#include <Methods/methodfacility.h>
+#include <Methods/method.h>
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
@@ -268,25 +270,12 @@ void MainWindow::on_BtnStart_clicked()
 
         QVector<double> formattedArrayTime = chartControl->getTimeArray(Hertz, SamplesCount);
 
-        switch(currentMethod)
-        {
-        case ekp: {
-            cQRS *qrs = new cQRS();
-            qrs->doCalc(currentArrayData, 0, formattedArrayTime.length(), *chartControl, formattedArrayTime);
-            break;
-        }
-
-        case emd: {
-            cEMD *emd = new cEMD();
-            emd->doCalc(currentArrayData, *chartControl, formattedArrayTime);
-            break;
-        }
-
-        case Default: {
+        MethodFacility* methodFacility = new MethodFacility();
+        Method* method = methodFacility->Create(currentMethod);
+        if(method != nullptr)
+            method->doCalc(currentArrayData, 0, formattedArrayTime.length(), *chartControl, formattedArrayTime);
+        else
             chartControl->AddGraphic(formattedArrayTime, currentArrayData, "lsLine");
-            break;
-        }
-        }
 
         GenerateDataConfig(chartControl->topsQRS, chartControl->topsQ, chartControl->topsS);
     } catch (...) {
@@ -401,11 +390,6 @@ void MainWindow::GenerateDataConfig(QVector<double>& topsQRS, QVector<double>& t
     }
 }
 
-void MainWindow::on_comboBoxMethod_currentIndexChanged(int index)
-{
-    currentMethod = (Method)index;
-}
-
 void MainWindow::on_comboBoxAbduction_currentIndexChanged(int index)
 {
     CurrentAbduction = index;
@@ -431,4 +415,9 @@ void MainWindow::on_comboBoxTime_currentIndexChanged(int index)
             timeFactor = 3600;
             break;
     }
+}
+
+void MainWindow::on_comboBoxMethod_currentIndexChanged(int index)
+{
+    currentMethod = (eMethod)index;
 }

@@ -29,6 +29,7 @@ SOURCES += \
     Controls/datafile.cpp \
     Methods/cqrs.cpp \
     Methods/emd.cpp \
+    Methods/methodfacility.cpp \
         mainwindow.cpp \
     main.cpp \
     qcustomplot.cpp
@@ -38,6 +39,8 @@ HEADERS += \
     Controls/datafile.h \
     Methods/cqrs.h \
     Methods/emd.h \
+    Methods/method.h \
+    Methods/methodfacility.h \
         mainwindow.h \
     qcustomplot.h
 

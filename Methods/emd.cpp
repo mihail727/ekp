@@ -427,9 +427,12 @@ QVector<double> endsT(QVector<double> diff, const QVector<double> mas)
     return res;
 }
 
-void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
-                  QVector<double> arrayFomatted)
+void cEMD::doCalc(const QVector<double> &mas, int firstCount, int secondCount,
+                  ChartControl& chartControl, QVector<double> arrayFormatted)
 {
+    firstCount = 0;
+    secondCount = 0;
+
     QVector<double> FileD = mas, PickQRS, PickP, PickT, Difer, BgPickP, NdPickP, BgPickT, NdPickT;
     QVector<double> FileY, FileX;
     CEMD(FileD);
@@ -441,7 +444,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
     Alg(PickQRS);
 
     // Основной график
-    chartControl.AddGraphic(arrayFomatted, mas, "lsLine");
+    chartControl.AddGraphic(arrayFormatted, mas, "lsLine");
 
     // R pick
     for(int i=10;i<PickQRS.size();i++)
@@ -449,7 +452,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
         if(PickQRS[i] != 0)
         {
             FileX.push_back(mas[i]);
-            FileY.push_back(arrayFomatted[i]);
+            FileY.push_back(arrayFormatted[i]);
         }
     }
     chartControl.AddGraphic(FileY, FileX, "lsPoint", Qt::red, Qt::black);
@@ -463,7 +466,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
         if(PickP[i] != 0)
         {
             FileX.push_back(mas[i]);
-            FileY.push_back(arrayFomatted[i]);
+            FileY.push_back(arrayFormatted[i]);
         }
     }
     chartControl.AddGraphic(FileY, FileX, "lsPoint", Qt::green, Qt::black);
@@ -477,7 +480,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
         if(PickT[i] != 0)
         {
             FileX.push_back(mas[i]);
-            FileY.push_back(arrayFomatted[i]);
+            FileY.push_back(arrayFormatted[i]);
         }
     }
     chartControl.AddGraphic(FileY, FileX, "lsPoint", QColor(156, 156, 156), Qt::black);
@@ -492,7 +495,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
         if(BgPickP[i] != 0)
         {
             FileX.push_back(mas[i]);
-            FileY.push_back(arrayFomatted[i]);
+            FileY.push_back(arrayFormatted[i]);
         }
     }
     chartControl.AddGraphic(FileY, FileX, "lsPoint", QColor(255, 123, 0), Qt::black);
@@ -505,7 +508,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
         if(NdPickP[i] != 0)
         {
             FileX.push_back(mas[i]);
-            FileY.push_back(arrayFomatted[i]);
+            FileY.push_back(arrayFormatted[i]);
         }
     }
     chartControl.AddGraphic(FileY, FileX, "lsPoint", Qt::blue, Qt::black);
@@ -518,7 +521,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
         if(BgPickT[i] != 0)
         {
             FileX.push_back(mas[i]);
-            FileY.push_back(arrayFomatted[i]);
+            FileY.push_back(arrayFormatted[i]);
         }
     }
     chartControl.AddGraphic(FileY, FileX, "lsPoint", QColor(64,55,0), Qt::black);
@@ -531,7 +534,7 @@ void cEMD::doCalc(const QVector<double> &mas, ChartControl &chartControl,
         if(NdPickT[i] != 0)
         {
             FileX.push_back(mas[i]);
-            FileY.push_back(arrayFomatted[i]);
+            FileY.push_back(arrayFormatted[i]);
         }
     }
     chartControl.AddGraphic(FileY, FileX, "lsPoint", QColor(64,55,0), Qt::black);
