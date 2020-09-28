@@ -67,7 +67,7 @@ QPushButton {
 }
 
 QRadioButton::indicator{ 
-	image: url(:/resource/img/radio3.PNG);
+	image: url(:/resource/img/radio3.png);
 }
 QRadioButton::indicator:hover {
 	image: url(:/resource/img/radio1.png);

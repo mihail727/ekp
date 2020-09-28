@@ -5,12 +5,12 @@
         <file>img/iconfinder_15_3049264.png</file>
         <file>img/radio1.png</file>
         <file>img/radio2.png</file>
-        <file>img/radio3.PNG</file>
         <file>img/icons8-refresh-40.png</file>
         <file>img/icons8-drag-40.png</file>
         <file>img/icons8-subtract-filled-40.png</file>
         <file>img/icons8-delete-512.png</file>
         <file>img/icons8-ungroup-objects-96.png</file>
         <file>img/icons8-rectangular-96.png</file>
+        <file>img/radio3.png</file>
     </qresource>
 </RCC>
