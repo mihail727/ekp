@@ -6,13 +6,6 @@ ChartControl::ChartControl(QCustomPlot* _chart)
 
     numOfGraph = 0;
 
-    QSharedPointer<QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
-    chart->xAxis->setTicker(fixedTicker);
-    chart->yAxis->setTicker(fixedTicker);
-
-    fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples);
-    fixedTicker->setTickCount(16);
-
     chart->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
     chart->axisRect()->setRangeZoom(Qt::Horizontal);
